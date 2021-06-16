@@ -8,7 +8,9 @@ abstract class ThemeBase {
   LinearGradient get linearGradient;
 }
 
-class ThemeAppConfig implements ThemeBase {
+class ThemeApp implements ThemeBase {
+  static ThemeApp config = ThemeApp();
+  ThemeApp();
   @override
   // TODO: implement background
   Color get background => Color(0xFF40B38C);
@@ -28,8 +30,4 @@ class ThemeAppConfig implements ThemeBase {
         end: Alignment.bottomRight,
         transform: GradientRotation(2.35619 * pi),
       );
-}
-
-class ThemeApp {
-  static ThemeAppConfig get colors => ThemeAppConfig();
 }
