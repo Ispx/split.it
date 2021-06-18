@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 abstract class ThemeBase {
   Color get background;
   Color get primaryColor;
+  Color get titleColor;
+  Color get borderColor;
   LinearGradient get linearGradient;
 }
 
@@ -14,6 +16,8 @@ class ThemeApp implements ThemeBase {
   @override
   // TODO: implement background
   Color get background => Color(0xFF40B38C);
+  @override
+  Color get titleColor => Color(0xFF40B28C);
 
   @override
   // TODO: implement primaryColor
@@ -30,4 +34,8 @@ class ThemeApp implements ThemeBase {
         end: Alignment.bottomRight,
         transform: GradientRotation(2.35619 * pi),
       );
+
+  @override
+  // TODO: implement borderColor
+  Color get borderColor => Color(0xFFDCE0E5);
 }
