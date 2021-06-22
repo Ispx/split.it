@@ -12,6 +12,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

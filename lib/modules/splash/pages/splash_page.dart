@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 
 class SplashPage extends StatefulWidget {
@@ -24,13 +25,17 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: ThemeApp.config.background,
+      ),
+    );
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
