@@ -36,6 +36,10 @@ class _SplashPageState extends State<SplashPage>
         statusBarColor: ThemeApp.config.background,
       ),
     );
+
+    Future.delayed(Duration(milliseconds: 2200))
+        .then((value) => Navigator.pushNamed(context, '/login'));
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
