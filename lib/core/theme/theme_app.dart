@@ -23,6 +23,8 @@ class ThemeApp implements ThemeBase {
   // TODO: implement primaryColor
   Color get primaryColor => Color(0xFF40B38C);
 
+  Color get gray => Color(0xFF666666);
+
   @override
   // TODO: implement linearGradient
   LinearGradient get linearGradient => LinearGradient(

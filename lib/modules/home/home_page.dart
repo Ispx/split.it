@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:split_it/modules/login/models/user_model.dart';
+import 'package:flutter/services.dart';
+import 'package:split_it/core/models/user_model.dart';
+import 'package:split_it/core/theme/theme_app.dart';
+
+import 'components/appbar_home_widget.dart';
 
 class HomePage extends StatefulWidget {
   final UserModel user;
@@ -12,13 +16,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.background),
+    );
     return Scaffold(
-      appBar: AppBar(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          child: Image.network(widget.user.photoUrl!),
-        ),
-      ),
+      appBar: AppBarHomeWidget(widget.user, context),
       body: Container(),
     );
   }

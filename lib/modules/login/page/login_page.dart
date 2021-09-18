@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/login/controllers/login_controller.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
+import 'package:split_it/modules/login/services/login_service.dart';
 import 'package:split_it/modules/widgets/social_media_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,24 +19,22 @@ class _LoginPageState extends State<LoginPage> {
   late LoginController controller;
 
   initState() {
-    controller = LoginController(
-      () {
-        setState(() {});
-        if (controller.state is LoginStateSucess) {
-          final user = (controller.state as LoginStateSucess).user;
-          Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
-              arguments: user);
-        } else if (controller.state is LoginStateFailure) {
-          Future.delayed(Duration(milliseconds: 500)).then(
-            (value) => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(controller.state.toString()),
-              ),
+    controller = LoginController(() {
+      setState(() {});
+      if (controller.state is LoginStateSucess) {
+        final user = (controller.state as LoginStateSucess).user;
+        Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
+            arguments: user);
+      } else if (controller.state is LoginStateFailure) {
+        Future.delayed(Duration(milliseconds: 500)).then(
+          (value) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(controller.state.toString()),
             ),
-          );
-        }
-      },
-    );
+          ),
+        );
+      }
+    }, LoginServiceImp());
     super.initState();
   }
 
