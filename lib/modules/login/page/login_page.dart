@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/login/controllers/login_controller.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                         width: 56,
                         height: 56,
                         child: Center(
-                          child: Image.asset('assets/images/emoji.png'),
+                          child: Image.asset(ImagesApp.emojio),
                         ),
                       ),
                       Text(
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller.state == LoginStateLoading()
                     ? CircularProgressIndicator()
                     : SocialMediaWidget(
-                        imagePath: 'assets/images/google.png',
+                        imagePath: ImagesApp.google,
                         title: 'Entrar com Google',
                         onTap: () async {
                           await controller.googleSignIn();
@@ -102,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 12),
                 Platform.isIOS
                     ? SocialMediaWidget(
-                        imagePath: 'assets/images/apple.png',
+                        imagePath: ImagesApp.apple,
                         title: 'Entrar com Apple',
                       )
                     : Container(),

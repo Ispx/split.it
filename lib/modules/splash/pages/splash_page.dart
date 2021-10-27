@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 
 class SplashPage extends StatefulWidget {
@@ -57,7 +58,7 @@ class _SplashPageState extends State<SplashPage>
               child: Opacity(
                 opacity: 0.3,
                 child: Image.asset(
-                  'assets/images/retangulo-dir.png',
+                  ImagesApp.retangulo_dir,
                   height: 98,
                 ),
               ),
@@ -68,7 +69,7 @@ class _SplashPageState extends State<SplashPage>
               child: Opacity(
                 opacity: 0.3,
                 child: Image.asset(
-                  'assets/images/retangulo-dir.png',
+                  ImagesApp.retangulo_dir,
                   height: 58,
                 ),
               ),
@@ -84,7 +85,7 @@ class _SplashPageState extends State<SplashPage>
                     _currentOpacity = 1;
                   },
                   child: Image.asset(
-                    'assets/images/logo.png',
+                    ImagesApp.logo,
                     height: 90,
                   ),
                 ),
@@ -96,7 +97,7 @@ class _SplashPageState extends State<SplashPage>
               child: Opacity(
                 opacity: 0.3,
                 child: Image.asset(
-                  'assets/images/retangulo-esq.png',
+                  ImagesApp.retangulo_esq,
                   height: 98,
                 ),
               ),
@@ -107,7 +108,7 @@ class _SplashPageState extends State<SplashPage>
               child: Opacity(
                 opacity: 0.3,
                 child: Image.asset(
-                  'assets/images/retangulo-esq.png',
+                  ImagesApp.retangulo_esq,
                   height: 58,
                 ),
               ),

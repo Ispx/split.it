@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 
 enum OperationBalance { BalanceToPay, BalanceReceivable }
@@ -38,12 +39,11 @@ class IndicatorOperationBalance extends StatelessWidget {
               ),
             ),
           ),
-          Icon(
-            Icons.attach_money,
-            color: operationBalance == OperationBalance.BalanceReceivable
-                ? Colors.green.shade700
-                : Colors.red.shade700,
-          ),
+          Image.asset(
+            operationBalance == OperationBalance.BalanceReceivable
+                ? ImagesApp.dollarCashIn
+                : ImagesApp.dollarCahOut,
+          )
         ],
       ),
     );

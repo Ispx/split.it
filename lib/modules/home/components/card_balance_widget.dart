@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/components/indicator_operation_balance.dart';
 
 class CardBalanceWidget extends StatelessWidget {
   final String? title;
   final String? subTitle;
-  final Color? subtitleColor;
-  final Icon? icon;
   final OperationBalance? operation;
-  CardBalanceWidget(
-      {@required this.title,
-      this.subTitle,
-      this.subtitleColor,
-      this.icon,
-      this.operation});
+  CardBalanceWidget({@required this.title, this.subTitle, this.operation});
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +44,13 @@ class CardBalanceWidget extends StatelessWidget {
                   children: [
                     Text(
                       this.title!,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: ThemeApp.config.gray,
-                      ),
+                      style: AppTextStyle.instance.titleBalanceCard,
                     ),
                     Text(
                       this.subTitle!,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: subtitleColor!,
-                      ),
+                      style: operation == OperationBalance.BalanceReceivable
+                          ? AppTextStyle.instance.subTitleBalanceCardCashIn
+                          : AppTextStyle.instance.subTitleBalanceCardCashOut,
                     ),
                   ],
                 ),

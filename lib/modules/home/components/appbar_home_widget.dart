@@ -85,8 +85,6 @@ class AppBarHomeWidget extends PreferredSize {
                           child: CardBalanceWidget(
                             title: 'A receber',
                             subTitle: 'R\$ 1200.00',
-                            subtitleColor: Colors.green,
-                            icon: Icon(Icons.monetization_on),
                             operation: OperationBalance.BalanceReceivable,
                           ),
                         ),
@@ -98,8 +96,6 @@ class AppBarHomeWidget extends PreferredSize {
                           child: CardBalanceWidget(
                             title: 'A pagar',
                             subTitle: 'R\$ 200.00',
-                            subtitleColor: Colors.red,
-                            icon: Icon(Icons.monetization_on),
                             operation: OperationBalance.BalanceToPay,
                           ),
                         ),
