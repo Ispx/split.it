@@ -1,4 +1,4 @@
-import 'package:split_it/modules/login/models/user_model.dart';
+import 'package:split_it/core/models/user_model.dart';
 
 abstract class LoginState {}
 

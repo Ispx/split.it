@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/login/controllers/login_controller.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
+import 'package:split_it/modules/login/services/login_service.dart';
 import 'package:split_it/modules/widgets/social_media_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,24 +20,22 @@ class _LoginPageState extends State<LoginPage> {
   late LoginController controller;
 
   initState() {
-    controller = LoginController(
-      () {
-        setState(() {});
-        if (controller.state is LoginStateSucess) {
-          final user = (controller.state as LoginStateSucess).user;
-          Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
-              arguments: user);
-        } else if (controller.state is LoginStateFailure) {
-          Future.delayed(Duration(milliseconds: 500)).then(
-            (value) => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(controller.state.toString()),
-              ),
+    controller = LoginController(() {
+      setState(() {});
+      if (controller.state is LoginStateSucess) {
+        final user = (controller.state as LoginStateSucess).user;
+        Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
+            arguments: user);
+      } else if (controller.state is LoginStateFailure) {
+        Future.delayed(Duration(milliseconds: 500)).then(
+          (value) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(controller.state.toString()),
             ),
-          );
-        }
-      },
-    );
+          ),
+        );
+      }
+    }, LoginServiceImp());
     super.initState();
   }
 
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                         width: 56,
                         height: 56,
                         child: Center(
-                          child: Image.asset('assets/images/emoji.png'),
+                          child: Image.asset(ImagesApp.emojio),
                         ),
                       ),
                       Text(
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller.state == LoginStateLoading()
                     ? CircularProgressIndicator()
                     : SocialMediaWidget(
-                        imagePath: 'assets/images/google.png',
+                        imagePath: ImagesApp.google,
                         title: 'Entrar com Google',
                         onTap: () async {
                           await controller.googleSignIn();
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 12),
                 Platform.isIOS
                     ? SocialMediaWidget(
-                        imagePath: 'assets/images/apple.png',
+                        imagePath: ImagesApp.apple,
                         title: 'Entrar com Apple',
                       )
                     : Container(),

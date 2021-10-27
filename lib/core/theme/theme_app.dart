@@ -7,6 +7,8 @@ abstract class ThemeBase {
   Color get primaryColor;
   Color get titleColor;
   Color get borderColor;
+  Color get diviserColor;
+
   LinearGradient get linearGradient;
 }
 
@@ -23,6 +25,8 @@ class ThemeApp implements ThemeBase {
   // TODO: implement primaryColor
   Color get primaryColor => Color(0xFF40B38C);
 
+  Color get gray => Color(0xFF666666);
+
   @override
   // TODO: implement linearGradient
   LinearGradient get linearGradient => LinearGradient(
@@ -38,4 +42,8 @@ class ThemeApp implements ThemeBase {
   @override
   // TODO: implement borderColor
   Color get borderColor => Color(0xFFDCE0E5);
+
+  @override
+  // TODO: implement diviserColor
+  Color get diviserColor => Color(0xFF666666);
 }
