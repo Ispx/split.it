@@ -8,6 +8,7 @@ abstract class ThemeBase {
   Color get titleColor;
   Color get borderColor;
   Color get diviserColor;
+  double get padding;
 
   LinearGradient get linearGradient;
 }
@@ -46,4 +47,8 @@ class ThemeApp implements ThemeBase {
   @override
   // TODO: implement diviserColor
   Color get diviserColor => Color(0xFF666666);
+
+  @override
+  // TODO: implement padding
+  double get padding => 8.0;
 }

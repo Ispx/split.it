@@ -10,32 +10,37 @@ class EventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        children: [
-          Image.asset(eventModel!.imagePath!),
-          ListTile(
-            title: Text(
-              eventModel!.title!,
-              style: AppTextStyle.instance.titleEventTitle,
-            ),
-            subtitle: Text(DateFormat('dd MMM').format(eventModel!.createdAt!)),
-            trailing: Column(
-              children: [
-                Text('R\$ ${eventModel!.totalAmount!.toStringAsFixed(2)}'),
-                Text(
-                  '${eventModel!.people} amigo' +
-                      '${eventModel!.people! > 1 ? 's' : ''}',
-                  style: AppTextStyle.instance.subTitleEventTitle,
+    return Row(
+      children: [
+        Image.asset(eventModel!.imagePath!),
+        Expanded(
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  eventModel!.title!,
+                  style: AppTextStyle.instance.titleEventTitle,
                 ),
-              ],
-            ),
+                subtitle:
+                    Text(DateFormat('dd MMM').format(eventModel!.createdAt!)),
+                trailing: Column(
+                  children: [
+                    Text('R\$ ${eventModel!.totalAmount!.toStringAsFixed(2)}'),
+                    Text(
+                      '${eventModel!.people} amigo' +
+                          '${eventModel!.people! > 1 ? 's' : ''}',
+                      style: AppTextStyle.instance.subTitleEventTitle,
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                color: ThemeApp.config.diviserColor,
+              ),
+            ],
           ),
-          Divider(
-            color: ThemeApp.config.diviserColor,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

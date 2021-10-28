@@ -19,32 +19,10 @@ class IndicatorOperationBalance extends StatelessWidget {
             : Colors.red.withOpacity(.12),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(7.0),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.fromBorderSide(
-                  BorderSide(
-                    width: 2,
-                    color:
-                        operationBalance == OperationBalance.BalanceReceivable
-                            ? Colors.green.shade700
-                            : Colors.red.shade700,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Image.asset(
-            operationBalance == OperationBalance.BalanceReceivable
-                ? ImagesApp.dollarCashIn
-                : ImagesApp.dollarCahOut,
-          )
-        ],
+      child: Image.asset(
+        operationBalance == OperationBalance.BalanceReceivable
+            ? ImagesApp.dollarCashIn
+            : ImagesApp.dollarCahOut,
       ),
     );
   }
