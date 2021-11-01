@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
-import 'package:split_it/modules/event/controller/event_controller.dart';
-import 'package:split_it/modules/event/widgets/event_widget.dart';
-
+import 'package:split_it/modules/home/controllers/balance_controller.dart';
+import 'package:split_it/modules/home/controllers/home_controller.dart';
+import 'package:split_it/modules/home/states/home_states.dart';
+import 'package:split_it/modules/home/repositorys/home_repository.dart';
 import 'components/appbar_home_widget.dart';
 import 'components/event_list_widget.dart';
 
@@ -17,14 +18,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  EventController _eventController = EventController();
+  late HomeController _controller;
+  late BalanceController _balanceController;
+  initState() {
+    _balanceController = BalanceController(HomeRepository(), onUpdate: () {
+      setState(() {});
+    });
+    _controller = HomeController(HomeRepository(), onUpdate: () {
+      setState(() {});
+    });
+    _balanceController.getBalance();
+    _controller.getEvents();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: ThemeApp.config.background),
     );
     return Scaffold(
-      appBar: AppBarHomeWidget(widget.user, context),
+      appBar: AppBarHomeWidget(widget.user, _balanceController.state, context),
       body: Container(
           padding:
               EdgeInsets.symmetric(horizontal: ThemeApp.config.padding * 6),
@@ -35,9 +49,27 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 90,
               ),
-              Expanded(child: EventListWidget(_eventController.events)),
+              Expanded(child: _buildByState(context)),
             ],
           )),
     );
+  }
+
+  Widget _buildByState(BuildContext context) {
+    switch (_controller.state.runtimeType) {
+      case HomeStateEmpity:
+      case HomeStateLoading:
+        return Center(child: CircularProgressIndicator());
+      case HomeStateDone:
+        return EventListWidget((_controller.state as HomeStateDone).events);
+      case HomeStateError:
+        return Center(
+          child: Text((_controller.state as HomeStateError).message),
+        );
+      default:
+        return Center(
+          child: Text('Estado da requisão não mapeado.'),
+        );
+    }
   }
 }

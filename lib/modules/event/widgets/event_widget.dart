@@ -25,7 +25,8 @@ class EventWidget extends StatelessWidget {
                     Text(DateFormat('dd MMM').format(eventModel!.createdAt!)),
                 trailing: Column(
                   children: [
-                    Text('R\$ ${eventModel!.totalAmount!.toStringAsFixed(2)}'),
+                    Text(
+                        'R\$ ${eventModel!.totalAmount!.toStringAsFixed(2).replaceAll('.', ',')}'),
                     Text(
                       '${eventModel!.people} amigo' +
                           '${eventModel!.people! > 1 ? 's' : ''}',

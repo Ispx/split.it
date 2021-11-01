@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/models/user_model.dart';
+import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/components/card_balance_widget.dart';
-import 'package:split_it/modules/home/components/indicator_operation_balance.dart';
+import 'package:split_it/modules/home/states/balance_states.dart';
 
 class AppBarHomeWidget extends PreferredSize {
-  AppBarHomeWidget(UserModel user, BuildContext context)
+  AppBarHomeWidget(UserModel user, BalanceState state, BuildContext context)
       : super(
           preferredSize: Size.fromHeight(
             180,
@@ -77,35 +79,59 @@ class AppBarHomeWidget extends PreferredSize {
                     bottom: -90,
                     width: MediaQuery.of(context).size.width,
                     height: 160,
-                    child: Row(
-                      children: [
-                        Expanded(child: Container()),
-                        Expanded(
-                          flex: 4,
-                          child: CardBalanceWidget(
-                            title: 'A receber',
-                            subTitle: 'R\$ 1200.00',
-                            operation: OperationBalance.BalanceReceivable,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: CardBalanceWidget(
-                            title: 'A pagar',
-                            subTitle: 'R\$ 200.00',
-                            operation: OperationBalance.BalanceToPay,
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                      ],
-                    ),
+                    child: _buildByState(state),
                   ),
                 ],
               ),
             ),
           ),
         );
+}
+
+Widget _buildByState(BalanceState state) {
+  switch (state.runtimeType) {
+    case BalanceStateEmpity:
+    case BalanceStateLoading:
+      return Center(child: CircularProgressIndicator());
+    case BalanceStateDone:
+      final balanceModel = (state as BalanceStateDone).balance;
+      return Row(
+        children: [
+          Expanded(child: Container()),
+          Expanded(
+            flex: 4,
+            child: CardBalanceWidget(
+              imagePath: ImagesApp.dollarCashIn,
+              textStyle: AppTextStyle.instance.subTitleBalanceCardCashIn,
+              title: 'A receber',
+              amount:
+                  'R\$ ${balanceModel.amountRecived?.toStringAsFixed(2).replaceAll('.', ',')}',
+            ),
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            flex: 4,
+            child: CardBalanceWidget(
+              imagePath: ImagesApp.dollarCahOut,
+              textStyle: AppTextStyle.instance.subTitleBalanceCardCashOut,
+              title: 'A pagar',
+              amount:
+                  'R\$ -${balanceModel.amountToPay?.toStringAsFixed(2).replaceAll('.', ',')}',
+            ),
+          ),
+          Expanded(child: Container()),
+        ],
+      );
+
+    case BalanceStateError:
+      return Center(
+        child: Text((state as BalanceStateError).message),
+      );
+    default:
+      return Center(
+        child: Text('Estado da requisão não mapeado.'),
+      );
+  }
 }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
-import 'package:split_it/core/theme/theme_app.dart';
-import 'package:split_it/modules/home/components/indicator_operation_balance.dart';
 
 class CardBalanceWidget extends StatelessWidget {
-  final String? title;
-  final String? subTitle;
-  final OperationBalance? operation;
-  CardBalanceWidget({@required this.title, this.subTitle, this.operation});
-
+  String? amount;
+  String? title;
+  String? imagePath;
+  TextStyle? textStyle;
+  CardBalanceWidget(
+      {@required this.amount,
+      @required this.title,
+      @required this.imagePath,
+      @required this.textStyle});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,8 +29,10 @@ class CardBalanceWidget extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: IndicatorOperationBalance(
-                  operationBalance: this.operation,
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: Image.asset(this.imagePath!),
                 ),
               ),
             ),
@@ -47,10 +50,8 @@ class CardBalanceWidget extends StatelessWidget {
                       style: AppTextStyle.instance.titleBalanceCard,
                     ),
                     Text(
-                      this.subTitle!,
-                      style: operation == OperationBalance.BalanceReceivable
-                          ? AppTextStyle.instance.subTitleBalanceCardCashIn
-                          : AppTextStyle.instance.subTitleBalanceCardCashOut,
+                      this.amount!,
+                      style: this.textStyle,
                     ),
                   ],
                 ),
