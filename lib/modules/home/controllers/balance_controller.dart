@@ -8,7 +8,7 @@ class BalanceController {
   VoidCallback? onUpdate;
   BalanceState _state = BalanceStateEmpity();
 
-  BalanceController(this._repository, {this.onUpdate});
+  BalanceController(this._repository, {@required this.onUpdate});
   BalanceState get state => _state;
   void _changeState(BalanceState state) {
     this._state = state;

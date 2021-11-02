@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/controllers/balance_controller.dart';
-import 'package:split_it/modules/home/controllers/home_controller.dart';
-import 'package:split_it/modules/home/states/home_states.dart';
+import 'package:split_it/modules/home/controllers/events_controller.dart';
+import 'package:split_it/modules/home/states/events_states.dart';
 import 'package:split_it/modules/home/repositorys/home_repository.dart';
 import 'components/appbar_home_widget.dart';
 import 'components/event_list_widget.dart';
@@ -18,17 +18,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late HomeController _controller;
+  late EventsController _eventscontroller;
   late BalanceController _balanceController;
   initState() {
     _balanceController = BalanceController(HomeRepository(), onUpdate: () {
       setState(() {});
     });
-    _controller = HomeController(HomeRepository(), onUpdate: () {
+    _eventscontroller = EventsController(HomeRepository(), onUpdate: () {
       setState(() {});
     });
     _balanceController.getBalance();
-    _controller.getEvents();
+    _eventscontroller.getEvents();
     super.initState();
   }
 
@@ -56,15 +56,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildByState(BuildContext context) {
-    switch (_controller.state.runtimeType) {
-      case HomeStateEmpity:
-      case HomeStateLoading:
+    switch (_eventscontroller.state.runtimeType) {
+      case EventsStateEmpity:
+      case EventsStateLoading:
         return Center(child: CircularProgressIndicator());
-      case HomeStateDone:
-        return EventListWidget((_controller.state as HomeStateDone).events);
-      case HomeStateError:
+      case EventsStateDone:
+        return EventListWidget(
+            (_eventscontroller.state as EventsStateDone).events);
+      case EventsStateError:
         return Center(
-          child: Text((_controller.state as HomeStateError).message),
+          child: Text((_eventscontroller.state as EventsStateError).message),
         );
       default:
         return Center(
