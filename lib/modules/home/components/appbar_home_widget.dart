@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
@@ -92,7 +93,7 @@ Widget _buildByState(BalanceState state) {
   switch (state.runtimeType) {
     case BalanceStateEmpity:
     case BalanceStateLoading:
-      return Center(child: CircularProgressIndicator());
+      return _CardBalanceShimmer();
     case BalanceStateDone:
       final balanceModel = (state as BalanceStateDone).balance;
       return Row(
@@ -133,5 +134,46 @@ Widget _buildByState(BalanceState state) {
       return Center(
         child: Text('Estado da requisão não mapeado.'),
       );
+  }
+}
+
+class _CardBalanceShimmer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: Container()),
+        Expanded(
+          flex: 4,
+          child: Shimmer.fromColors(
+            highlightColor: Colors.white,
+            baseColor: Colors.grey.shade200,
+            child: CardBalanceWidget(
+              imagePath: ImagesApp.dollarCashIn,
+              textStyle: AppTextStyle.instance.subTitleBalanceCardCashIn,
+              title: '',
+              amount: '',
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 16,
+        ),
+        Expanded(
+          flex: 4,
+          child: Shimmer.fromColors(
+            highlightColor: Colors.white,
+            baseColor: Colors.grey.shade200,
+            child: CardBalanceWidget(
+              imagePath: ImagesApp.dollarCahOut,
+              textStyle: TextStyle(),
+              title: '',
+              amount: '',
+            ),
+          ),
+        ),
+        Expanded(child: Container()),
+      ],
+    );
   }
 }

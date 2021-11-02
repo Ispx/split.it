@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/controllers/balance_controller.dart';
@@ -60,7 +61,9 @@ class _HomePageState extends State<HomePage> {
     switch (_eventscontroller.state.runtimeType) {
       case EventsStateEmpity:
       case EventsStateLoading:
-        return Center(child: CircularProgressIndicator());
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       case EventsStateDone:
         return EventListWidget(
             (_eventscontroller.state as EventsStateDone).events);
