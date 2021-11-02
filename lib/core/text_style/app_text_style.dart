@@ -13,7 +13,7 @@ class AppTextStyle implements IAppTextStyle {
   static AppTextStyle instance = AppTextStyle();
   @override
   TextStyle get subTitleBalanceCardCashIn => GoogleFonts.montserrat(
-      fontWeight: FontWeight.w400, color: Color(0xFF666666), fontSize: 20);
+      fontWeight: FontWeight.w600, color: Color(0xFF40B28C), fontSize: 20);
 
   @override
   TextStyle get titleBalanceCard => GoogleFonts.inter(
@@ -21,7 +21,7 @@ class AppTextStyle implements IAppTextStyle {
 
   @override
   TextStyle get subTitleBalanceCardCashOut => GoogleFonts.montserrat(
-      fontWeight: FontWeight.w400, color: Color(0xFFE83F5B), fontSize: 20);
+      fontWeight: FontWeight.w600, color: Color(0xFFE83F5B), fontSize: 20);
 
   @override
   TextStyle get titleEventTitle => GoogleFonts.inter(
