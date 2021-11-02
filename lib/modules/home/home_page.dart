@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     });
     _balanceController.getBalance();
     _eventscontroller.getEvents();
+    SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor);
     super.initState();
   }
 

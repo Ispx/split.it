@@ -20,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   late LoginController controller;
 
   initState() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
     controller = LoginController(() {
       setState(() {});
       if (controller.state is LoginStateSucess) {
@@ -40,8 +42,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
