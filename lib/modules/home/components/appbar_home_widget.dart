@@ -9,7 +9,7 @@ import 'package:split_it/modules/home/components/card_balance_widget.dart';
 import 'package:split_it/modules/home/states/balance_states.dart';
 
 class AppBarHomeWidget extends PreferredSize {
-  AppBarHomeWidget(UserModel user, BalanceState state, BuildContext context)
+  AppBarHomeWidget(UserModel user, BalanceState state, BuildContext context, VoidCallback onPressed)
       : super(
           preferredSize: Size.fromHeight(
             180,
@@ -69,7 +69,7 @@ class AppBarHomeWidget extends PreferredSize {
                                 Icons.add,
                                 color: Colors.white,
                               ),
-                              onPressed: () {},
+                              onPressed: onPressed,
                             ),
                           ),
                         ],

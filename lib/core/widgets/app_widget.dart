@@ -6,6 +6,7 @@ import 'package:split_it/modules/home/home_page.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/login/page/login_page.dart';
 import 'package:split_it/modules/splash/pages/splash_page.dart';
+import 'package:split_it/modules/steps/pages/steps_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class AppWidget extends StatelessWidget {
         '/': (context) => SplashPage(),
         '/login': (context) => LoginPage(),
         '/error': (context) => ErrorPage(),
+        '/steps': (context) => StepsPage(),
       },
     );
   }

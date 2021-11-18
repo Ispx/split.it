@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage> {
       SystemUiOverlayStyle(statusBarColor: ThemeApp.config.background),
     );
     return Scaffold(
-      appBar: AppBarHomeWidget(widget.user, _balanceController.state, context),
+      appBar: AppBarHomeWidget(widget.user, _balanceController.state, context,
+          () => Navigator.pushNamed(context, '/steps')),
       body: Container(
           padding:
               EdgeInsets.symmetric(horizontal: ThemeApp.config.padding * 6),
