@@ -14,24 +14,34 @@ class _StepOnePageState extends State<StepOnePage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(child: Center()),
-        Text.rich(
-          TextSpan(
-            text: 'Qual o nome\n',
-            style: AppTextStyle.instance.titleStepOne,
-            children: [
-              TextSpan(
-                text: 'do evento?',
-                style: AppTextStyle.instance.subTitleStepOne,
-              ),
-            ],
+        Expanded(
+          child: Text.rich(
+            TextSpan(
+              text: 'Qual o nome\n',
+              style: AppTextStyle.instance.titleStepOne,
+              children: [
+                TextSpan(
+                  text: 'do evento?',
+                  style: AppTextStyle.instance.subTitleStepOne,
+                ),
+              ],
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
-        TextField(
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(hintText: 'Ex: Churrasco'),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 48),
+            child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: 'Ex: Churrasco',
+                hintStyle: AppTextStyle.instance.hintTextFieldStepOne,
+              ),
+            ),
+          ),
         ),
-        Expanded(flex: 2, child: Center()),
+        Expanded(flex: 3, child: Center()),
       ],
     );
   }
