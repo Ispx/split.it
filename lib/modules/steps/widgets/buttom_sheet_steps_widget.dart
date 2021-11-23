@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/steps/widgets/buttom_steps_widget.dart';
 
-class ButtomSheetStepsWidget extends StatelessWidget {
-  final VoidCallback? onTapCancel;
-  final VoidCallback? onTapNext;
-  ButtomSheetStepsWidget(
-      {@required this.onTapCancel, @required this.onTapNext});
+class ButtomSheetStepsWidget extends StatefulWidget {
+  final Function? onTapCancel;
+  final Function? onTapNext;
+  final bool isEnableNext;
 
+  ButtomSheetStepsWidget(
+      {this.onTapCancel, this.onTapNext, this.isEnableNext = false});
+
+  @override
+  State<ButtomSheetStepsWidget> createState() => _ButtomSheetStepsWidgetState();
+}
+
+class _ButtomSheetStepsWidgetState extends State<ButtomSheetStepsWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,7 +32,9 @@ class ButtomSheetStepsWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: ButtomStepsWidget(
-                    onTap: this.onTapCancel,
+                    onTap: () {
+                      widget.onTapCancel!();
+                    },
                     title: 'Cancelar',
                   ),
                 ),
@@ -35,7 +45,10 @@ class ButtomSheetStepsWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: ButtomStepsWidget(
-                    onTap: this.onTapCancel,
+                    isEnable: widget.isEnableNext,
+                    onTap: () {
+                      widget.onTapNext!();
+                    },
                     title: 'Avançar',
                   ),
                 ),
