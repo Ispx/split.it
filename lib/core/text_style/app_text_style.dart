@@ -10,10 +10,13 @@ abstract class IAppTextStyle {
   TextStyle get subTitleBalanceCardCashOut;
   TextStyle get progressStepsLeft;
   TextStyle get progressStepsRight;
-  TextStyle get titleButtomSteps;
+  TextStyle get titleButtomEnableSteps;
+  TextStyle get titleButtomDisableSteps;
   TextStyle get titleStepOne;
   TextStyle get hintTextFieldStepOne;
   TextStyle get subTitleStepOne;
+  TextStyle get titlePersonalStepFilter;
+  TextStyle get titlePersonalStepUnFilter;
 }
 
 class AppTextStyle implements IAppTextStyle {
@@ -52,7 +55,7 @@ class AppTextStyle implements IAppTextStyle {
       );
 
   @required
-  TextStyle get titleButtomSteps => GoogleFonts.roboto(
+  TextStyle get titleButtomEnableSteps => GoogleFonts.roboto(
         fontWeight: FontWeight.w500,
         color: ThemeApp.config.gray,
       );
@@ -71,4 +74,21 @@ class AppTextStyle implements IAppTextStyle {
   // TODO: implement hintTextFieldStepOne
   TextStyle get hintTextFieldStepOne => GoogleFonts.inter(
       fontWeight: FontWeight.w400, color: Color(0xFF666666), fontSize: 14);
+
+  @override
+  // TODO: implement titleButtomDisableSteps
+  TextStyle get titleButtomDisableSteps => GoogleFonts.roboto(
+        fontWeight: FontWeight.w500,
+        color: ThemeApp.config.gray.withOpacity(.3),
+      );
+
+  @override
+  // TODO: implement titlePersonalStepDefault
+  TextStyle get titlePersonalStepFilter => GoogleFonts.inter(
+      fontWeight: FontWeight.w600, color: Color(0xFF666666), fontSize: 16);
+
+  @override
+  // TODO: implement titlePersonalStepFiltered
+  TextStyle get titlePersonalStepUnFilter => GoogleFonts.inter(
+      fontWeight: FontWeight.w400, color: Color(0xFF666666), fontSize: 16);
 }
