@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:split_it/core/theme/theme_app.dart';
+import 'package:split_it/modules/steps/controllers/steps_controller.dart';
 import 'package:split_it/modules/steps/pages/step_one_page.dart';
 import 'package:split_it/modules/steps/pages/step_two_page.dart';
 import 'package:split_it/modules/steps/widgets/appbar_steps_widget.dart';
@@ -11,13 +12,18 @@ class StepsPage extends StatefulWidget {
 }
 
 class _StepsPageState extends State<StepsPage> {
-  late int currentStep;
-  List<Widget> stepsPage = [
-    StepOnePage(),
-    StepTwoPage(),
-  ];
+  StepsController? controller;
+  late List<Widget> stepsPage;
+  String? title;
   initState() {
-    currentStep = 0;
+    stepsPage = [
+      StepOnePage((title) {
+        this.title = title;
+        setState(() {});
+      }),
+      StepTwoPage(),
+    ];
+    controller = StepsController(stepsPage.length);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: ThemeApp.config.statusbarSteps,
@@ -34,17 +40,20 @@ class _StepsPageState extends State<StepsPage> {
     );
     return Scaffold(
       backgroundColor: ThemeApp.config.backgroundSteps,
-      appBar: AppbarStepsWidget(currentStep: currentStep),
+      appBar: AppbarStepsWidget(currentStep: controller!.currentStep + 1),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: stepsPage[currentStep],
+        child: stepsPage[controller!.currentStep],
       ),
       bottomSheet: ButtomSheetStepsWidget(
         onTapCancel: () {},
-        isEnableNext: !(currentStep == stepsPage.length - 1),
+        isEnableNext: !(controller!.currentStep == stepsPage.length),
         onTapNext: () {
-          currentStep++;
+          controller!.nextStep();
+          if (controller!.currentStep == 1) {
+            controller!.changeTitle(this.title ?? '');
+          }
           setState(() {});
         },
       ),

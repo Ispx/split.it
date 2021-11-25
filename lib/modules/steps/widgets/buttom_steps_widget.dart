@@ -11,7 +11,7 @@ class ButtomStepsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => isEnable == true ? this.onTap : null,
+      onPressed: () => isEnable == true ? this.onTap!() : null,
       child: Text(
         this.title!,
         style: isEnable == true

@@ -3,15 +3,19 @@ import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
-class PersonalStepWidget extends StatefulWidget {
+class PersonalWidget extends StatefulWidget {
   final PersonalModel? personalModel;
-  bool? isSelected;
-  PersonalStepWidget({@required this.personalModel, @required this.isSelected});
+  bool? isFilter;
+  VoidCallback? onSelected;
+  PersonalWidget(
+      {@required this.personalModel,
+      @required this.isFilter,
+      @required this.onSelected});
   @override
-  _PersonalStepWidgetState createState() => _PersonalStepWidgetState();
+  _PersonalWidgetState createState() => _PersonalWidgetState();
 }
 
-class _PersonalStepWidgetState extends State<PersonalStepWidget> {
+class _PersonalWidgetState extends State<PersonalWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -32,7 +36,7 @@ class _PersonalStepWidgetState extends State<PersonalStepWidget> {
             children: [
               TextSpan(
                 text: widget.personalModel!.secondName!,
-                style: widget.isSelected == true
+                style: widget.isFilter == true
                     ? AppTextStyle.instance.titlePersonalStepFilter
                     : AppTextStyle.instance.titlePersonalStepUnFilter,
                 children: [],
@@ -41,14 +45,15 @@ class _PersonalStepWidgetState extends State<PersonalStepWidget> {
       ),
       trailing: IconButton(
         onPressed: () {
-          widget.isSelected = !widget.isSelected!;
+          widget.personalModel!.isSelected = !widget.personalModel!.isSelected!;
+          widget.onSelected!();
           setState(() {});
         },
         icon: Icon(
-          widget.isSelected == true ? Icons.add : Icons.remove,
-          color: widget.isSelected == true
-              ? ThemeApp.config.primaryColor
-              : Colors.red,
+          widget.personalModel!.isSelected == true ? Icons.remove : Icons.add,
+          color: widget.personalModel!.isSelected == true
+              ? Colors.red
+              : ThemeApp.config.primaryColor,
         ),
       ),
     );

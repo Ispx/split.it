@@ -4,6 +4,8 @@ import 'package:split_it/modules/steps/widgets/input_field_steps_widget.dart';
 import 'package:split_it/modules/steps/widgets/title_subtitle_steps_widget.dart';
 
 class StepOnePage extends StatefulWidget {
+  Function(String title)? onTitle;
+  StepOnePage(this.onTitle);
   @override
   _StepOnePageState createState() => _StepOnePageState();
 }
@@ -26,6 +28,10 @@ class _StepOnePageState extends State<StepOnePage> {
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: InputFieldStepsWidget(
               hintText: 'Ex: Churrasco',
+              onFuncion: (title) {
+                widget.onTitle!(title);
+                setState(() {});
+              },
             ),
           ),
         ),
