@@ -12,11 +12,6 @@ class LoginController extends ILogin {
   VoidCallback onUpdate;
   LoginController(this.onUpdate, this._service);
   LoginState get state => _state;
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-    ],
-  );
 
   void onListen(Function(LoginState state) onChange) {
     this.onChange = onChange;

@@ -11,7 +11,10 @@ class LoginServiceImp implements LoginService {
   ]);
   @override
   Future<UserModel> googleSignIn() async {
-    var signInAccount = await _googleSignIn.signIn();
+    try{    var signInAccount = await _googleSignIn.signIn();
     return UserModel.google(signInAccount!);
+    }catch(e){
+      throw e.toString();
+    }
   }
 }
