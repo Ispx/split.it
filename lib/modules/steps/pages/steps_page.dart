@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/steps/controllers/steps_controller.dart';
 import 'package:split_it/modules/steps/pages/step_one_page.dart';
+import 'package:split_it/modules/steps/pages/step_three_page.dart';
 import 'package:split_it/modules/steps/pages/step_two_page.dart';
 import 'package:split_it/modules/steps/widgets/appbar_steps_widget.dart';
 import 'package:split_it/modules/steps/widgets/buttom_sheet_steps_widget.dart';
@@ -22,6 +23,7 @@ class _StepsPageState extends State<StepsPage> {
         setState(() {});
       }),
       StepTwoPage(),
+      StepThreePage()
     ];
     controller = StepsController(stepsPage.length);
     SystemChrome.setSystemUIOverlayStyle(
