@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 
 class InputFieldStepsWidget extends StatefulWidget {
@@ -30,7 +31,9 @@ class _InputFieldStepsWidgetState extends State<InputFieldStepsWidget> {
       onTap: widget.onTap,
       textAlign: widget.textAlign,
       onChanged: (e) {
-        widget.onFuncion!(e);
+        if (widget.onFuncion != null) {
+          widget.onFuncion!(e);
+        }
         setState(() {});
       },
       decoration: InputDecoration(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:split_it/core/communs/formater.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
@@ -22,11 +23,10 @@ class EventWidget extends StatelessWidget {
                   style: AppTextStyle.instance.titleEventTitle,
                 ),
                 subtitle:
-                    Text(DateFormat('dd MMM').format(eventModel!.createdAt!)),
+                    Text(Formater.date(eventModel!.createdAt!)),
                 trailing: Column(
                   children: [
-                    Text(
-                        'R\$ ${eventModel!.totalAmount!.toStringAsFixed(2).replaceAll('.', ',')}'),
+                    Text(Formater.currencyAmount(eventModel!.totalAmount!)),
                     Text(
                       '${eventModel!.people} amigo' +
                           '${eventModel!.people! > 1 ? 's' : ''}',

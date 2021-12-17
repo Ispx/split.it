@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:split_it/core/communs/formater.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
@@ -9,7 +10,8 @@ import 'package:split_it/modules/home/components/card_balance_widget.dart';
 import 'package:split_it/modules/home/states/balance_states.dart';
 
 class AppBarHomeWidget extends PreferredSize {
-  AppBarHomeWidget(UserModel user, BalanceState state, BuildContext context, VoidCallback onPressed)
+  AppBarHomeWidget(UserModel user, BalanceState state, BuildContext context,
+      VoidCallback onPressed)
       : super(
           preferredSize: Size.fromHeight(
             180,
@@ -105,8 +107,7 @@ Widget _buildByState(BalanceState state) {
               imagePath: ImagesApp.dollarCashIn,
               textStyle: AppTextStyle.instance.subTitleBalanceCardCashIn,
               title: 'A receber',
-              amount:
-                  'R\$ ${balanceModel.amountRecived?.toStringAsFixed(2).replaceAll('.', ',')}',
+              amount: Formater.currencyAmount(balanceModel.amountRecived!),
             ),
           ),
           SizedBox(
@@ -118,8 +119,7 @@ Widget _buildByState(BalanceState state) {
               imagePath: ImagesApp.dollarCahOut,
               textStyle: AppTextStyle.instance.subTitleBalanceCardCashOut,
               title: 'A pagar',
-              amount:
-                  'R\$ -${balanceModel.amountToPay?.toStringAsFixed(2).replaceAll('.', ',')}',
+              amount: '-${Formater.currencyAmount(balanceModel.amountToPay!)}',
             ),
           ),
           Expanded(child: Container()),

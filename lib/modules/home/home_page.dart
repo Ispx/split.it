@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
+import 'package:split_it/modules/event/models/event_model.dart';
+import 'package:split_it/modules/event/widgets/event_widget.dart';
 import 'package:split_it/modules/home/controllers/balance_controller.dart';
 import 'package:split_it/modules/home/controllers/events_controller.dart';
 import 'package:split_it/modules/home/states/events_states.dart';
@@ -64,8 +66,35 @@ class _HomePageState extends State<HomePage> {
     switch (_eventscontroller.state.runtimeType) {
       case EventsStateEmpity:
       case EventsStateLoading:
-        return Center(
-          child: CircularProgressIndicator(),
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            child: Column(
+                children: List.generate(
+              6,
+              (index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Container(
+                  width: double.maxFinite,
+                  height: 80,
+                  color: Colors.black,
+                ),
+              ),
+            )
+                    .map(
+                      (widget) => SizedBox(
+                        width: double.maxFinite,
+                        height: 80,
+                        child: Shimmer.fromColors(
+                          child: widget,
+                          baseColor: Colors.white,
+                          highlightColor: Colors.grey.shade300,
+                        ),
+                      ),
+                    )
+                    .toList()),
+          ),
         );
       case EventsStateDone:
         return EventListWidget(
