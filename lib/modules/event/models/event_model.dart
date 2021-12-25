@@ -7,10 +7,11 @@ class EventModel {
   final DateTime? createdAt;
   final int? people;
   final double? totalAmount;
-  EventModel(
-      {@required this.title,
-      @required this.imagePath,
-      @required this.createdAt,
-      @required this.totalAmount,
-      @required this.people});
+  EventModel({
+    @required this.title,
+    @required this.imagePath,
+    @required this.createdAt,
+    @required this.totalAmount,
+    @required this.people,
+  });
 }

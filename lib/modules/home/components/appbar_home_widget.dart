@@ -7,6 +7,7 @@ import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/components/card_balance_widget.dart';
+import 'package:split_it/modules/home/components/personal_image_widget.dart';
 import 'package:split_it/modules/home/states/balance_states.dart';
 
 class AppBarHomeWidget extends StatelessWidget {
@@ -31,13 +32,8 @@ class AppBarHomeWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Image.network(
-                    this.user!.photoUrl!,
-                    height: 60,
-                    fit: BoxFit.fitHeight,
-                  ),
+                PersonalImageWidget(
+                  urlImage: this.user!.photoUrl!,
                 ),
                 SizedBox(
                   width: 8,

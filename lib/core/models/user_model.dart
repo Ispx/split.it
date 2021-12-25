@@ -9,7 +9,7 @@ class UserModel {
   final String? id;
 
   final String? photoUrl;
-
+  
   UserModel(
       {@required this.id,
       @required this.displayName,
