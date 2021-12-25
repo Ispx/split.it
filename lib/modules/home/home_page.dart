@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
-import 'package:split_it/modules/event/models/event_model.dart';
-import 'package:split_it/modules/event/widgets/event_widget.dart';
 import 'package:split_it/modules/home/controllers/balance_controller.dart';
 import 'package:split_it/modules/home/controllers/events_controller.dart';
 import 'package:split_it/modules/home/states/events_states.dart';
@@ -25,15 +23,19 @@ class _HomePageState extends State<HomePage> {
   late BalanceController _balanceController;
   initState() {
     _balanceController = BalanceController(HomeRepository(), onUpdate: () {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     _eventscontroller = EventsController(HomeRepository(), onUpdate: () {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     _balanceController.getBalance();
     _eventscontroller.getEvents();
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.background),
+      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
     );
     super.initState();
   }
@@ -41,71 +43,78 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.background),
+      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
     );
     return Scaffold(
-      appBar: AppBarHomeWidget(widget.user, _balanceController.state, context,
-          () => Navigator.pushNamed(context, '/steps')),
+      backgroundColor: ThemeApp.config.background,
       body: Container(
-          padding:
-              EdgeInsets.symmetric(horizontal: ThemeApp.config.padding * 6),
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 90,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: CustomScrollView(
+          slivers: [
+            AppBarHomeWidget(
+              user: widget.user,
+              state: _balanceController.state,
+              onTap: () => Navigator.pushNamed(context, '/steps'),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 100,
               ),
-              Expanded(child: _buildByState(context)),
-            ],
-          )),
+            ),
+            SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                sliver: _builListByState(context)),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildByState(BuildContext context) {
+  Widget _builListByState(BuildContext context) {
     switch (_eventscontroller.state.runtimeType) {
       case EventsStateEmpity:
       case EventsStateLoading:
-        return SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            child: Column(
-                children: List.generate(
+        return SliverList(
+          delegate: SliverChildListDelegate(
+            List.generate(
               6,
               (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                ),
+                child: SizedBox(
                   width: double.maxFinite,
                   height: 80,
-                  color: Colors.black,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.white,
+                    highlightColor: Colors.grey.shade300,
+                    child: Container(
+                      width: double.maxFinite,
+                      height: 80,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
               ),
-            )
-                    .map(
-                      (widget) => SizedBox(
-                        width: double.maxFinite,
-                        height: 80,
-                        child: Shimmer.fromColors(
-                          child: widget,
-                          baseColor: Colors.white,
-                          highlightColor: Colors.grey.shade300,
-                        ),
-                      ),
-                    )
-                    .toList()),
+            ).toList(),
           ),
         );
+
       case EventsStateDone:
         return EventListWidget(
             (_eventscontroller.state as EventsStateDone).events);
       case EventsStateError:
-        return Center(
-          child: Text((_eventscontroller.state as EventsStateError).message),
+        return SliverToBoxAdapter(
+          child: Center(
+            child: Text((_eventscontroller.state as EventsStateError).message),
+          ),
         );
       default:
-        return Center(
-          child: Text('Estado da requisão não mapeado.'),
+        return SliverToBoxAdapter(
+          child: Center(
+            child: Text('Estado da requisão não mapeado.'),
+          ),
         );
     }
   }

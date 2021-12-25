@@ -20,7 +20,7 @@ class ThemeApp implements ThemeBase {
   ThemeApp();
   @override
   // TODO: implement background
-  Color get background => Color(0xFF40B38C);
+  Color get background => Color(0xFFFFFFFF);
   @override
   Color get titleColor => Color(0xFF40B28C);
 
