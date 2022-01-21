@@ -1,40 +1,29 @@
-import 'package:flutter/cupertino.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobx/mobx.dart';
 import 'package:split_it/modules/login/interface/ilogin.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/login/services/login_service.dart';
 
-class LoginController extends ILogin {
-  Function(LoginState state)? onChange;
+part 'login_controller.g.dart';
+
+class LoginController = _LoginControllerBase with _$LoginController;
+
+abstract class _LoginControllerBase extends ILogin with Store {
+  @observable
   LoginState _state = LoginStateEmpity();
-  LoginService _service;
-  VoidCallback onUpdate;
-  LoginController(this.onUpdate, this._service);
+  LoginService? _service;
+  _LoginControllerBase(this._service);
   LoginState get state => _state;
 
-  void onListen(Function(LoginState state) onChange) {
-    this.onChange = onChange;
-  }
-
-  void update() {
-    onUpdate();
-    if (onChange != null) {
-      onChange!(_state);
-    }
-  }
-
+  @action
   Future<UserModel> googleSignIn() async {
     try {
       _state = LoginStateLoading();
-      update();
-      final userModel = await _service.googleSignIn();
+      final userModel = await _service!.googleSignIn();
       _state = LoginStateSucess(userModel);
-      update();
       return userModel;
     } catch (error) {
       _state = LoginStateFailure('Falha ao obter usuário da conta Google');
-      update();
       throw 'Falha ao obter usuário da conta Google';
     }
   }

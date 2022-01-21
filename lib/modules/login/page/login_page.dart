@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobx/mobx.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/login/controllers/login_controller.dart';
@@ -22,22 +24,25 @@ class _LoginPageState extends State<LoginPage> {
   initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
-    controller = LoginController(() {
-      setState(() {});
-      if (controller.state is LoginStateSucess) {
-        final user = (controller.state as LoginStateSucess).user;
-        Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
-            arguments: user);
-      } else if (controller.state is LoginStateFailure) {
-        Future.delayed(Duration(milliseconds: 500)).then(
-          (value) => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(controller.state.toString()),
+    controller = LoginController(LoginServiceImp());
+    autorun(
+      (_) {
+        if (controller.state is LoginStateSucess) {
+          final user = (controller.state as LoginStateSucess).user;
+          Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
+              arguments: user);
+        } else if (controller.state is LoginStateFailure) {
+          Future.delayed(Duration(milliseconds: 500)).then(
+            (value) => ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(controller.state.toString()),
+              ),
             ),
-          ),
-        );
-      }
-    }, LoginServiceImp());
+          );
+        }
+      },
+    );
+
     super.initState();
   }
 
@@ -91,15 +96,19 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 32),
-                controller.state == LoginStateLoading()
-                    ? CircularProgressIndicator()
-                    : SocialMediaWidget(
-                        imagePath: ImagesApp.google,
-                        title: 'Entrar com Google',
-                        onTap: () async {
-                          await controller.googleSignIn();
-                        },
-                      ),
+                Observer(
+                  builder: (context) {
+                    if (controller.state == LoginStateLoading())
+                      return CircularProgressIndicator();
+                    return SocialMediaWidget(
+                      imagePath: ImagesApp.google,
+                      title: 'Entrar com Google',
+                      onTap: () async {
+                        await controller.googleSignIn();
+                      },
+                    );
+                  },
+                ),
                 SizedBox(height: 12),
                 Platform.isIOS
                     ? SocialMediaWidget(

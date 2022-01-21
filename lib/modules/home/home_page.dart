@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
@@ -22,16 +23,8 @@ class _HomePageState extends State<HomePage> {
   late EventsController _eventscontroller;
   late BalanceController _balanceController;
   initState() {
-    _balanceController = BalanceController(HomeRepository(), onUpdate: () {
-      if (mounted) {
-        setState(() {});
-      }
-    });
-    _eventscontroller = EventsController(HomeRepository(), onUpdate: () {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    _balanceController = BalanceController(HomeRepository());
+    _eventscontroller = EventsController(HomeRepository());
     _balanceController.getBalance();
     _eventscontroller.getEvents();
     SystemChrome.setSystemUIOverlayStyle(
@@ -52,19 +45,28 @@ class _HomePageState extends State<HomePage> {
         width: MediaQuery.of(context).size.width,
         child: CustomScrollView(
           slivers: [
-            AppBarHomeWidget(
-              user: widget.user,
-              state: _balanceController.state,
-              onTap: () => Navigator.pushNamed(context, '/steps'),
+            Observer(
+              builder: (context) {
+                return AppBarHomeWidget(
+                  user: widget.user,
+                  state: _balanceController.state,
+                  onTap: () => Navigator.pushNamed(context, '/steps'),
+                );
+              },
             ),
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 100,
               ),
             ),
-            SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                sliver: _builListByState(context)),
+            Observer(
+              builder: (context) {
+                return SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  sliver: _builListByState(context),
+                );
+              },
+            ),
           ],
         ),
       ),

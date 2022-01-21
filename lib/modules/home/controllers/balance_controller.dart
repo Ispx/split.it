@@ -1,24 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'package:mobx/mobx.dart';
 import 'package:split_it/core/models/balance_model.dart';
 import 'package:split_it/modules/home/repositorys/home_repository.dart';
 import 'package:split_it/modules/home/states/balance_states.dart';
 
-class BalanceController {
-  IHomeRepository _repository;
-  VoidCallback? onUpdate;
-  BalanceState _state = BalanceStateEmpity();
+part 'balance_controller.g.dart';
 
-  BalanceController(this._repository, {@required this.onUpdate});
+class BalanceController = _BalanceControllerBase with _$BalanceController;
+
+abstract class _BalanceControllerBase with Store {
+  IHomeRepository? _repository;
+  @observable
+  BalanceState _state = BalanceStateEmpity();
+  _BalanceControllerBase(this._repository);
   BalanceState get state => _state;
   void _changeState(BalanceState state) {
     this._state = state;
-    this.onUpdate!();
   }
 
+  @action
   Future<BalanceModel> getBalance() async {
     _changeState(BalanceStateLoading());
     try {
-      final balance = await _repository.getBalance();
+      final balance = await _repository!.getBalance();
       _changeState(BalanceStateDone(balance));
       return (_state as BalanceStateDone).balance;
     } catch (e) {
