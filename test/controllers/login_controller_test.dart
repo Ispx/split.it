@@ -22,7 +22,7 @@ void main() {
   late LoginService _loginService;
   setUp(() {
     _loginService = LoginServiceMock();
-    _loginController = LoginController(() {}, _loginService);
+    _loginController = LoginController(_loginService);
   });
 
   test(

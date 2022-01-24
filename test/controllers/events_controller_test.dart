@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
@@ -6,10 +5,10 @@ import 'package:split_it/core/models/balance_model.dart';
 import 'package:split_it/modules/home/controllers/events_controller.dart';
 import 'package:split_it/modules/home/repositorys/home_repository.dart';
 import 'package:split_it/modules/home/states/events_states.dart';
+import 'package:mobx/mobx.dart' as mobx;
 
 class EventsControllerMock extends EventsController {
-  EventsControllerMock(IHomeRepository repository, VoidCallback onUpdate)
-      : super(repository, onUpdate: onUpdate);
+  EventsControllerMock(IHomeRepository repository) : super(repository);
 }
 
 class HomeRepositoryMock implements IHomeRepository {
@@ -43,16 +42,18 @@ void main() {
   late IHomeRepository _repository;
   setUp(() async {
     _repository = HomeRepositoryMock();
-    _eventsController = EventsControllerMock(_repository, () {});
+    _eventsController = EventsControllerMock(_repository);
   });
 
   group('Teste de eventsController', () {
     test('Testes dos estados da requisição', () async {
-      expect(_eventsController.state, isInstanceOf<EventsStateEmpity>());
-      _eventsController.getEvents();
-      expect(_eventsController.state, isInstanceOf<EventsStateLoading>());
-      await _eventsController.getEvents();
-      expect(_eventsController.state, isInstanceOf<EventsStateDone>());
+      mobx.autorun((_) async {
+        expect(_eventsController.state, isInstanceOf<EventsStateEmpity>());
+        _eventsController.getEvents();
+        expect(_eventsController.state, isInstanceOf<EventsStateLoading>());
+        await _eventsController.getEvents();
+        expect(_eventsController.state, isInstanceOf<EventsStateDone>());
+      });
     });
 
     test('Deve ter dois eventos', () async {

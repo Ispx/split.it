@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
@@ -6,10 +5,10 @@ import 'package:split_it/core/models/balance_model.dart';
 import 'package:split_it/modules/home/controllers/balance_controller.dart';
 import 'package:split_it/modules/home/repositorys/home_repository.dart';
 import 'package:split_it/modules/home/states/balance_states.dart';
+import 'package:mobx/mobx.dart' as mobx;
 
 class BalanceControllerMock extends BalanceController {
-  BalanceControllerMock(IHomeRepository repository, VoidCallback onUpdate)
-      : super(repository, onUpdate: onUpdate);
+  BalanceControllerMock(IHomeRepository repository) : super(repository);
 }
 
 class HomeRepositoryMock implements IHomeRepository {
@@ -44,26 +43,32 @@ void main() {
   late IHomeRepository _repository;
   setUp(() async {
     _repository = HomeRepositoryMock();
-    _balanceController = BalanceControllerMock(_repository, () {});
+    _balanceController = BalanceControllerMock(_repository);
   });
 
   group('Teste do balanceController', () {
     test('Testes dos estados da requisição', () async {
-      _balanceController = BalanceControllerMock(HomeRepositoryMock(), () {});
-      expect(_balanceController.state, isInstanceOf<BalanceStateEmpity>());
-      _balanceController.getBalance();
-      expect(_balanceController.state, isInstanceOf<BalanceStateLoading>());
-      await _balanceController.getBalance();
-      expect(_balanceController.state, isInstanceOf<BalanceStateDone>());
+      _balanceController = BalanceControllerMock(HomeRepositoryMock());
+      mobx.autorun((p0) async {
+        expect(_balanceController.state, isInstanceOf<BalanceStateEmpity>());
+        _balanceController.getBalance();
+        expect(_balanceController.state, isInstanceOf<BalanceStateLoading>());
+        await _balanceController.getBalance();
+        expect(_balanceController.state, isInstanceOf<BalanceStateDone>());
+      });
     });
     test('Amount pay deve ser 201.00', () async {
-      final balance = await _balanceController.getBalance();
-      expect(balance.amountToPay, 201.00);
+      mobx.autorun((p0) async {
+        final balance = await _balanceController.getBalance();
+        expect(balance.amountToPay, 201.00);
+      });
     });
 
     test('Amount recived deve ser 150.00', () async {
-      final balance = await _balanceController.getBalance();
-      expect(balance.amountRecived, 150.00);
+      mobx.autorun((p0) async {
+        final balance = await _balanceController.getBalance();
+        expect(balance.amountRecived, 150.00);
+      });
     });
   });
 }
