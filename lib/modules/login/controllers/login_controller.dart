@@ -27,4 +27,17 @@ abstract class _LoginControllerBase extends ILogin with Store {
       throw 'Falha ao obter usuário da conta Google';
     }
   }
+
+  @action
+  Future signInWithApple() async{
+       try {
+      _state = LoginStateLoading();
+      final userModel = await _service!.signInWithApple();
+      _state = LoginStateSucess(userModel);
+      return userModel;
+    } catch (error) {
+      _state = LoginStateFailure('Falha ao obter usuário da conta Google');
+      throw 'Falha ao obter usuário da conta Google';
+    }
+  }
 }

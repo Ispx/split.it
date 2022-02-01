@@ -1,6 +1,6 @@
 class ImagesApp {
   static get logo => 'assets/images/logo.png';
-  static get apple => 'assets/images/apples.png';
+  static get apple => 'assets/images/apple.png';
   static get emojio => 'assets/images/emoji.png';
   static get google => 'assets/images/google.png';
   static get dollarCashIn => 'assets/images/dollar_cash_in.png';

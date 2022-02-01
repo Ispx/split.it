@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -9,7 +10,7 @@ class UserModel {
   final String? id;
 
   final String? photoUrl;
-  
+
   UserModel(
       {@required this.id,
       @required this.displayName,
@@ -23,5 +24,11 @@ class UserModel {
         displayName: signInAccount.displayName,
         email: signInAccount.email,
         photoUrl: signInAccount.photoUrl,
+      );
+  factory UserModel.apple(UserCredential userCredential) => UserModel(
+        id: userCredential.user!.uid,
+        displayName: userCredential.user!.displayName,
+        email: userCredential.user!.email,
+        photoUrl: userCredential.user!.photoURL,
       );
 }

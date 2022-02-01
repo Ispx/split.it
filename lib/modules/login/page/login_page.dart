@@ -114,6 +114,9 @@ class _LoginPageState extends State<LoginPage> {
                     ? SocialMediaWidget(
                         imagePath: ImagesApp.apple,
                         title: 'Entrar com Apple',
+                        onTap: () async {
+                          await controller.signInWithApple();
+                        },
                       )
                     : Container(),
               ],
