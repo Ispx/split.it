@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/steps/controllers/steps_controller.dart';
 import 'package:split_it/modules/steps/pages/step_one_page.dart';
@@ -42,22 +43,27 @@ class _StepsPageState extends State<StepsPage> {
     );
     return Scaffold(
       backgroundColor: ThemeApp.config.backgroundSteps,
-      appBar: AppbarStepsWidget(currentStep: controller!.currentStep + 1),
+      appBar: AppbarStepsWidget(context: context, controller: controller!),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: stepsPage[controller!.currentStep],
+        child: Observer(
+          builder: (context) => stepsPage[controller!.currentStep],
+        ),
       ),
-      bottomSheet: ButtomSheetStepsWidget(
-        onTapCancel: () {},
-        isEnableNext: !(controller!.currentStep == stepsPage.length),
-        onTapNext: () {
-          controller!.nextStep();
-          if (controller!.currentStep == 1) {
-            controller!.changeTitle(this.title ?? '');
-          }
-          setState(() {});
-        },
+      bottomSheet: Observer(
+        builder: (context) => ButtomSheetStepsWidget(
+          onTapCancel: () {
+            Navigator.of(context).pop();
+          },
+          isEnableNext: !(controller!.currentStep == stepsPage.length),
+          onTapNext: () {
+            controller!.nextStep();
+            if (controller!.currentStep == 1) {
+              controller!.changeTitle(this.title ?? '');
+            }
+          },
+        ),
       ),
     );
   }
