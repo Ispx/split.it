@@ -12,17 +12,26 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage>
     with SingleTickerProviderStateMixin {
-  double _currentOpacity = 1;
-  late AnimationController _animationController = AnimationController(
-    animationBehavior: AnimationBehavior.preserve,
-    upperBound: 1.0,
-    reverseDuration: Duration(seconds: 5),
-    duration: Duration(seconds: 2),
-    vsync: this,
-  )..repeat(reverse: true);
-
-  late Animation<double> _animation =
-      Tween(begin: 0.0, end: 1.0).animate(_animationController);
+  late AnimationController _animationController;
+  late Animation<double> _animationOpacity;
+  initState() {
+    _animationController = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animationOpacity = Tween(begin: 1.0, end: 0.0).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.ease));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: ThemeApp.config.background,
+      ),
+    );
+    _animationController.forward();
+    //_animationController.addListener(() {setState})
+    Future.delayed(Duration(milliseconds: 2200))
+        .then((value) => Navigator.pushReplacementNamed(context, '/login'));
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -32,15 +41,6 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: ThemeApp.config.background,
-      ),
-    );
-
-    Future.delayed(Duration(milliseconds: 2200))
-        .then((value) => Navigator.pushNamed(context, '/login'));
-
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -76,18 +76,10 @@ class _SplashPageState extends State<SplashPage>
             ),
             Positioned(
               child: FadeTransition(
-                opacity: _animation,
-                child: AnimatedOpacity(
-                  opacity: _currentOpacity,
-                  duration: Duration(milliseconds: 1000),
-                  curve: Curves.bounceIn,
-                  onEnd: () {
-                    _currentOpacity = 1;
-                  },
-                  child: Image.asset(
-                    ImagesApp.logo,
-                    height: 90,
-                  ),
+                opacity: _animationOpacity,
+                child: Image.asset(
+                  ImagesApp.logo,
+                  height: 90,
                 ),
               ),
             ),

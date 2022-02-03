@@ -21,7 +21,7 @@ class LoginServiceImp implements LoginService {
       var signInAccount = await _googleSignIn.signIn();
       return UserModel.google(signInAccount!);
     } catch (e) {
-      throw e.toString();
+      throw 'Falha durante autenticação com Google.';
     }
   }
 
@@ -41,35 +41,37 @@ class LoginServiceImp implements LoginService {
   }
 
   Future<UserModel> signInWithApple() async {
-    // To prevent replay attacks with the credential returned from Apple, we
-    // include a nonce in the credential request. When signing in with
-    // Firebase, the nonce in the id token returned by Apple, is expected to
-    // match the sha256 hash of `rawNonce`.
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
+    try {
+      // To prevent replay attacks with the credential returned from Apple, we
+      // include a nonce in the credential request. When signing in with
+      // Firebase, the nonce in the id token returned by Apple, is expected to
+      // match the sha256 hash of `rawNonce`.
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
 
-    // Request credential for the currently signed in Apple account.
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      nonce: nonce,
-    );
+      // Request credential for the currently signed in Apple account.
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
 
-    // Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential =
-        OAuthProvider("https://split-it-ab697.firebaseapp.com/__/auth/handler")
-            .credential(
-      idToken: appleCredential.identityToken,
-      rawNonce: rawNonce,
-    );
+      // Create an `OAuthCredential` from the credential returned by Apple.
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
 
-    // Sign in the user with Firebase. If the nonce we generated earlier does
-    // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+      // Sign in the user with Firebase. If the nonce we generated earlier does
+      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
 
-    final credential =
-        await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-    return UserModel.apple(credential);
+      final credential =
+          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      return UserModel.apple(credential);
+    } catch (e) {
+      throw 'Falha durante autenticação com a apple.';
+    }
   }
 }
