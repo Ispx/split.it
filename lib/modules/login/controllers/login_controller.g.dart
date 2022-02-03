@@ -32,6 +32,14 @@ mixin _$LoginController on _LoginControllerBase, Store {
     return _$googleSignInAsyncAction.run(() => super.googleSignIn());
   }
 
+  final _$signInWithAppleAsyncAction =
+      AsyncAction('_LoginControllerBase.signInWithApple');
+
+  @override
+  Future<dynamic> signInWithApple() {
+    return _$signInWithAppleAsyncAction.run(() => super.signInWithApple());
+  }
+
   @override
   String toString() {
     return '''

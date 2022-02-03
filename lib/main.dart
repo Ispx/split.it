@@ -27,7 +27,6 @@ class _AppState extends State<App> {
             ),
           );
         }
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
             child: Center(
@@ -35,7 +34,6 @@ class _AppState extends State<App> {
             ),
           );
         }
-
         return AppWidget();
       },
     );

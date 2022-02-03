@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobx/mobx.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/login/controllers/login_controller.dart';

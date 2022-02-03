@@ -58,7 +58,9 @@ class LoginServiceImp implements LoginService {
     );
 
     // Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential = OAuthProvider("apple.com").credential(
+    final oauthCredential =
+        OAuthProvider("https://split-it-ab697.firebaseapp.com/__/auth/handler")
+            .credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
