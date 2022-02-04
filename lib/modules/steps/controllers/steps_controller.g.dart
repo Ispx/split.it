@@ -9,6 +9,15 @@ part of 'steps_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$StepsController on _StepsControllerBase, Store {
+  Computed<Future<List<Map<String, dynamic>>>>? _$seachFriendComputed;
+
+  @override
+  Future<List<Map<String, dynamic>>> get seachFriend =>
+      (_$seachFriendComputed ??= Computed<Future<List<Map<String, dynamic>>>>(
+              () => super.seachFriend,
+              name: '_StepsControllerBase.seachFriend'))
+          .value;
+
   final _$_titleAtom = Atom(name: '_StepsControllerBase._title');
 
   @override
@@ -54,6 +63,21 @@ mixin _$StepsController on _StepsControllerBase, Store {
     });
   }
 
+  final _$_seachAtom = Atom(name: '_StepsControllerBase._seach');
+
+  @override
+  String get _seach {
+    _$_seachAtom.reportRead();
+    return super._seach;
+  }
+
+  @override
+  set _seach(String value) {
+    _$_seachAtom.reportWrite(value, super._seach, () {
+      super._seach = value;
+    });
+  }
+
   final _$_personalModelAtom =
       Atom(name: '_StepsControllerBase._personalModel');
 
@@ -72,6 +96,17 @@ mixin _$StepsController on _StepsControllerBase, Store {
 
   final _$_StepsControllerBaseActionController =
       ActionController(name: '_StepsControllerBase');
+
+  @override
+  void changeSearch(String seach) {
+    final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
+        name: '_StepsControllerBase.changeSearch');
+    try {
+      return super.changeSearch(seach);
+    } finally {
+      _$_StepsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void nextStep() {
@@ -120,7 +155,7 @@ mixin _$StepsController on _StepsControllerBase, Store {
   @override
   String toString() {
     return '''
-
+seachFriend: ${seachFriend}
     ''';
   }
 }
