@@ -13,9 +13,9 @@ abstract class _StepsControllerBase with Store {
   int _currentStep = 0;
   @observable
   int _stepsLength;
-  @observable
-  String _seach = '';
-
+  ObservableList<PersonalModel> friends = ObservableList<PersonalModel>();
+  ObservableList<PersonalModel> friendsSelected =
+      ObservableList<PersonalModel>();
   _StepsControllerBase(this._stepsLength);
 
   @observable
@@ -25,28 +25,47 @@ abstract class _StepsControllerBase with Store {
   PersonalModel get personalModel =>
       _personalModel ??
       PersonalModel(firstName: '', secondName: '', urlImage: '');
-  @computed
-  Future<List<Map<String, dynamic>>> get seachFriend async {
-    _repository = FirebaseRepository('/friends/');
-    try {
-      if (this._seach.isNotEmpty) {
-        return await _repository!.where(field: 'name', value: _seach);
-      }
-      return [];
-    } catch (e) {
-      throw e;
-    }
-  }
 
   @action
-  void changeSearch(String seach) {
-    this._seach = seach;
+  Future seachFriend(String search) async {
+    _repository = FirebaseRepository('/friends/');
+    try {
+      final response = await _repository?.getAll();
+      if (search.isEmpty) {
+        friends.addAll(response
+            ?.map((e) => new PersonalModel.fromJson(e))
+            .toList() as Iterable<PersonalModel>);
+      } else {
+        friends.addAll(response!
+            .where((element) => element['first_name']
+                .toString()
+                .toLowerCase()
+                .contains(search.toLowerCase()))
+            .map((e) => new PersonalModel.fromJson(e))
+            .toList());
+      }
+    } catch (e) {
+      friends.clear();
+      throw e;
+    }
   }
 
   @action
   void nextStep() {
     if (_currentStep == _stepsLength - 1) return;
     _currentStep++;
+  }
+
+  @action
+  void selectFriend(PersonalModel personalModel) {
+    friends.remove(personalModel);
+    friendsSelected.add(personalModel);
+  }
+
+  @action
+  void removeFriend(PersonalModel personalModel) {
+    friends.add(personalModel);
+    friendsSelected.remove(personalModel);
   }
 
   @action
