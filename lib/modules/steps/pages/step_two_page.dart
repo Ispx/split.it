@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:split_it/modules/steps/controllers/steps_controller.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 import 'package:split_it/modules/steps/widgets/input_field_steps_widget.dart';
 import 'package:split_it/modules/steps/widgets/personal_widget.dart';
 import 'package:split_it/modules/steps/widgets/title_subtitle_steps_widget.dart';
 
 class StepTwoPage extends StatefulWidget {
+  final StepsController stepsController = StepsController(3);
+  StepTwoPage();
   @override
   _StepTwoPageState createState() => _StepTwoPageState();
 }
 
 class _StepTwoPageState extends State<StepTwoPage> {
   TextEditingController textEditingController = TextEditingController(text: "");
-  late List<PersonalModel> persons;
 
   @override
   void initState() {
-    persons = [
-      PersonalModel(firstName: 'Maria', secondName: 'Clara', urlImage: ''),
-      PersonalModel(firstName: 'Vitor', secondName: 'Hugo', urlImage: ''),
-      PersonalModel(firstName: 'Joaquina', secondName: 'Viana', urlImage: ''),
-    ];
-    // TODO: implement initState
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await widget.stepsController.seachFriend('');
+    });
+
     super.initState();
   }
 
@@ -31,6 +32,7 @@ class _StepTwoPageState extends State<StepTwoPage> {
       children: [
         Expanded(child: Center()),
         Expanded(
+          flex: 2,
           child: TitleSubtitleStpesWidget(
             title: 'Com quem você',
             subtitle: 'quer dividir?',
@@ -42,40 +44,40 @@ class _StepTwoPageState extends State<StepTwoPage> {
             child: InputFieldStepsWidget(
               controller: textEditingController,
               hintText: 'Nome da pessoa',
-              onFuncion: (e) {
-                textEditingController.text = e;
-                setState(() {});
+              onFuncion: (e) async {
+                await widget.stepsController.seachFriend(e);
               },
             ),
           ),
         ),
-        textEditingController.text == ""
-            ? Expanded(
-                flex: 2,
-                child: Container(
-                  child: ListRecentPersonalWidget(
-                    persons: persons
-                        .where((element) => element.isSelected == true)
-                        .toList(),
-                    isFilter: true,
-                    onSelected: () {
-                      setState(() {});
-                    },
-                  ),
-                ),
-              )
-            : Center(),
-        Expanded(
-          flex: 3,
-          child: Container(
-            child: ListRecentPersonalWidget(
-              persons: persons
-                  .where((element) => element.isSelected == false)
-                  .toList(),
-              isFilter: textEditingController.text != "",
-              onSelected: () {
-                setState(() {});
-              },
+        Observer(
+          builder: (context) {
+            return Container(
+              child: ListPersonalWidget(
+                persons: widget.stepsController.friendsSelected
+                    .where((element) => element.isSelected == true)
+                    .toList(),
+                isFilter: true,
+                onSelected: (personalModel) {
+                  widget.stepsController.removeFriend(personalModel);
+                },
+              ),
+            );
+          },
+        ),
+        Observer(
+          builder: (context) => Expanded(
+            flex: 3,
+            child: Container(
+              child: ListPersonalWidget(
+                persons: widget.stepsController.friends
+                    .where((element) => element.isSelected == false)
+                    .toList(),
+                isFilter: textEditingController.text != "",
+                onSelected: (personalModel) {
+                  widget.stepsController.selectFriend(personalModel);
+                },
+              ),
             ),
           ),
         ),
@@ -85,22 +87,25 @@ class _StepTwoPageState extends State<StepTwoPage> {
   }
 }
 
-class ListRecentPersonalWidget extends StatelessWidget {
-  final List<PersonalModel>? persons;
-  bool? isFilter = false;
-  VoidCallback? onSelected;
-  ListRecentPersonalWidget(
-      {@required this.persons,
-      @required this.isFilter,
-      @required this.onSelected});
+class ListPersonalWidget extends StatefulWidget {
+  final List<PersonalModel> persons;
+  final bool isFilter;
+  final Function(PersonalModel personalModel) onSelected;
+  ListPersonalWidget(
+      {required this.persons, this.isFilter = false, required this.onSelected});
 
+  @override
+  State<ListPersonalWidget> createState() => _ListPersonalWidgetState();
+}
+
+class _ListPersonalWidgetState extends State<ListPersonalWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            this.isFilter == false
+            this.widget.isFilter == false
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -112,12 +117,13 @@ class ListRecentPersonalWidget extends StatelessWidget {
                     ),
                   )
                 : Center(),
-            ...persons!.map(
+            ...widget.persons.map(
               (e) => PersonalWidget(
                 personalModel: e,
-                isFilter: isFilter,
+                isFilter: widget.isFilter,
                 onSelected: () {
-                  onSelected!();
+                  widget.onSelected(e);
+                  setState(() {});
                 },
               ),
             )
