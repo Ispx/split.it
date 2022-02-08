@@ -14,7 +14,7 @@ class StepsPage extends StatefulWidget {
 }
 
 class _StepsPageState extends State<StepsPage> {
-  StepsController? controller;
+  late StepsController controller;
   late List<Widget> stepsPage;
   String? title;
   initState() {
@@ -43,12 +43,12 @@ class _StepsPageState extends State<StepsPage> {
     );
     return Scaffold(
       backgroundColor: ThemeApp.config.backgroundSteps,
-      appBar: AppbarStepsWidget(context: context, controller: controller!),
+      appBar: AppbarStepsWidget(context: context, controller: controller),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Observer(
-          builder: (context) => stepsPage[controller!.currentStep],
+          builder: (context) => stepsPage[controller.currentStep],
         ),
       ),
       bottomSheet: Observer(
@@ -56,11 +56,11 @@ class _StepsPageState extends State<StepsPage> {
           onTapCancel: () {
             Navigator.of(context).pop();
           },
-          isEnableNext: !(controller!.currentStep == stepsPage.length),
+          isEnableNext: !(controller.currentStep == stepsPage.length),
           onTapNext: () {
-            controller!.nextStep();
-            if (controller!.currentStep == 1) {
-              controller!.changeTitle(this.title ?? '');
+            controller.nextStep();
+            if (controller.currentStep == 1) {
+              controller.changeTitle(this.title ?? '');
             }
           },
         ),
