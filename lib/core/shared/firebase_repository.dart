@@ -16,9 +16,9 @@ class FirebaseRepository extends BaseModel {
     }
   }
 
-  Future<List<Map<String, dynamic>>> read({required collection}) async {
+  Future<List<Map<String, dynamic>>> getAll() async {
     try {
-      final response = await _firebaseFirestore.collection(collection).get();
+      final response = await _firebaseFirestore.collection(collenction).get();
       return response.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw e;
