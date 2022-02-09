@@ -7,8 +7,8 @@ import 'package:split_it/modules/steps/widgets/personal_widget.dart';
 import 'package:split_it/modules/steps/widgets/title_subtitle_steps_widget.dart';
 
 class StepTwoPage extends StatefulWidget {
-  final StepsController stepsController = StepsController(3);
-  StepTwoPage();
+  final StepsController stepsController;
+  StepTwoPage({required this.stepsController});
   @override
   _StepTwoPageState createState() => _StepTwoPageState();
 }
@@ -52,11 +52,10 @@ class _StepTwoPageState extends State<StepTwoPage> {
         ),
         Observer(
           builder: (context) {
+            if (widget.stepsController.friendsSelected.isEmpty) return Center();
             return Container(
               child: ListPersonalWidget(
-                persons: widget.stepsController.friendsSelected
-                    .where((element) => element.isSelected == true)
-                    .toList(),
+                persons: widget.stepsController.friendsSelected,
                 isFilter: true,
                 onSelected: (personalModel) {
                   widget.stepsController.removeFriend(personalModel);
@@ -65,21 +64,31 @@ class _StepTwoPageState extends State<StepTwoPage> {
             );
           },
         ),
+        SizedBox(
+          height: 16,
+        ),
         Observer(
-          builder: (context) => Expanded(
-            flex: 3,
-            child: Container(
+          builder: (context) {
+            if (widget.stepsController.friends.isEmpty)
+              return Column(
+                children: [
+                  Divider(),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text('Nenhum amigo encontrado'),
+                ],
+              );
+            return Container(
               child: ListPersonalWidget(
-                persons: widget.stepsController.friends
-                    .where((element) => element.isSelected == false)
-                    .toList(),
+                persons: widget.stepsController.friends,
                 isFilter: textEditingController.text != "",
                 onSelected: (personalModel) {
                   widget.stepsController.selectFriend(personalModel);
                 },
               ),
-            ),
-          ),
+            );
+          },
         ),
         Expanded(flex: 3, child: Center()),
       ],
@@ -101,34 +110,31 @@ class ListPersonalWidget extends StatefulWidget {
 class _ListPersonalWidgetState extends State<ListPersonalWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            this.widget.isFilter == false
-                ? Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      child: Text(
-                        'Recentes',
-                      ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          this.widget.isFilter == false
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Text(
+                      'Recentes',
                     ),
-                  )
-                : Center(),
-            ...widget.persons.map(
-              (e) => PersonalWidget(
-                personalModel: e,
-                isFilter: widget.isFilter,
-                onSelected: () {
-                  widget.onSelected(e);
-                  setState(() {});
-                },
-              ),
-            )
-          ],
-        ),
+                  ),
+                )
+              : Center(),
+          ...widget.persons.map(
+            (e) => PersonalWidget(
+              personalModel: e,
+              isFilter: widget.isFilter,
+              onSelected: () {
+                widget.onSelected(e);
+                setState(() {});
+              },
+            ),
+          )
+        ],
       ),
     );
   }
