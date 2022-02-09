@@ -28,21 +28,27 @@ abstract class _StepsControllerBase with Store {
 
   @action
   Future seachFriend(String search) async {
-    _repository = FirebaseRepository('/friends/');
     try {
-      final response = await _repository?.getAll();
       if (search.isEmpty) {
-        friends.addAll(response
-            ?.map((e) => new PersonalModel.fromJson(e))
-            .toList() as Iterable<PersonalModel>);
-      } else {
-        friends.addAll(response!
-            .where((element) => element['first_name']
-                .toString()
-                .toLowerCase()
-                .contains(search.toLowerCase()))
-            .map((e) => new PersonalModel.fromJson(e))
-            .toList());
+        this.friends.clear();
+        _repository = FirebaseRepository('/friends/');
+        final response = await _repository?.getAll();
+        final friends =
+            response?.map((e) => new PersonalModel.fromJson(e)).toList();
+        this.friends.addAll(friends as Iterable<PersonalModel>);
+        if (friendsSelected.isNotEmpty) {
+          for (PersonalModel friend in this.friendsSelected) {
+            this.friends.removeWhere((element) => element.isEquals(friend));
+          }
+        }
+      } else if (search.isNotEmpty) {
+        var friendsFiltered = this
+            .friends
+            .where((element) =>
+                element.firstName!.toLowerCase().contains(search.toLowerCase()))
+            .toList();
+        this.friends.clear();
+        this.friends.addAll(friendsFiltered);
       }
     } catch (e) {
       friends.clear();
