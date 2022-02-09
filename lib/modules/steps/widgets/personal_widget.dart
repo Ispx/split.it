@@ -24,15 +24,21 @@ class _PersonalWidgetState extends State<PersonalWidget> {
         height: 40,
         decoration: BoxDecoration(
           color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
-            image: NetworkImage(widget.personalModel.urlImage!),
+            image: NetworkImage(
+              widget.personalModel.urlImage!,
+            ),
+            fit: BoxFit.cover,
           ),
         ),
       ),
       title: Text.rich(
         TextSpan(
             text: widget.personalModel.firstName! + ' ',
-            style: AppTextStyle.instance.titlePersonalStepUnFilter,
+            style: widget.isFilter == true
+                ? AppTextStyle.instance.titlePersonalStepFilter
+                : AppTextStyle.instance.titlePersonalStepUnFilter,
             children: [
               TextSpan(
                 text: widget.personalModel.secondName!,
