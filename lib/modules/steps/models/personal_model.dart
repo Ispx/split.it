@@ -20,6 +20,7 @@ class PersonalModel {
   bool isEquals(PersonalModel personalModel) {
     return this.firstName?.toLowerCase() ==
             personalModel.firstName?.toLowerCase() &&
-        this.secondName?.toLowerCase() == this.secondName?.toLowerCase();
+        this.secondName?.toLowerCase() == this.secondName?.toLowerCase() &&
+        this.urlImage == personalModel.urlImage;
   }
 }
