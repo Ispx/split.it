@@ -16,17 +16,17 @@ class StepsPage extends StatefulWidget {
 class _StepsPageState extends State<StepsPage> {
   late StepsController controller;
   late List<Widget> stepsPage;
-  String? title;
   initState() {
+    controller = StepsController(3);
     stepsPage = [
       StepOnePage((title) {
-        this.title = title;
-        setState(() {});
+        controller.changeTitle(title);
       }),
-      StepTwoPage(),
+      StepTwoPage(
+        stepsController: controller,
+      ),
       StepThreePage()
     ];
-    controller = StepsController(stepsPage.length);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: ThemeApp.config.statusbarSteps,
@@ -56,12 +56,9 @@ class _StepsPageState extends State<StepsPage> {
           onTapCancel: () {
             Navigator.of(context).pop();
           },
-          isEnableNext: !(controller.currentStep == stepsPage.length),
+          isEnableNext: controller.enableNextButton,
           onTapNext: () {
             controller.nextStep();
-            if (controller.currentStep == 1) {
-              controller.changeTitle(this.title ?? '');
-            }
           },
         ),
       ),
