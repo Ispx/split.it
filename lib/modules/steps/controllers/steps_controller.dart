@@ -26,6 +26,16 @@ abstract class _StepsControllerBase with Store {
       _personalModel ??
       PersonalModel(firstName: '', secondName: '', urlImage: '');
 
+  @computed
+  bool get enableNextButton {
+    if (currentStep == 0) {
+      return _title?.isNotEmpty ?? false;
+    } else if (currentStep == 1) {
+      return friendsSelected.isNotEmpty;
+    }
+    return false;
+  }
+
   @action
   Future seachFriend(String search) async {
     try {
