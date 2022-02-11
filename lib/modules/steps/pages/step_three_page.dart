@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:split_it/core/communs/formater.dart';
-import 'package:split_it/modules/steps/widgets/input_field_steps_widget.dart';
 import 'package:split_it/modules/steps/widgets/title_subtitle_steps_widget.dart';
+
+import '../widgets/mult_input_widget.dart';
 
 class StepThreePage extends StatefulWidget {
   const StepThreePage({Key? key}) : super(key: key);
@@ -27,34 +25,12 @@ class _StepThreePageState extends State<StepThreePage> {
               child: TitleSubtitleStpesWidget(
                   title: 'Qual ou quais', subtitle: 'ítens você quer dividir?'),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32),
-                child: Expanded(
-                  child: Row(
-                    children: [
-                      Text('1'),
-                      Expanded(
-                          flex: 4,
-                          child:
-                              InputFieldStepsWidget(hintText: 'Ex. Picanha')),
-                      Expanded(
-                        flex: 2,
-                        child: InputFieldStepsWidget(
-                          hintText: Formater.currencyAmount(0),
-                        ),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.delete),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: MultInputWidget(),
+                )),
             TextButton(
               onPressed: () {},
               child: Row(

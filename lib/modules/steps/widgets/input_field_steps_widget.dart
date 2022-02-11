@@ -10,13 +10,15 @@ class InputFieldStepsWidget extends StatefulWidget {
   final TextAlign textAlign;
   final void Function(String e)? onFuncion;
   final VoidCallback? onTap;
+  final TextInputType keyboardType;
   InputFieldStepsWidget(
-      {@required this.hintText,
+      {this.hintText,
       this.controller,
       this.textAlign = TextAlign.center,
       this.sufix,
       this.prefix,
       this.onTap,
+      this.keyboardType = TextInputType.text,
       this.onFuncion});
 
   @override
@@ -28,6 +30,7 @@ class _InputFieldStepsWidgetState extends State<InputFieldStepsWidget> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
+      keyboardType: widget.keyboardType,
       onTap: widget.onTap,
       textAlign: widget.textAlign,
       onChanged: (e) {
