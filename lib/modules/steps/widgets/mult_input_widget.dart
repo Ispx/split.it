@@ -7,8 +7,13 @@ class MultInputWidget extends StatefulWidget {
   final int? qtd;
   final String? name;
   final double? amount;
-
-  const MultInputWidget({Key? key, this.qtd, this.name, this.amount})
+  final bool showDeleteButton;
+  const MultInputWidget(
+      {Key? key,
+      this.qtd,
+      this.name,
+      this.amount,
+      this.showDeleteButton = true})
       : super(key: key);
 
   @override
@@ -52,12 +57,12 @@ class _MultInputWidgetState extends State<MultInputWidget> {
             keyboardType: TextInputType.number,
           ),
         ),
-        widget.amount == null && widget.name == null
-            ? Center()
-            : IconButton(
+        widget.showDeleteButton
+            ? IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.delete),
               )
+            : Center()
       ],
     );
   }
