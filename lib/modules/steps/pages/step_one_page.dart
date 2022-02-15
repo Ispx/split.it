@@ -29,8 +29,10 @@ class _StepOnePageState extends State<StepOnePage> {
             child: InputFieldStepsWidget(
               hintText: 'Ex: Churrasco',
               onFuncion: (title) {
-                widget.onTitle!(title);
-                setState(() {});
+                if (title != null) {
+                  widget.onTitle!(title);
+                  setState(() {});
+                }
               },
             ),
           ),
