@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/core/communs/formater.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
-import 'package:split_it/modules/event/models/item_model.dart';
 import 'package:split_it/modules/event/models/personal_event_model.dart';
 import 'package:split_it/modules/event/widgets/itens_details_widget.dart';
 import 'package:split_it/modules/event/widgets/participants_details_widget.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
+
+import '../steps/models/item_model.dart';
 
 class DetailsEventPage extends StatefulWidget {
   @override
@@ -42,18 +43,18 @@ class _DetailsEventPageState extends State<DetailsEventPage> {
       ),
     ];
     itens = [
-      ItemModel(name: 'Picanha', value: 122.00),
-      ItemModel(name: 'Linguiça', value: 17.00),
-      ItemModel(name: 'Carvão', value: 19.00),
-      ItemModel(name: 'Cerveja', value: 68.00),
-      ItemModel(name: 'Refrigerante', value: 12.00),
-      ItemModel(name: 'Pão de alho', value: 15.00),
+      ItemModel(name: 'Picanha', amount: 122.00),
+      ItemModel(name: 'Linguiça', amount: 17.00),
+      ItemModel(name: 'Carvão', amount: 19.00),
+      ItemModel(name: 'Cerveja', amount: 68.00),
+      ItemModel(name: 'Refrigerante', amount: 12.00),
+      ItemModel(name: 'Pão de alho', amount: 15.00),
     ];
     for (var person in persons) {
       totalAmountPersons += person.totalPay!;
     }
     for (var item in itens) {
-      totalAmountItems += item.value!;
+      totalAmountItems += item.amount!;
     }
     super.initState();
   }

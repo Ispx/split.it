@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/core/communs/formater.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
-import 'package:split_it/modules/event/models/item_model.dart';
+
+import '../../steps/models/item_model.dart';
 
 class RowItemWidget extends StatelessWidget {
   final ItemModel? itemModel;
@@ -21,7 +22,7 @@ class RowItemWidget extends StatelessWidget {
                 style: AppTextStyle.instance.titleItem,
               ),
               Text(
-                Formater.currencyAmount(itemModel!.value!),
+                Formater.currencyAmount(itemModel!.amount!),
                 style: AppTextStyle.instance.titleItem,
               ),
             ],

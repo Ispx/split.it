@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/core/communs/formater.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
-import 'package:split_it/modules/event/models/item_model.dart';
 import 'package:split_it/modules/event/widgets/row_item_widget.dart';
+
+import '../../steps/models/item_model.dart';
 
 class ItensDetailsWidget extends StatefulWidget {
   final List<ItemModel>? itens;
@@ -20,7 +21,7 @@ class _ItensDetailsWidgetState extends State<ItensDetailsWidget> {
   void initState() {
     totalAmount = widget.itens!.fold(
       0,
-      (previousValue, element) => previousValue + element.value!,
+      (previousValue, element) => previousValue + element.amount!,
     );
     scrollController = ScrollController();
     super.initState();
