@@ -67,6 +67,13 @@ class _CreatedItemWidgetState extends State<CreatedItemWidget> {
               textEditingName.clear();
               textEditingAmount.updateValue(0.00);
               setState(() {});
+              return;
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Falha ao inserir usuário'),
+                ),
+              );
             }
           },
         ),
