@@ -4,16 +4,16 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'input_field_steps_widget.dart';
 
 class MultInputWidget extends StatefulWidget {
-  final int? qtd;
-  final String? name;
-  final double? amount;
-  final bool showDeleteButton;
+  final MoneyMaskedTextController textEditingAmount;
+  final TextEditingController textEditingName;
+  final TextEditingController textEditingQtd;
+  final VoidCallback? onRemoved;
   const MultInputWidget(
       {Key? key,
-      this.qtd,
-      this.name,
-      this.amount,
-      this.showDeleteButton = true})
+      required this.textEditingAmount,
+      required this.textEditingName,
+      required this.textEditingQtd,
+      this.onRemoved})
       : super(key: key);
 
   @override
@@ -21,18 +21,6 @@ class MultInputWidget extends StatefulWidget {
 }
 
 class _MultInputWidgetState extends State<MultInputWidget> {
-  late MoneyMaskedTextController textEditingAmount;
-  late TextEditingController textEditingName;
-  late TextEditingController textEditingQtd;
-  @override
-  void initState() {
-    textEditingAmount = MoneyMaskedTextController(leftSymbol: 'R\$ ');
-    textEditingAmount.updateValue(widget.amount ?? 0.00);
-    textEditingName = TextEditingController();
-    textEditingQtd = TextEditingController(text: '1');
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -40,29 +28,44 @@ class _MultInputWidgetState extends State<MultInputWidget> {
         Flexible(
           fit: FlexFit.tight,
           child: InputFieldStepsWidget(
+            controller: widget.textEditingQtd,
             keyboardType: TextInputType.number,
-            hintText: '1',
+            onFuncion: (e) {
+              setState(() {});
+            },
           ),
         ),
         Flexible(
           flex: 7,
           child: InputFieldStepsWidget(
+            controller: widget.textEditingName,
+            onFuncion: (e) {
+              setState(() {});
+            },
             hintText: 'Ex. Picanha',
           ),
         ),
         Flexible(
           flex: 2,
           child: InputFieldStepsWidget(
-            controller: textEditingAmount,
+            controller: widget.textEditingAmount,
             keyboardType: TextInputType.number,
+            onFuncion: (e) {
+              setState(() {});
+            },
           ),
         ),
-        widget.showDeleteButton
-            ? IconButton(
-                onPressed: () {},
+        widget.textEditingName.text.isEmpty
+            ? Center()
+            : IconButton(
+                onPressed: () {
+                  if (widget.onRemoved != null) {
+                    widget.onRemoved!();
+                    setState(() {});
+                  }
+                },
                 icon: Icon(Icons.delete),
-              )
-            : Center()
+              ),
       ],
     );
   }
