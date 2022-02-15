@@ -9,6 +9,14 @@ part of 'steps_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$StepsController on _StepsControllerBase, Store {
+  Computed<bool>? _$enableNextButtonComputed;
+
+  @override
+  bool get enableNextButton => (_$enableNextButtonComputed ??= Computed<bool>(
+          () => super.enableNextButton,
+          name: '_StepsControllerBase.enableNextButton'))
+      .value;
+
   final _$_titleAtom = Atom(name: '_StepsControllerBase._title');
 
   @override
@@ -54,21 +62,6 @@ mixin _$StepsController on _StepsControllerBase, Store {
     });
   }
 
-  final _$friendsAtom = Atom(name: '_StepsControllerBase.friends');
-
-  @override
-  ObservableList<PersonalModel> get friends {
-    _$friendsAtom.reportRead();
-    return super.friends;
-  }
-
-  @override
-  set friends(ObservableList<PersonalModel> value) {
-    _$friendsAtom.reportWrite(value, super.friends, () {
-      super.friends = value;
-    });
-  }
-
   final _$_personalModelAtom =
       Atom(name: '_StepsControllerBase._personalModel');
 
@@ -95,6 +88,28 @@ mixin _$StepsController on _StepsControllerBase, Store {
 
   final _$_StepsControllerBaseActionController =
       ActionController(name: '_StepsControllerBase');
+
+  @override
+  void addItem(ItemModel? itemModel) {
+    final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
+        name: '_StepsControllerBase.addItem');
+    try {
+      return super.addItem(itemModel);
+    } finally {
+      _$_StepsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeItem(ItemModel? itemModel) {
+    final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
+        name: '_StepsControllerBase.removeItem');
+    try {
+      return super.removeItem(itemModel);
+    } finally {
+      _$_StepsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void nextStep() {
@@ -165,7 +180,7 @@ mixin _$StepsController on _StepsControllerBase, Store {
   @override
   String toString() {
     return '''
-friends: ${friends}
+enableNextButton: ${enableNextButton}
     ''';
   }
 }
