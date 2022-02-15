@@ -7,8 +7,8 @@ import 'package:split_it/modules/steps/widgets/personal_widget.dart';
 import 'package:split_it/modules/steps/widgets/title_subtitle_steps_widget.dart';
 
 class StepTwoPage extends StatefulWidget {
-  final StepsController stepsController;
-  StepTwoPage({required this.stepsController});
+  final StepsController controller;
+  StepTwoPage({required this.controller});
   @override
   _StepTwoPageState createState() => _StepTwoPageState();
 }
@@ -19,7 +19,7 @@ class _StepTwoPageState extends State<StepTwoPage> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      await widget.stepsController.seachFriend('');
+      await widget.controller.seachFriend('');
     });
 
     super.initState();
@@ -45,20 +45,22 @@ class _StepTwoPageState extends State<StepTwoPage> {
               controller: textEditingController,
               hintText: 'Nome da pessoa',
               onFuncion: (e) async {
-                await widget.stepsController.seachFriend(e);
+                if (e != null) {
+                  await widget.controller.seachFriend(e);
+                }
               },
             ),
           ),
         ),
         Observer(
           builder: (context) {
-            if (widget.stepsController.friendsSelected.isEmpty) return Center();
+            if (widget.controller.friendsSelected.isEmpty) return Center();
             return Container(
               child: ListPersonalWidget(
-                persons: widget.stepsController.friendsSelected,
+                persons: widget.controller.friendsSelected,
                 isFilter: true,
                 onSelected: (personalModel) {
-                  widget.stepsController.removeFriend(personalModel);
+                  widget.controller.removeFriend(personalModel);
                 },
               ),
             );
@@ -69,7 +71,7 @@ class _StepTwoPageState extends State<StepTwoPage> {
         ),
         Observer(
           builder: (context) {
-            if (widget.stepsController.friends.isEmpty)
+            if (widget.controller.friends.isEmpty)
               return Column(
                 children: [
                   Divider(),
@@ -81,10 +83,10 @@ class _StepTwoPageState extends State<StepTwoPage> {
               );
             return Container(
               child: ListPersonalWidget(
-                persons: widget.stepsController.friends,
+                persons: widget.controller.friends,
                 isFilter: textEditingController.text != "",
                 onSelected: (personalModel) {
-                  widget.stepsController.selectFriend(personalModel);
+                  widget.controller.selectFriend(personalModel);
                 },
               ),
             );
