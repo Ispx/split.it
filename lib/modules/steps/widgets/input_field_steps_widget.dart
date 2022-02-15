@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 
 class InputFieldStepsWidget extends StatefulWidget {
@@ -8,7 +7,7 @@ class InputFieldStepsWidget extends StatefulWidget {
   final Widget? sufix;
   final Widget? prefix;
   final TextAlign textAlign;
-  final void Function(String e)? onFuncion;
+  final void Function(String? e)? onFuncion;
   final VoidCallback? onTap;
   final TextInputType keyboardType;
   InputFieldStepsWidget(
