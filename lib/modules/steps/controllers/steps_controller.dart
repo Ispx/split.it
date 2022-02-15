@@ -1,6 +1,8 @@
 import 'package:mobx/mobx.dart';
 import 'package:split_it/core/shared/firebase_repository.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
+
+import '../models/item_model.dart';
 part 'steps_controller.g.dart';
 
 class StepsController = _StepsControllerBase with _$StepsController;
@@ -14,6 +16,7 @@ abstract class _StepsControllerBase with Store {
   @observable
   int _stepsLength;
   ObservableList<PersonalModel> friends = ObservableList<PersonalModel>();
+  ObservableList<ItemModel> items = ObservableList<ItemModel>();
   ObservableList<PersonalModel> friendsSelected =
       ObservableList<PersonalModel>();
   _StepsControllerBase(this._stepsLength);
@@ -32,6 +35,8 @@ abstract class _StepsControllerBase with Store {
       return _title?.isNotEmpty ?? false;
     } else if (currentStep == 1) {
       return friendsSelected.isNotEmpty;
+    } else if (currentStep == 2) {
+      return items.isNotEmpty;
     }
     return false;
   }
@@ -64,6 +69,23 @@ abstract class _StepsControllerBase with Store {
       friends.clear();
       throw e;
     }
+  }
+
+  @action
+  void addItem(ItemModel? itemModel) {
+    if (itemModel != null &&
+        itemModel.name!.isNotEmpty &&
+        itemModel.amount! > 0 &&
+        itemModel.qtd! > 0) {
+      items.add(itemModel);
+      return;
+    }
+    throw 'Falha ao inserir item';
+  }
+
+  @action
+  void removeItem(ItemModel? itemModel) {
+    items.remove(itemModel);
   }
 
   @action
