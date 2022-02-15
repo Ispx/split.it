@@ -23,9 +23,11 @@ class _StepsPageState extends State<StepsPage> {
         controller.changeTitle(title);
       }),
       StepTwoPage(
-        stepsController: controller,
+        controller: controller,
       ),
-      StepThreePage()
+      StepThreePage(
+        controller: controller,
+      )
     ];
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
