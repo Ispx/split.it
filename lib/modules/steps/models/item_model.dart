@@ -1,9 +1,8 @@
 class ItemModel {
   final String? name;
-  final int? qtd;
   final double? amount;
 
-  ItemModel({this.name, this.qtd = 1, this.amount});
+  ItemModel({this.name, this.amount});
 
   ItemModel copyWith({
     String? name,
@@ -12,7 +11,6 @@ class ItemModel {
   }) {
     return ItemModel(
       name: name ?? this.name,
-      qtd: qtd ?? this.qtd,
       amount: amount ?? this.amount,
     );
   }

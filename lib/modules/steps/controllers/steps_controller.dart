@@ -75,8 +75,7 @@ abstract class _StepsControllerBase with Store {
   void addItem(ItemModel? itemModel) {
     if (itemModel != null &&
         itemModel.name!.isNotEmpty &&
-        itemModel.amount! > 0 &&
-        itemModel.qtd! > 0) {
+        itemModel.amount! > 0) {
       items.add(itemModel);
       return;
     }

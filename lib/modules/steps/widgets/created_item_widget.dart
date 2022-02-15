@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:split_it/modules/steps/controllers/steps_controller.dart';
 import 'package:split_it/modules/steps/widgets/mult_input_widget.dart';
 
 import '../models/item_model.dart';
@@ -8,7 +9,8 @@ import 'buttom_add_item.dart';
 
 class CreatedItemWidget extends StatefulWidget {
   final Function(ItemModel? onItem)? onItem;
-  CreatedItemWidget(this.onItem);
+  final StepsController? controller;
+  CreatedItemWidget({this.onItem, this.controller});
   @override
   _CreatedItemWidgetState createState() => _CreatedItemWidgetState();
 }
@@ -16,7 +18,6 @@ class CreatedItemWidget extends StatefulWidget {
 class _CreatedItemWidgetState extends State<CreatedItemWidget> {
   late MoneyMaskedTextController textEditingAmount;
   late TextEditingController textEditingName;
-  late TextEditingController textEditingQtd;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _CreatedItemWidgetState extends State<CreatedItemWidget> {
 
     textEditingAmount.updateValue(0);
     textEditingName = TextEditingController();
-    textEditingQtd = TextEditingController(text: '1');
+
     super.initState();
   }
 
@@ -37,13 +38,13 @@ class _CreatedItemWidgetState extends State<CreatedItemWidget> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: MultInputWidget(
-              textEditingQtd: this.textEditingQtd,
+              textEditingIndex: TextEditingController(
+                  text: '${widget.controller!.items.length + 1}'),
               textEditingName: this.textEditingName,
               textEditingAmount: this.textEditingAmount,
               onRemoved: () {
                 textEditingName.clear();
                 textEditingAmount.updateValue(0.00);
-                textEditingQtd.text = '1';
               },
             ),
           ),
@@ -60,13 +61,11 @@ class _CreatedItemWidgetState extends State<CreatedItemWidget> {
               widget.onItem!(
                 ItemModel(
                   name: textEditingName.text,
-                  qtd: int.tryParse(textEditingQtd.text) ?? 1,
                   amount: textEditingAmount.numberValue ?? 0.00,
                 ),
               );
               textEditingName.clear();
               textEditingAmount.updateValue(0.00);
-              textEditingQtd.text = '1';
               setState(() {});
             }
           },

@@ -10,15 +10,18 @@ class InputFieldStepsWidget extends StatefulWidget {
   final void Function(String? e)? onFuncion;
   final VoidCallback? onTap;
   final TextInputType keyboardType;
-  InputFieldStepsWidget(
-      {this.hintText,
-      this.controller,
-      this.textAlign = TextAlign.center,
-      this.sufix,
-      this.prefix,
-      this.onTap,
-      this.keyboardType = TextInputType.text,
-      this.onFuncion});
+  final bool enable;
+  InputFieldStepsWidget({
+    this.hintText,
+    this.controller,
+    this.textAlign = TextAlign.center,
+    this.sufix,
+    this.prefix,
+    this.onTap,
+    this.keyboardType = TextInputType.text,
+    this.onFuncion,
+    this.enable = true,
+  });
 
   @override
   _InputFieldStepsWidgetState createState() => _InputFieldStepsWidgetState();
@@ -32,6 +35,7 @@ class _InputFieldStepsWidgetState extends State<InputFieldStepsWidget> {
       keyboardType: widget.keyboardType,
       onTap: widget.onTap,
       textAlign: widget.textAlign,
+      enabled: widget.enable,
       onChanged: (e) {
         if (widget.onFuncion != null) {
           widget.onFuncion!(e);

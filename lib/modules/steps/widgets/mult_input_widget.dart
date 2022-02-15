@@ -6,13 +6,13 @@ import 'input_field_steps_widget.dart';
 class MultInputWidget extends StatefulWidget {
   final MoneyMaskedTextController textEditingAmount;
   final TextEditingController textEditingName;
-  final TextEditingController textEditingQtd;
+  final TextEditingController textEditingIndex;
   final VoidCallback? onRemoved;
   const MultInputWidget(
       {Key? key,
       required this.textEditingAmount,
       required this.textEditingName,
-      required this.textEditingQtd,
+      required this.textEditingIndex,
       this.onRemoved})
       : super(key: key);
 
@@ -28,7 +28,8 @@ class _MultInputWidgetState extends State<MultInputWidget> {
         Flexible(
           fit: FlexFit.tight,
           child: InputFieldStepsWidget(
-            controller: widget.textEditingQtd,
+            controller: widget.textEditingIndex,
+            enable: false,
             keyboardType: TextInputType.number,
             onFuncion: (e) {
               setState(() {});

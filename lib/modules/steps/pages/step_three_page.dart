@@ -46,20 +46,27 @@ class _StepThreePageState extends State<StepThreePage> {
               SizedBox(
                 height: 36,
               ),
-              SizedBox(
-                height: 120,
-                width: double.maxFinite,
-                child: CreatedItemWidget((item) {
-                  try {
-                    widget.controller.addItem(item);
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Falha ao inserir usuário'),
-                      ),
-                    );
-                  }
-                }),
+              Observer(
+                builder: (context) {
+                  return SizedBox(
+                    height: 120,
+                    width: double.maxFinite,
+                    child: CreatedItemWidget(
+                      controller: widget.controller,
+                      onItem: (item) {
+                        try {
+                          widget.controller.addItem(item);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Falha ao inserir usuário'),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  );
+                },
               ),
               SizedBox(
                 height: 36,
@@ -77,35 +84,37 @@ class _StepThreePageState extends State<StepThreePage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Lista de Itens',
-                                  style: AppTextStyle.instance.titleItem,
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                ...widget.controller.items
-                                    .map(
-                                      (item) => MultInputWidget(
-                                        textEditingQtd: TextEditingController(
-                                          text: item.qtd.toString(),
-                                        ),
-                                        textEditingName: TextEditingController(
-                                          text: item.name,
-                                        ),
-                                        textEditingAmount:
-                                            MoneyMaskedTextController(
-                                                leftSymbol: 'R\$ ')
-                                              ..updateValue(item.amount),
-                                        onRemoved: () {
-                                          widget.controller.removeItem(item);
-                                        },
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Lista de Itens',
+                                style: AppTextStyle.instance.titleItem,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              ...widget.controller.items
+                                  .map(
+                                    (item) => MultInputWidget(
+                                      textEditingIndex: TextEditingController(
+                                        text:
+                                            '${widget.controller.items.indexOf(item) + 1}',
                                       ),
-                                    )
-                                    .toList(),
-                              ]),
+                                      textEditingName: TextEditingController(
+                                        text: item.name,
+                                      ),
+                                      textEditingAmount:
+                                          MoneyMaskedTextController(
+                                              leftSymbol: 'R\$ ')
+                                            ..updateValue(item.amount),
+                                      onRemoved: () {
+                                        widget.controller.removeItem(item);
+                                      },
+                                    ),
+                                  )
+                                  .toList(),
+                            ],
+                          ),
                         ),
                       ),
                     ),
