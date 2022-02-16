@@ -9,7 +9,7 @@ class PersonalModel {
     required this.secondName,
     required this.urlImage,
   });
-  factory PersonalModel.fromJson(Map map) => PersonalModel(
+  factory PersonalModel.fromMap(Map map) => PersonalModel(
         firstName: map['first_name'],
         secondName: map['second_name'],
         urlImage: map['url_image'].toString().isNotEmpty
