@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
 class PersonalEventModel extends PersonalModel {
@@ -6,7 +5,7 @@ class PersonalEventModel extends PersonalModel {
   final bool? isSelected;
 
   PersonalEventModel(PersonalModel personalModel,
-      {@required this.totalPay, @required this.isSelected})
+      {required this.totalPay, this.isSelected = true})
       : super(
           firstName: personalModel.firstName,
           secondName: personalModel.secondName,
