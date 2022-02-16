@@ -23,17 +23,17 @@ class HomeRepositoryMock implements IHomeRepository {
     await Future.delayed(Duration(seconds: 5));
     return [
       EventModel(
-          title: 'Churrasco na laje',
-          imagePath: ImagesApp.dollarCahOut,
-          createdAt: DateTime.now(),
-          totalAmount: 100.50,
-          people: 5),
+        title: 'Churrasco na laje',
+        imagePath: ImagesApp.dollarCahOut,
+        createdAt: DateTime.now(),
+        totalAmount: 100.50,
+      ),
       EventModel(
-          title: 'Rolê no shopping',
-          imagePath: ImagesApp.dollarCahOut,
-          createdAt: DateTime.now(),
-          totalAmount: 100.50,
-          people: 5),
+        title: 'Rolê no shopping',
+        imagePath: ImagesApp.dollarCahOut,
+        createdAt: DateTime.now(),
+        totalAmount: 100.50,
+      ),
     ];
   }
 }
