@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:split_it/core/shared/firebase_repository.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
+import '../../event/models/event_model.dart';
 import '../models/item_model.dart';
 part 'steps_controller.g.dart';
 
@@ -15,6 +16,8 @@ abstract class _StepsControllerBase with Store {
   int _currentStep = 0;
   @observable
   int _stepsLength;
+  @observable
+  EventModel? _eventModel;
   ObservableList<PersonalModel> friends = ObservableList<PersonalModel>();
   ObservableList<ItemModel> items = ObservableList<ItemModel>();
   ObservableList<PersonalModel> friendsSelected =
@@ -42,6 +45,11 @@ abstract class _StepsControllerBase with Store {
   }
 
   @action
+  void createEvent() {
+    _repository = FirebaseRepository('/events/');
+  }
+
+  @action
   Future seachFriend(String search) async {
     try {
       if (search.isEmpty) {
@@ -49,7 +57,7 @@ abstract class _StepsControllerBase with Store {
         _repository = FirebaseRepository('/friends/');
         final response = await _repository?.getAll();
         final friends =
-            response?.map((e) => new PersonalModel.fromJson(e)).toList();
+            response?.map((e) => new PersonalModel.fromMap(e)).toList();
         this.friends.addAll(friends as Iterable<PersonalModel>);
         if (friendsSelected.isNotEmpty) {
           for (PersonalModel friend in this.friendsSelected) {
