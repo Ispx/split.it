@@ -45,7 +45,7 @@ abstract class _StepsControllerBase with Store {
   }
 
   @action
-  void createEvent() {
+  Future createEvent() async {
     _repository = FirebaseRepository('/events/');
   }
 
@@ -96,8 +96,11 @@ abstract class _StepsControllerBase with Store {
   }
 
   @action
-  void nextStep() {
-    if (_currentStep == _stepsLength - 1) return;
+  void nextStep() async {
+    if (_currentStep == _stepsLength - 1) {
+      await createEvent();
+      return;
+    }
     _currentStep++;
   }
 
