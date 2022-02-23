@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:split_it/core/models/base_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
-class EventModel {
+class EventModel extends BaseModel {
   final String? title;
   final String? imagePath;
   final DateTime? createdAt;
@@ -18,15 +19,15 @@ class EventModel {
       this.createdAt,
       this.totalAmount,
       this.friends,
-      this.items});
-
+      this.items})
+      : super(collenction: '/events/');
+  @override
   Map<String, dynamic> toMap() {
     return {
       'title': title,
-      'imagePath': imagePath,
       'createdAt': createdAt,
-      'items': items,
-      'friends': friends,
+      'items': items?.map((e) => e.toMap()).toList(),
+      'friends': friends?.map((e) => e.toMap()).toList(),
       'totalAmount': totalAmount,
     };
   }
