@@ -1,35 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:split_it/core/models/base_model.dart';
 
-class FirebaseRepository extends BaseModel {
-  late FirebaseFirestore _firebaseFirestore;
-  FirebaseRepository(String collection) : super(collection) {
-    this._firebaseFirestore = FirebaseFirestore.instance;
-  }
-  Future create() async {
+class FirebaseRepository {
+  static Future create<T extends BaseModel>(T data) async {
     try {
-      final response =
-          await _firebaseFirestore.collection(collenction).add(toMap!);
+      final response = await FirebaseFirestore.instance
+          .collection(data.collenction!)
+          .add(data.toMap());
       return response.id;
     } catch (e) {
       throw e;
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAll() async {
+  static Future<List<Map<String, dynamic>>> getAll(String collecion) async {
     try {
-      final response = await _firebaseFirestore.collection(collenction).get();
+      final response =
+          await FirebaseFirestore.instance.collection(collecion).get();
       return response.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw e;
     }
   }
 
-  Future<List<Map<String, dynamic>>> where(
+  static Future<List<Map<String, dynamic>>> where(String collection,
       {required field, required value}) async {
     try {
-      final response = await _firebaseFirestore
-          .collection(collenction)
+      final response = await FirebaseFirestore.instance
+          .collection(collection)
           .where(field, isEqualTo: value)
           .get();
       return response.docs.map((e) => e.data()).toList();
@@ -38,11 +36,11 @@ class FirebaseRepository extends BaseModel {
     }
   }
 
-  Future<Map<String, dynamic>> firstWhere(
+  static Future<Map<String, dynamic>> firstWhere(String collection,
       {required doc, required field, required value}) async {
     try {
-      final response = await _firebaseFirestore
-          .collection(collenction)
+      final response = await FirebaseFirestore.instance
+          .collection(collection)
           .where(field, isEqualTo: value)
           .get();
       return response.docs.first.data();
@@ -51,9 +49,9 @@ class FirebaseRepository extends BaseModel {
     }
   }
 
-  Future delete() async {}
+  static Future delete() async {}
 
-  Future updae() {
+  static Future updae() {
     // TODO: implement updae
     throw UnimplementedError();
   }
