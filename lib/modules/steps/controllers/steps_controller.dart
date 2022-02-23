@@ -9,7 +9,6 @@ part 'steps_controller.g.dart';
 class StepsController = _StepsControllerBase with _$StepsController;
 
 abstract class _StepsControllerBase with Store {
-  FirebaseRepository? _repository;
   @observable
   String? _title;
   @observable
@@ -46,7 +45,15 @@ abstract class _StepsControllerBase with Store {
 
   @action
   Future createEvent() async {
-    _repository = FirebaseRepository('/events/');
+    this._eventModel = EventModel(
+      title: this._title,
+      createdAt: DateTime.now(),
+      totalAmount: items.fold<double>(
+          0, (previousValue, element) => previousValue + element.amount!),
+      items: this.items,
+      friends: this.friendsSelected,
+    );
+    await FirebaseRepository.create<EventModel>(this._eventModel!);
   }
 
   @action
@@ -54,8 +61,7 @@ abstract class _StepsControllerBase with Store {
     try {
       if (search.isEmpty) {
         this.friends.clear();
-        _repository = FirebaseRepository('/friends/');
-        final response = await _repository?.getAll();
+        final response = await FirebaseRepository.getAll('/friends/');
         final friends =
             response?.map((e) => new PersonalModel.fromMap(e)).toList();
         this.friends.addAll(friends as Iterable<PersonalModel>);
