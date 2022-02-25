@@ -5,8 +5,8 @@ import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 
 class EventWidget extends StatelessWidget {
-  EventModel? eventModel;
-  EventWidget({@required this.eventModel});
+  final EventModel? eventModel;
+  EventWidget({required this.eventModel});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class EventWidget extends StatelessWidget {
                       Text(Formater.currencyAmount(eventModel!.totalAmount!)),
                       Text(
                         '${eventModel!.people} amigo' +
-                            '${eventModel!.people! > 1 ? 's' : ''}',
+                            '${eventModel!.people > 1 ? 's' : ''}',
                         style: AppTextStyle.instance.subTitleEventTitle,
                       ),
                     ],

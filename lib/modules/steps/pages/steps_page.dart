@@ -61,6 +61,12 @@ class _StepsPageState extends State<StepsPage> {
           isEnableNext: controller.enableNextButton,
           onTapNext: () {
             controller.nextStep();
+            if (controller.currentStep == 2 && controller.eventModel != null) {
+              Navigator.of(context).pushNamed(
+                '/created-event-splash/',
+                arguments: controller.eventModel,
+              );
+            }
           },
         ),
       ),

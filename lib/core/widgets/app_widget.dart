@@ -8,7 +8,10 @@ import 'package:split_it/modules/home/home_page.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/login/page/login_page.dart';
 import 'package:split_it/modules/splash/pages/splash_page.dart';
+import 'package:split_it/modules/steps/pages/created_split_splash_page.dart';
 import 'package:split_it/modules/steps/pages/steps_page.dart';
+
+import '../../modules/event/models/event_model.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -22,7 +25,16 @@ class AppWidget extends StatelessWidget {
       onGenerateRoute: (settings) {
         if (settings.name == '/home/') {
           UserModel user = settings.arguments as UserModel;
-          return MaterialPageRoute(builder: (context) => HomePage(user));
+          return MaterialPageRoute(
+            builder: (context) => HomePage(user),
+          );
+        }
+        if (settings.name == '/created-event-splash/') {
+          final eventModel = settings.arguments as EventModel;
+          return MaterialPageRoute(
+            builder: (context) =>
+                CreatedSplitSplashPage(eventModel: eventModel),
+          );
         }
       },
       initialRoute: '/',

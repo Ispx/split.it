@@ -22,7 +22,7 @@ abstract class _StepsControllerBase with Store {
   ObservableList<PersonalModel> friendsSelected =
       ObservableList<PersonalModel>();
   _StepsControllerBase(this._stepsLength);
-
+  EventModel? get eventModel => _eventModel;
   @observable
   PersonalModel? _personalModel;
   String get title => _title ?? "";

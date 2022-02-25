@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:split_it/core/models/base_model.dart';
+import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
@@ -11,7 +12,7 @@ class EventModel extends BaseModel {
   final List<ItemModel>? items;
   final List<PersonalModel>? friends;
   final double? totalAmount;
-
+  double get splitTotalAmount => totalAmount! / (friends?.length ?? 1);
   int get people => friends?.length ?? 0;
   EventModel(
       {this.title,
@@ -29,6 +30,7 @@ class EventModel extends BaseModel {
       'items': items?.map((e) => e.toMap()).toList(),
       'friends': friends?.map((e) => e.toMap()).toList(),
       'totalAmount': totalAmount,
+      'organizer': UserModel.singleton.id,
     };
   }
 

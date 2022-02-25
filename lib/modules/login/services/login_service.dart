@@ -19,7 +19,7 @@ class LoginServiceImp implements LoginService {
   Future<UserModel> googleSignIn() async {
     try {
       var signInAccount = await _googleSignIn.signIn();
-      return UserModel.google(signInAccount!);
+      return UserModel.singleton.google(signInAccount!);
     } catch (e) {
       throw 'Falha durante autenticação com Google.';
     }
@@ -69,7 +69,7 @@ class LoginServiceImp implements LoginService {
 
       final credential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-      return UserModel.apple(credential);
+      return UserModel.singleton.apple(credential);
     } catch (e) {
       throw 'Falha durante autenticação com a apple.';
     }

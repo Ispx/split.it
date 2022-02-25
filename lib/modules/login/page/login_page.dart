@@ -13,6 +13,8 @@ import 'package:split_it/modules/login/models/login_state.dart';
 import 'package:split_it/modules/login/services/login_service.dart';
 import 'package:split_it/modules/widgets/social_media_widget.dart';
 
+import '../../../core/models/user_model.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
@@ -31,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         if (controller.state is LoginStateSucess) {
           final user = (controller.state as LoginStateSucess).user;
           Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
-              arguments: user);
+              arguments: UserModel.singleton);
         } else if (controller.state is LoginStateFailure) {
           Future.delayed(Duration(milliseconds: 500)).then(
             (value) => ScaffoldMessenger.of(context).showSnackBar(

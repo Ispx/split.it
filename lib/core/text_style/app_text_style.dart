@@ -11,6 +11,7 @@ abstract class IAppTextStyle {
   TextStyle get progressStepsLeft;
   TextStyle get progressStepsRight;
   TextStyle get titleButtomEnableSteps;
+  TextStyle get titleTextButton;
   TextStyle get titleButtomDisableSteps;
   TextStyle get titleStepOne;
   TextStyle get hintTextFieldStepOne;
@@ -139,4 +140,9 @@ class AppTextStyle implements IAppTextStyle {
   // TODO: implement textAmountAlertAmountEventDetailsPage
   TextStyle get textAmountAlertAmountEventDetailsPage => GoogleFonts.roboto(
       fontWeight: FontWeight.bold, color: Colors.red.shade600, fontSize: 16);
+
+  @override
+  // TODO: implement titleTextButton
+  TextStyle get titleTextButton => GoogleFonts.inter(
+      fontWeight: FontWeight.w500, color: Colors.white, fontSize: 12);
 }

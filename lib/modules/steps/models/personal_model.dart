@@ -5,7 +5,7 @@ class PersonalModel extends BaseModel {
   final String? secondName;
   final String? urlImage;
   bool? isSelected = false;
-
+  String? get fullname => firstName! + ' ' + secondName!;
   PersonalModel({
     required this.firstName,
     required this.secondName,

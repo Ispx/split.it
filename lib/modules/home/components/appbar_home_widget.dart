@@ -15,7 +15,7 @@ class AppBarHomeWidget extends StatelessWidget {
   final BalanceState? state;
   final VoidCallback? onTap;
   AppBarHomeWidget(
-      {@required this.user, @required this.state, @required this.onTap});
+      {required this.user, required this.state, required this.onTap});
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -33,7 +33,7 @@ class AppBarHomeWidget extends StatelessWidget {
             Row(
               children: [
                 PersonalImageWidget(
-                  urlImage: this.user!.photoUrl!,
+                  urlImage: user!.photoUrl!,
                 ),
                 SizedBox(
                   width: 8,

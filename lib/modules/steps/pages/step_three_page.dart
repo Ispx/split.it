@@ -46,27 +46,23 @@ class _StepThreePageState extends State<StepThreePage> {
               SizedBox(
                 height: 36,
               ),
-              Observer(
-                builder: (context) {
-                  return SizedBox(
-                    height: 120,
-                    width: double.maxFinite,
-                    child: CreatedItemWidget(
-                      controller: widget.controller,
-                      onItem: (item) {
-                        try {
-                          widget.controller.addItem(item);
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Falha ao inserir usuário'),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  );
-                },
+              SizedBox(
+                height: 120,
+                width: double.maxFinite,
+                child: CreatedItemWidget(
+                  controller: widget.controller,
+                  onItem: (item) {
+                    try {
+                      widget.controller.addItem(item);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Falha ao inserir usuário'),
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
               SizedBox(
                 height: 36,

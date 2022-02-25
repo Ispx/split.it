@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserModel {
@@ -10,25 +9,25 @@ class UserModel {
   final String? id;
 
   final String? photoUrl;
-
-  UserModel(
-      {@required this.id,
-      @required this.displayName,
-      @required this.email,
-      @required this.photoUrl}) {
+  static UserModel singleton = UserModel();
+  UserModel({this.id, this.displayName, this.email, this.photoUrl}) {
     firstName = displayName?.split(' ')[0];
   }
+  google(GoogleSignInAccount signInAccount) {
+    singleton = UserModel(
+      id: signInAccount.id,
+      displayName: signInAccount.displayName,
+      email: signInAccount.email,
+      photoUrl: signInAccount.photoUrl,
+    );
+  }
 
-  factory UserModel.google(GoogleSignInAccount signInAccount) => UserModel(
-        id: signInAccount.id,
-        displayName: signInAccount.displayName,
-        email: signInAccount.email,
-        photoUrl: signInAccount.photoUrl,
-      );
-  factory UserModel.apple(UserCredential userCredential) => UserModel(
-        id: userCredential.user!.uid,
-        displayName: userCredential.user!.displayName,
-        email: userCredential.user!.email,
-        photoUrl: userCredential.user!.photoURL,
-      );
+  apple(UserCredential userCredential) {
+    singleton = UserModel(
+      id: userCredential.user!.uid,
+      displayName: userCredential.user!.displayName,
+      email: userCredential.user!.email,
+      photoUrl: userCredential.user!.photoURL,
+    );
+  }
 }

@@ -10,6 +10,8 @@ abstract class ThemeBase {
   Color get diviserColor;
   Color get statusbarSteps;
   Color get backgroundSteps;
+  RadialGradient get radialGradient;
+
   double get padding;
 
   LinearGradient get linearGradient;
@@ -61,4 +63,19 @@ class ThemeApp implements ThemeBase {
   @override
   // TODO: implement backgroundSteps
   Color get backgroundSteps => Color(0xFFFFFFFF);
+
+  @override
+  // TODO: implement radialGradient
+  RadialGradient get radialGradient => RadialGradient(
+        radius: 0.8,
+        //focalRadius: .7,
+        tileMode: TileMode.mirror,
+        colors: [
+          Color(0xFF59C692),
+          Color(0xFF59C692),
+          Color(0Xff4FB38C),
+          Color(0Xff51B78E),
+          Color(0Xff51B78E),
+        ],
+      );
 }

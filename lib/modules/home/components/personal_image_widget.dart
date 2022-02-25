@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class PersonalImageWidget extends StatelessWidget {
   final String? urlImage;
-  PersonalImageWidget({@required this.urlImage});
+  PersonalImageWidget({required this.urlImage});
 
   @override
   Widget build(BuildContext context) {

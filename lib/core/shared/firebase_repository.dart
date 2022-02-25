@@ -13,7 +13,7 @@ class FirebaseRepository {
     }
   }
 
-  static Future<List<Map<String, dynamic>>> getAll(String collecion) async {
+  static Future<List<Map<String, dynamic>>?> getAll(String collecion) async {
     try {
       final response =
           await FirebaseFirestore.instance.collection(collecion).get();
