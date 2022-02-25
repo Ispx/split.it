@@ -1,6 +1,10 @@
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/models/balance_model.dart';
+import 'package:split_it/core/models/user_model.dart';
+import 'package:split_it/core/shared/firebase_repository.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
+
+import '../../../main.dart';
 
 abstract class IHomeRepository {
   Future<List<EventModel>> getEvents();
@@ -16,20 +20,14 @@ class HomeRepository implements IHomeRepository {
 
   @override
   Future<List<EventModel>> getEvents() async {
-    await Future.delayed(Duration(seconds: 5));
-    return [
-      EventModel(
-        title: 'Churrasco na laje',
-        imagePath: ImagesApp.dollarCahOut,
-        createdAt: DateTime.now(),
-        totalAmount: 100.50,
-      ),
-      EventModel(
-        title: 'Rolê no shopping',
-        imagePath: ImagesApp.dollarCahOut,
-        createdAt: DateTime.now(),
-        totalAmount: 100.50,
-      ),
-    ];
+    List<EventModel> events = [];
+    var allEvents = await FirebaseRepository.getAll('/events/');
+    List<Map<String, dynamic>> myEvents = allEvents!
+        .where((element) => element['organizer'] == getIt<UserModel>().id)
+        .toList();
+    for (var event in myEvents) {
+      events.add(EventModel.fromMap(event));
+    }
+    return events; //myEvents.map((e) => new  EventModel.fromMap(e)).toList();
   }
 }

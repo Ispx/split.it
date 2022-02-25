@@ -6,6 +6,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'dart:convert';
 import 'dart:math';
 
+import '../../../main.dart';
+
 abstract class LoginService {
   Future<UserModel> googleSignIn();
   Future<UserModel> signInWithApple();
@@ -19,7 +21,9 @@ class LoginServiceImp implements LoginService {
   Future<UserModel> googleSignIn() async {
     try {
       var signInAccount = await _googleSignIn.signIn();
-      return UserModel.singleton.google(signInAccount!);
+      UserModel user = getIt<UserModel>();
+      user.google(signInAccount!);
+      return user;
     } catch (e) {
       throw 'Falha durante autenticação com Google.';
     }
@@ -69,7 +73,7 @@ class LoginServiceImp implements LoginService {
 
       final credential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-      return UserModel.singleton.apple(credential);
+      return getIt<UserModel>().apple(credential);
     } catch (e) {
       throw 'Falha durante autenticação com a apple.';
     }

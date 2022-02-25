@@ -14,7 +14,9 @@ class EventWidget extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed('/details-event'),
       child: Row(
         children: [
-          Image.asset(eventModel!.imagePath!),
+          eventModel!.imagePath != null
+              ? Image.asset(eventModel!.imagePath ?? '')
+              : Center(),
           Expanded(
             child: Column(
               children: [

@@ -1,10 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/widgets/app_widget.dart';
 
+GetIt getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  getIt.registerSingleton<UserModel>(UserModel());
   runApp(App());
 }
 

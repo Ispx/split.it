@@ -5,6 +5,8 @@ import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
+import '../../../main.dart';
+
 class EventModel extends BaseModel {
   final String? title;
   final String? imagePath;
@@ -16,7 +18,7 @@ class EventModel extends BaseModel {
   int get people => friends?.length ?? 0;
   EventModel(
       {this.title,
-      this.imagePath,
+      this.imagePath = 'assets/images/dollar_cash_out.png',
       this.createdAt,
       this.totalAmount,
       this.friends,
@@ -30,17 +32,19 @@ class EventModel extends BaseModel {
       'items': items?.map((e) => e.toMap()).toList(),
       'friends': friends?.map((e) => e.toMap()).toList(),
       'totalAmount': totalAmount,
-      'organizer': UserModel.singleton.id,
+      'organizer': getIt<UserModel>().id,
     };
   }
 
   factory EventModel.fromMap(Map<String, dynamic> map) {
     return EventModel(
       title: map['title'],
-      imagePath: map['imagePath'],
-      createdAt: map['createdAt'],
-      items: map['items']?.map((x) => ItemModel?.fromMap(x)),
-      friends: map['friends']?.map((x) => PersonalModel?.fromMap(x)),
+      createdAt:
+          DateTime.tryParse(map['createdAt'].toString()) ?? DateTime.now(),
+      items: (map['items'] as List).map((x) => ItemModel?.fromMap(x)).toList(),
+      friends: (map['friends'] as List)
+          .map((x) => PersonalModel?.fromMap(x))
+          .toList(),
       totalAmount: map['totalAmount'],
     );
   }
