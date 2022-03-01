@@ -30,8 +30,8 @@ class EventWidget extends StatelessWidget {
                     children: [
                       Text(Formater.currencyAmount(eventModel!.totalAmount!)),
                       Text(
-                        '${eventModel!.people} amigo' +
-                            '${eventModel!.people > 1 ? 's' : ''}',
+                        '${eventModel!.totalParticipants} amigo' +
+                            '${eventModel!.totalParticipants > 1 ? 's' : ''}',
                         style: AppTextStyle.instance.subTitleEventTitle,
                       ),
                     ],

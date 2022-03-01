@@ -14,8 +14,8 @@ class EventModel extends BaseModel {
   final List<ItemModel>? items;
   final List<PersonalModel>? friends;
   final double? totalAmount;
-  double get splitTotalAmount => totalAmount! / (friends?.length ?? 1);
-  int get people => friends?.length ?? 0;
+  double get splitTotalAmount => totalAmount! / totalParticipants;
+  int get totalParticipants => friends!.length + 1;
   EventModel(
       {this.title,
       this.imagePath = 'assets/images/dollar_cash_out.png',

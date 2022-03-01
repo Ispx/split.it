@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:split_it/core/communs/formater.dart';
+import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
+import 'package:split_it/main.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 import 'package:split_it/modules/home/components/personal_image_widget.dart';
 
@@ -14,6 +17,8 @@ class CreatedSplitSplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor));
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -26,20 +31,36 @@ class CreatedSplitSplashPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _titleSubtitleWidget(
-              title: eventModel.title!,
-              subitle: '${eventModel.friends?.length} pessoas',
+            Flexible(
+              flex: 2,
+              fit: FlexFit.loose,
+              child: _titleSubtitleWidget(
+                title: eventModel.title!,
+                subitle: '${eventModel.totalParticipants} pessoas',
+              ),
             ),
-            Column(
-              children: [
-                Image.asset('assets/images/money_split.png'),
-                _titleSubtitleWidget(
-                  title: Formater.currencyAmount(eventModel.splitTotalAmount),
-                  subitle: 'para cada um',
-                ),
-              ],
+            Flexible(
+              flex: 2,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset('assets/images/Subtract_1.png'),
+                  Image.asset('assets/images/Subtract.png'),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/money_split.png'),
+                      _titleSubtitleWidget(
+                        title: Formater.currencyAmount(
+                            eventModel.splitTotalAmount),
+                        subitle: 'para cada um',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            _buildParticipantsWidget(),
+            Flexible(fit: FlexFit.tight, child: _buildParticipantsWidget()),
           ],
         ),
       ), //#
@@ -93,7 +114,7 @@ class CreatedSplitSplashPage extends StatelessWidget {
         textAlign: TextAlign.center,
       );
 
-  _buildParticipantsWidget() {
+  Widget _buildParticipantsWidget() {
     return Container(
       height: 150,
       width: double.maxFinite,
@@ -105,6 +126,7 @@ class CreatedSplitSplashPage extends StatelessWidget {
             alignment: WrapAlignment.center,
             spacing: 16,
             children: [
+              PersonalImageWidget(urlImage: getIt<UserModel>().photoUrl),
               ...eventModel.friends!.map(
                 (e) => PersonalImageWidget(urlImage: e.urlImage),
               ),

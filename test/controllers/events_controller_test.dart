@@ -73,7 +73,7 @@ void main() {
       events.forEach((e) {
         expect(e.title, isNotNull);
         expect(e.totalAmount, isNotNull);
-        expect(e.people, isNotNull);
+        expect(e.totalParticipants, isNotNull);
         expect(e.imagePath, isNotNull);
         expect(e.createdAt, isNotNull);
       });
