@@ -9,6 +9,8 @@ import 'package:split_it/modules/steps/pages/step_two_page.dart';
 import 'package:split_it/modules/steps/widgets/appbar_steps_widget.dart';
 import 'package:split_it/modules/steps/widgets/buttom_sheet_steps_widget.dart';
 
+import '../../../core/routes/app_routers.dart';
+
 class StepsPage extends StatefulWidget {
   createState() => _StepsPageState();
 }
@@ -63,7 +65,7 @@ class _StepsPageState extends State<StepsPage> {
             controller.nextStep();
             if (controller.currentStep == 2 && controller.eventModel != null) {
               Navigator.of(context).pushNamed(
-                '/created-event-splash/',
+                AppRouters.splashEventCreated,
                 arguments: controller.eventModel,
               );
             }

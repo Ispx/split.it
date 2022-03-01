@@ -11,7 +11,7 @@ class TextButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => onPressed,
+      onPressed: () => onPressed(),
       child: Text(
         this.title,
         style: AppTextStyle.instance.titleTextButton,

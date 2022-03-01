@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:split_it/core/routes/app_routers.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/error/error_page.dart';
 import 'package:split_it/modules/home/event_details_page.dart';
@@ -23,13 +24,13 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) {
-        if (settings.name == '/home/') {
+        if (settings.name == AppRouters.home) {
           UserModel user = settings.arguments as UserModel;
           return MaterialPageRoute(
             builder: (context) => HomePage(user),
           );
         }
-        if (settings.name == '/created-event-splash/') {
+        if (settings.name == AppRouters.splashEventCreated) {
           final eventModel = settings.arguments as EventModel;
           return MaterialPageRoute(
             builder: (context) =>
@@ -37,13 +38,13 @@ class AppWidget extends StatelessWidget {
           );
         }
       },
-      initialRoute: '/',
+      initialRoute: AppRouters.splashInittialize,
       routes: {
-        '/': (context) => SplashPage(),
-        '/login': (context) => LoginPage(),
-        '/error': (context) => ErrorPage(),
-        '/steps': (context) => StepsPage(),
-        '/details-event': (context) => DetailsEventPage()
+        AppRouters.splashInittialize: (context) => SplashPage(),
+        AppRouters.login: (context) => LoginPage(),
+        AppRouters.error: (context) => ErrorPage(),
+        AppRouters.stepsCreateSplit: (context) => StepsPage(),
+        AppRouters.detailsEvent: (context) => DetailsEventPage()
       },
     );
   }

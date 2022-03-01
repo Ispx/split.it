@@ -14,6 +14,7 @@ import 'package:split_it/modules/login/services/login_service.dart';
 import 'package:split_it/modules/widgets/social_media_widget.dart';
 
 import '../../../core/models/user_model.dart';
+import '../../../core/routes/app_routers.dart';
 import '../../../main.dart';
 
 class LoginPage extends StatefulWidget {
@@ -33,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
       (_) {
         if (controller.state is LoginStateSucess) {
           final user = (controller.state as LoginStateSucess).user;
-          Navigator.pushNamedAndRemoveUntil(context, '/home/', (route) => false,
+          Navigator.pushNamedAndRemoveUntil(
+              context, AppRouters.home, (route) => false,
               arguments: user);
         } else if (controller.state is LoginStateFailure) {
           Future.delayed(Duration(milliseconds: 500)).then(

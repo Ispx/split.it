@@ -8,6 +8,7 @@ import 'package:split_it/main.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 import 'package:split_it/modules/home/components/personal_image_widget.dart';
 
+import '../../../core/routes/app_routers.dart';
 import '../widgets/text_button_widget.dart';
 
 class CreatedSplitSplashPage extends StatelessWidget {
@@ -71,8 +72,9 @@ class CreatedSplitSplashPage extends StatelessWidget {
           children: [
             Expanded(
               child: TextButtonWidget(
-                onPressed: () {},
-                title: 'Voltar',
+                onPressed: () => Navigator.of(context)
+                    .pushReplacementNamed(AppRouters.stepsCreateSplit),
+                title: 'CRIAR NOVO',
               ),
             ),
             Divider(
@@ -80,7 +82,10 @@ class CreatedSplitSplashPage extends StatelessWidget {
             ),
             Expanded(
               child: TextButtonWidget(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(AppRouters.home,
+                      arguments: getIt<UserModel>());
+                },
                 title: 'OKAY :D',
               ),
             ),

@@ -4,6 +4,8 @@ import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 
+import '../../../core/routes/app_routers.dart';
+
 class EventWidget extends StatelessWidget {
   final EventModel? eventModel;
   EventWidget({required this.eventModel});
@@ -11,7 +13,7 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).pushNamed('/details-event'),
+      onTap: () => Navigator.of(context).pushNamed(AppRouters.detailsEvent),
       child: Row(
         children: [
           eventModel!.imagePath != null

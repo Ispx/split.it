@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 
+import '../../../core/routes/app_routers.dart';
+
 class SplashPage extends StatefulWidget {
   SplashPage({Key? key}) : super(key: key);
 
@@ -28,8 +30,8 @@ class _SplashPageState extends State<SplashPage>
     );
     _animationController.forward();
     //_animationController.addListener(() {setState})
-    Future.delayed(Duration(milliseconds: 2200))
-        .then((value) => Navigator.pushReplacementNamed(context, '/login'));
+    Future.delayed(Duration(milliseconds: 2200)).then(
+        (value) => Navigator.pushReplacementNamed(context, AppRouters.login));
     super.initState();
   }
 
