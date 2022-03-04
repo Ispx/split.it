@@ -19,6 +19,8 @@ class _PersonalWidgetState extends State<PersonalWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor:
+          widget.isFilter ? Colors.grey.withOpacity(0.2) : Colors.transparent,
       leading: Container(
         width: 40,
         height: 40,
