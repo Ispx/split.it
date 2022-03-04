@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 import 'package:split_it/core/models/balance_model.dart';
 import 'package:split_it/modules/home/controllers/events_controller.dart';
@@ -18,13 +17,11 @@ class HomeRepositoryMock implements IHomeRepository {
     return [
       EventModel(
         title: 'Churrasco na laje',
-        imagePath: ImagesApp.dollarCahOut,
         createdAt: DateTime.now(),
         totalAmount: 100.50,
       ),
       EventModel(
         title: 'Rolê no shopping',
-        imagePath: ImagesApp.dollarCahOut,
         createdAt: DateTime.now(),
         totalAmount: 100.50,
       ),
@@ -73,8 +70,7 @@ void main() {
       events.forEach((e) {
         expect(e.title, isNotNull);
         expect(e.totalAmount, isNotNull);
-        expect(e.totalParticipants, isNotNull);
-        expect(e.imagePath, isNotNull);
+        expect(e.totalFriends, isNotNull);
         expect(e.createdAt, isNotNull);
       });
     });
