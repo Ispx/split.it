@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/core/communs/formater.dart';
+import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
+import 'package:split_it/main.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 
 import '../../../core/routes/app_routers.dart';
@@ -16,9 +18,9 @@ class EventWidget extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(AppRouters.detailsEvent),
       child: Row(
         children: [
-          eventModel!.imagePath != null
-              ? Image.asset(eventModel!.imagePath ?? '')
-              : Center(),
+          eventModel!.organizer == getIt<UserModel>().id
+              ? Image.asset('assets/images/dollar_cash_in.png')
+              : Image.asset('assets/images/dollar_cash_out.png'),
           Expanded(
             child: Column(
               children: [
@@ -32,8 +34,8 @@ class EventWidget extends StatelessWidget {
                     children: [
                       Text(Formater.currencyAmount(eventModel!.totalAmount!)),
                       Text(
-                        '${eventModel!.totalParticipants} amigo' +
-                            '${eventModel!.totalParticipants > 1 ? 's' : ''}',
+                        '${eventModel!.totalFriends} amigo' +
+                            '${eventModel!.totalFriends > 1 ? 's' : ''}',
                         style: AppTextStyle.instance.subTitleEventTitle,
                       ),
                     ],
