@@ -24,13 +24,11 @@ class HomeRepositoryMock implements IHomeRepository {
     return [
       EventModel(
         title: 'Churrasco na laje',
-        imagePath: ImagesApp.dollarCahOut,
         createdAt: DateTime.now(),
         totalAmount: 100.50,
       ),
       EventModel(
         title: 'Rolê no shopping',
-        imagePath: ImagesApp.dollarCahOut,
         createdAt: DateTime.now(),
         totalAmount: 100.50,
       ),
