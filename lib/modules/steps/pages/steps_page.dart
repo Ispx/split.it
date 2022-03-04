@@ -65,7 +65,7 @@ class _StepsPageState extends State<StepsPage> {
           onTapNext: () {
             controller.nextStep();
             if (controller.currentStep == 2 && controller.eventModel != null) {
-              Navigator.of(context).pushNamed(
+              Navigator.of(context).pushReplacementNamed(
                 AppRouters.splashEventCreated,
                 arguments: controller.eventModel,
               );
