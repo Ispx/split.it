@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:split_it/core/models/base_model.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
@@ -8,17 +9,17 @@ import 'package:split_it/modules/steps/models/personal_model.dart';
 import '../../../main.dart';
 
 class EventModel extends BaseModel {
+  final String? organizer;
   final String? title;
-  final String? imagePath;
   final DateTime? createdAt;
   final List<ItemModel>? items;
   final List<PersonalModel>? friends;
   final double? totalAmount;
-  double get splitTotalAmount => totalAmount! / totalParticipants;
-  int get totalParticipants => friends!.length + 1;
+  double get splitTotalAmount => totalAmount! / totalFriends;
+  int get totalFriends => friends!.length;
   EventModel(
-      {this.title,
-      this.imagePath = 'assets/images/dollar_cash_out.png',
+      {this.organizer,
+      this.title,
       this.createdAt,
       this.totalAmount,
       this.friends,
@@ -38,9 +39,10 @@ class EventModel extends BaseModel {
 
   factory EventModel.fromMap(Map<String, dynamic> map) {
     return EventModel(
+      organizer: map['organizer'],
       title: map['title'],
-      createdAt:
-          DateTime.tryParse(map['createdAt'].toString()) ?? DateTime.now(),
+      createdAt: DateTime.fromMicrosecondsSinceEpoch(
+          (map['createdAt'] as Timestamp).microsecondsSinceEpoch),
       items: (map['items'] as List).map((x) => ItemModel?.fromMap(x)).toList(),
       friends: (map['friends'] as List)
           .map((x) => PersonalModel?.fromMap(x))
