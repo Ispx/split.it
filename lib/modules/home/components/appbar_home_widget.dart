@@ -19,6 +19,7 @@ class AppBarHomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: ThemeApp.config.primaryColor,
       expandedHeight: 140,
       pinned: true,
@@ -73,7 +74,6 @@ class AppBarHomeWidget extends StatelessWidget {
         ),
       ),
       flexibleSpace: SizedBox(
-        // height: 80,
         width: MediaQuery.of(context).size.width,
         child: Stack(
           clipBehavior: Clip.none,
