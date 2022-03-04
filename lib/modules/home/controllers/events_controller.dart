@@ -15,6 +15,7 @@ abstract class _EventsControllerBase with Store {
   void _changeState(EventsState state) {
     this._state = state;
   }
+
   EventsState get state => _state;
   @action
   Future<List<EventModel>> getEvents() async {
@@ -22,6 +23,7 @@ abstract class _EventsControllerBase with Store {
     try {
       _changeState(EventsStateLoading());
       final events = await _repository!.getEvents();
+      events.sort((a, b) => a.createdAt!.isBefore(b.createdAt!) ? 1 : 0);
       _changeState(EventsStateDone(events));
       return (_state as EventsStateDone).events;
     } catch (e) {
