@@ -6,8 +6,13 @@ class ButtomSheetStepsWidget extends StatelessWidget {
   final Function? onTapCancel;
   final Function? onTapNext;
   final bool isEnableNext;
+  final bool isLastStep;
+
   ButtomSheetStepsWidget(
-      {this.onTapCancel, this.onTapNext, this.isEnableNext = false});
+      {this.onTapCancel,
+      this.onTapNext,
+      this.isEnableNext = false,
+      this.isLastStep = false});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -38,10 +43,11 @@ class ButtomSheetStepsWidget extends StatelessWidget {
                 Expanded(
                   child: ButtomStepsWidget(
                     isEnable: isEnableNext,
+                    enablegreenColor: isLastStep,
                     onTap: () {
                       onTapNext!();
                     },
-                    title: 'Avançar',
+                    title: !isLastStep ? 'Avançar' : 'Finalizar',
                   ),
                 ),
               ],

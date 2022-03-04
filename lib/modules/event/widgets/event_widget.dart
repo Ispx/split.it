@@ -27,7 +27,7 @@ class EventWidget extends StatelessWidget {
                     eventModel!.title!,
                     style: AppTextStyle.instance.titleEventTitle,
                   ),
-                  subtitle: Text(Formater.date(eventModel!.createdAt!)),
+                  subtitle: Text(Formater.dateMMMMd(eventModel!.createdAt!)),
                   trailing: Column(
                     children: [
                       Text(Formater.currencyAmount(eventModel!.totalAmount!)),

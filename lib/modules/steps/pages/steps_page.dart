@@ -60,6 +60,7 @@ class _StepsPageState extends State<StepsPage> {
           onTapCancel: () {
             Navigator.of(context).pop();
           },
+          isLastStep: controller.currentStep == 2,
           isEnableNext: controller.enableNextButton,
           onTapNext: () {
             controller.nextStep();

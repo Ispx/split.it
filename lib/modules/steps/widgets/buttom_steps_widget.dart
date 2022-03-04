@@ -5,8 +5,12 @@ class ButtomStepsWidget extends StatelessWidget {
   final Function? onTap;
   final String? title;
   final bool isEnable;
+  final bool? enablegreenColor;
   ButtomStepsWidget(
-      {@required this.onTap, @required this.title, this.isEnable = true});
+      {required this.onTap,
+      required this.title,
+      this.isEnable = true,
+      this.enablegreenColor = false});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,10 @@ class ButtomStepsWidget extends StatelessWidget {
       child: Text(
         this.title!,
         style: isEnable == true
-            ? AppTextStyle.instance.titleButtomEnableSteps
+            ? this.enablegreenColor == false
+                ? AppTextStyle.instance.titleButtomEnableSteps
+                : AppTextStyle.instance.titleButtomEnableSteps
+                    .copyWith(color: Colors.green)
             : AppTextStyle.instance.titleButtomDisableSteps,
       ),
     );
