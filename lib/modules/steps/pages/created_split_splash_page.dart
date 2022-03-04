@@ -37,7 +37,7 @@ class CreatedSplitSplashPage extends StatelessWidget {
               fit: FlexFit.loose,
               child: _titleSubtitleWidget(
                 title: eventModel.title!,
-                subitle: '${eventModel.totalParticipants} pessoas',
+                subitle: '${eventModel.totalFriends} pessoas',
               ),
             ),
             Flexible(
