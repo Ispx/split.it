@@ -22,6 +22,21 @@ class MultInputWidget extends StatefulWidget {
 
 class _MultInputWidgetState extends State<MultInputWidget> {
   @override
+  void initState() {
+    widget.textEditingAmount.selection = TextSelection.fromPosition(
+      TextPosition(
+        offset: widget.textEditingAmount.text.length,
+      ),
+    );
+    widget.textEditingName.selection = TextSelection.fromPosition(
+      TextPosition(
+        offset: widget.textEditingName.text.length,
+      ),
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
