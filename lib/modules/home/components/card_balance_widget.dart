@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 
 class CardBalanceWidget extends StatelessWidget {
-  String? amount;
-  String? title;
-  String? imagePath;
-  TextStyle? textStyle;
+  final String? amount;
+  final String? title;
+  final String? imagePath;
+  final TextStyle? textStyle;
   CardBalanceWidget(
-      {@required this.amount,
-      @required this.title,
-      @required this.imagePath,
-      @required this.textStyle});
+      {required this.amount,
+      required this.title,
+      required this.imagePath,
+      required this.textStyle});
   @override
   Widget build(BuildContext context) {
     return Card(
