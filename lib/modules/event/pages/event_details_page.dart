@@ -6,14 +6,17 @@ import 'package:split_it/modules/event/widgets/itens_details_widget.dart';
 import 'package:split_it/modules/event/widgets/participants_details_widget.dart';
 import 'package:split_it/modules/steps/models/personal_model.dart';
 
-import '../steps/models/item_model.dart';
+import '../models/event_model.dart';
+import '../../steps/models/item_model.dart';
 
-class DetailsEventPage extends StatefulWidget {
+class EventDetailsPage extends StatefulWidget {
+  final EventModel eventModel;
+  EventDetailsPage(this.eventModel);
   @override
-  State<DetailsEventPage> createState() => _DetailsEventPageState();
+  State<EventDetailsPage> createState() => _EventDetailsPageState();
 }
 
-class _DetailsEventPageState extends State<DetailsEventPage> {
+class _EventDetailsPageState extends State<EventDetailsPage> {
   late List<ItemModel> itens;
   late List<PersonalEventModel> persons;
   late double totalAmountPersons;
@@ -21,35 +24,11 @@ class _DetailsEventPageState extends State<DetailsEventPage> {
   initState() {
     totalAmountPersons = 0.00;
     totalAmountItems = 0.00;
-    persons = [
-      PersonalEventModel(
-        PersonalModel(
-          urlImage: 'https://avatarfiles.alphacoders.com/105/thumb-105223.jpg',
-          firstName: 'Você',
-          secondName: '',
-        ),
-        totalPay: 126.00,
-        isSelected: true,
-      ),
-      PersonalEventModel(
-        PersonalModel(
-          urlImage:
-              'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/10.png',
-          firstName: 'Maria',
-          secondName: 'Antonia',
-        ),
-        totalPay: 126.00,
-        isSelected: false,
-      ),
-    ];
-    itens = [
-      ItemModel(name: 'Picanha', amount: 122.00),
-      ItemModel(name: 'Linguiça', amount: 17.00),
-      ItemModel(name: 'Carvão', amount: 19.00),
-      ItemModel(name: 'Cerveja', amount: 68.00),
-      ItemModel(name: 'Refrigerante', amount: 12.00),
-      ItemModel(name: 'Pão de alho', amount: 15.00),
-    ];
+    persons = widget.eventModel.friends!
+        .map((e) =>
+            PersonalEventModel(e, totalPay: widget.eventModel.splitTotalAmount))
+        .toList();
+    itens = widget.eventModel.items!;
     for (var person in persons) {
       totalAmountPersons += person.totalPay!;
     }

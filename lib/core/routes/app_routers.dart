@@ -1,13 +1,13 @@
 class AppRouters {
-  static final splashInittialize = '/';
+  static const splashInittialize = '/';
 
-  static final login = '/login/';
-  static final home = '/home/';
+  static const login = '/login/';
+  static const home = '/home/';
 
-  static final error = '/error';
+  static const error = '/error';
 
-  static final stepsCreateSplit = '/steps';
+  static const stepsCreateSplit = '/steps';
 
-  static final detailsEvent = '/details-event';
-  static final splashEventCreated = '/splash-created-event/';
+  static const detailsEvent = '/details-event';
+  static const splashEventCreated = '/splash-created-event/';
 }

@@ -15,7 +15,8 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).pushNamed(AppRouters.detailsEvent),
+      onTap: () => Navigator.of(context)
+          .pushNamed(AppRouters.detailsEvent, arguments: eventModel),
       child: Row(
         children: [
           eventModel!.organizer == getIt<UserModel>().id
