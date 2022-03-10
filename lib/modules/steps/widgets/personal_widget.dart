@@ -53,7 +53,7 @@ class _PersonalWidgetState extends State<PersonalWidget> {
       ),
       trailing: IconButton(
         onPressed: () {
-          widget.personalModel.isSelected = !widget.personalModel.isSelected!;
+          widget.personalModel.isSelected = !widget.personalModel.isSelected;
           widget.onSelected!();
           setState(() {});
         },

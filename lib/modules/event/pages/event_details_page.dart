@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:split_it/core/communs/formater.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
-import 'package:split_it/modules/event/models/personal_event_model.dart';
+import 'package:split_it/modules/event/controllers/details_event_controller.dart';
 import 'package:split_it/modules/event/widgets/itens_details_widget.dart';
 import 'package:split_it/modules/event/widgets/participants_details_widget.dart';
-import 'package:split_it/modules/steps/models/personal_model.dart';
 
 import '../models/event_model.dart';
-import '../../steps/models/item_model.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final EventModel eventModel;
@@ -17,24 +16,11 @@ class EventDetailsPage extends StatefulWidget {
 }
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
-  late List<ItemModel> itens;
-  late List<PersonalEventModel> persons;
-  late double totalAmountPersons;
-  late double totalAmountItems;
+  late DetailsEventController controller;
+
   initState() {
-    totalAmountPersons = 0.00;
-    totalAmountItems = 0.00;
-    persons = widget.eventModel.friends!
-        .map((e) =>
-            PersonalEventModel(e, totalPay: widget.eventModel.splitTotalAmount))
-        .toList();
-    itens = widget.eventModel.items!;
-    for (var person in persons) {
-      totalAmountPersons += person.totalPay!;
-    }
-    for (var item in itens) {
-      totalAmountItems += item.amount!;
-    }
+    controller = DetailsEventController(widget.eventModel);
+
     super.initState();
   }
 
@@ -43,7 +29,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Churrasco',
+          widget.eventModel.title ?? '',
           style: AppTextStyle.instance.titleAppbarEventDetailsPage,
         ),
         elevation: 0,
@@ -72,7 +58,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             Expanded(
               flex: 3,
               child: ParticipantsDetailsWidget(
-                persons,
+                controller,
               ),
             ),
             SizedBox(
@@ -83,34 +69,36 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               child: Column(
                 children: [
                   ItensDetailsWidget(
-                    itens: itens,
+                    itens: controller.itens,
                   ),
-                  totalAmountItems > totalAmountPersons
-                      ? Expanded(
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            color: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 32, vertical: 16),
-                            child: Text.rich(
-                              TextSpan(
-                                text: 'Faltam ',
-                                style: AppTextStyle
-                                    .instance.textAlertAmountEventDetailsPage,
-                                children: [
-                                  TextSpan(
-                                    text: Formater.currencyAmount(
-                                      totalAmountItems - totalAmountPersons,
-                                    ),
-                                    style: AppTextStyle.instance
-                                        .textAmountAlertAmountEventDetailsPage,
-                                  )
-                                ],
-                              ),
+                  Observer(builder: (context) {
+                    if (controller.enableAlertTotalAmount)
+                      return Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 16),
+                          child: Text.rich(
+                            TextSpan(
+                              text: 'Falta ',
+                              style: AppTextStyle
+                                  .instance.textAlertAmountEventDetailsPage,
+                              children: [
+                                TextSpan(
+                                  text: Formater.currencyAmount(
+                                          controller.totalAmountPending) +
+                                      ' reais',
+                                  style: AppTextStyle.instance
+                                      .textAmountAlertAmountEventDetailsPage,
+                                )
+                              ],
                             ),
                           ),
-                        )
-                      : Center()
+                        ),
+                      );
+                    return Center();
+                  }),
                 ],
               ),
             ),

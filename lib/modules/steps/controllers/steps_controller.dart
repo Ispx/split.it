@@ -102,7 +102,7 @@ abstract class _StepsControllerBase with Store {
   }
 
   @action
-  void nextStep() async {
+  nextStep() async {
     if (_currentStep == _stepsLength - 1) {
       await createEvent();
       return;

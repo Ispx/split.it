@@ -62,6 +62,21 @@ mixin _$StepsController on _StepsControllerBase, Store {
     });
   }
 
+  final _$_eventModelAtom = Atom(name: '_StepsControllerBase._eventModel');
+
+  @override
+  EventModel? get _eventModel {
+    _$_eventModelAtom.reportRead();
+    return super._eventModel;
+  }
+
+  @override
+  set _eventModel(EventModel? value) {
+    _$_eventModelAtom.reportWrite(value, super._eventModel, () {
+      super._eventModel = value;
+    });
+  }
+
   final _$_personalModelAtom =
       Atom(name: '_StepsControllerBase._personalModel');
 
@@ -78,12 +93,27 @@ mixin _$StepsController on _StepsControllerBase, Store {
     });
   }
 
+  final _$createEventAsyncAction =
+      AsyncAction('_StepsControllerBase.createEvent');
+
+  @override
+  Future<dynamic> createEvent() {
+    return _$createEventAsyncAction.run(() => super.createEvent());
+  }
+
   final _$seachFriendAsyncAction =
       AsyncAction('_StepsControllerBase.seachFriend');
 
   @override
   Future<dynamic> seachFriend(String search) {
     return _$seachFriendAsyncAction.run(() => super.seachFriend(search));
+  }
+
+  final _$nextStepAsyncAction = AsyncAction('_StepsControllerBase.nextStep');
+
+  @override
+  Future nextStep() {
+    return _$nextStepAsyncAction.run(() => super.nextStep());
   }
 
   final _$_StepsControllerBaseActionController =
@@ -106,17 +136,6 @@ mixin _$StepsController on _StepsControllerBase, Store {
         name: '_StepsControllerBase.removeItem');
     try {
       return super.removeItem(itemModel);
-    } finally {
-      _$_StepsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void nextStep() {
-    final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
-        name: '_StepsControllerBase.nextStep');
-    try {
-      return super.nextStep();
     } finally {
       _$_StepsControllerBaseActionController.endAction(_$actionInfo);
     }
