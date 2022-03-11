@@ -47,18 +47,13 @@ mixin _$DetailsEventController on _DetailsEventControllerBase, Store {
     });
   }
 
-  final _$_DetailsEventControllerBaseActionController =
-      ActionController(name: '_DetailsEventControllerBase');
+  final _$changeIsSelectedAsyncAction =
+      AsyncAction('_DetailsEventControllerBase.changeIsSelected');
 
   @override
-  void changeIsSelected(PersonalEventModel personalModel) {
-    final _$actionInfo = _$_DetailsEventControllerBaseActionController
-        .startAction(name: '_DetailsEventControllerBase.changeIsSelected');
-    try {
-      return super.changeIsSelected(personalModel);
-    } finally {
-      _$_DetailsEventControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future<void> changeIsSelected(PersonalEventModel personalModel) {
+    return _$changeIsSelectedAsyncAction
+        .run(() => super.changeIsSelected(personalModel));
   }
 
   @override

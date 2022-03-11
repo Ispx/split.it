@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:split_it/modules/event/repositorys/details_event_repository.dart';
 
 import '../../steps/models/item_model.dart';
 import '../models/event_model.dart';
@@ -9,6 +10,7 @@ class DetailsEventController = _DetailsEventControllerBase
     with _$DetailsEventController;
 
 abstract class _DetailsEventControllerBase with Store {
+  DetailsEventRepository _repository = DetailsEventRepository();
   late List<ItemModel> itens;
   @observable
   List<PersonalEventModel> persons = [];
@@ -38,7 +40,7 @@ abstract class _DetailsEventControllerBase with Store {
   }
 
   @action
-  void changeIsSelected(PersonalEventModel personalModel) {
+  Future<void> changeIsSelected(PersonalEventModel personalModel) async {
     persons
             .where((element) => element.isEquals(personalModel))
             .first
@@ -50,5 +52,7 @@ abstract class _DetailsEventControllerBase with Store {
     var list = [];
     list.addAll(persons);
     persons = List.from(list);
+    eventModel.copyWith(friends: persons);
+    await _repository.updatePaid(eventModel);
   }
 }

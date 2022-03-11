@@ -50,9 +50,4 @@ class FirebaseRepository {
   }
 
   static Future delete() async {}
-
-  static Future updae() {
-    // TODO: implement updae
-    throw UnimplementedError();
-  }
 }

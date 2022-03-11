@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:split_it/core/models/base_model.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
@@ -53,4 +54,22 @@ class EventModel extends BaseModel {
 
   factory EventModel.fromJson(String source) =>
       EventModel.fromMap(json.decode(source));
+
+  EventModel copyWith({
+    String? organizer,
+    String? title,
+    DateTime? createdAt,
+    List<ItemModel>? items,
+    List<PersonalModel>? friends,
+    double? totalAmount,
+  }) {
+    return EventModel(
+      organizer: organizer ?? this.organizer,
+      title: title ?? this.title,
+      createdAt: createdAt ?? this.createdAt,
+      items: items ?? this.items,
+      friends: friends ?? this.friends,
+      totalAmount: totalAmount ?? this.totalAmount,
+    );
+  }
 }

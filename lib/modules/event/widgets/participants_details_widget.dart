@@ -57,8 +57,8 @@ class _ParticipantsDetailsWidgetState extends State<ParticipantsDetailsWidget> {
                               builder: (context) {
                                 return PersonalDetailsWidget(
                                   personalEventModel: personal,
-                                  onTap: () {
-                                    widget.controller
+                                  onTap: () async {
+                                    await widget.controller
                                         .changeIsSelected(personal);
                                   },
                                 );
