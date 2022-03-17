@@ -29,7 +29,7 @@ class _PersonalWidgetState extends State<PersonalWidget> {
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
             image: NetworkImage(
-              widget.personalModel.urlImage!,
+              widget.personalModel.urlImage,
             ),
             fit: BoxFit.cover,
           ),
@@ -37,13 +37,13 @@ class _PersonalWidgetState extends State<PersonalWidget> {
       ),
       title: Text.rich(
         TextSpan(
-            text: widget.personalModel.firstName! + ' ',
+            text: widget.personalModel.firstName + ' ',
             style: widget.isFilter == true
                 ? AppTextStyle.instance.titlePersonalStepFilter
                 : AppTextStyle.instance.titlePersonalStepUnFilter,
             children: [
               TextSpan(
-                text: widget.personalModel.secondName!,
+                text: widget.personalModel.secondName,
                 style: widget.isFilter == true
                     ? AppTextStyle.instance.titlePersonalStepFilter
                     : AppTextStyle.instance.titlePersonalStepUnFilter,

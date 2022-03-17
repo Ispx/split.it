@@ -5,8 +5,10 @@ class PersonalEventModel extends PersonalModel {
 
   PersonalEventModel(PersonalModel personalModel, {required this.totalPay})
       : super(
+        id:personalModel.id,
           firstName: personalModel.firstName,
           secondName: personalModel.secondName,
           urlImage: personalModel.urlImage,
+          isSelected: personalModel.isSelected,
         );
 }

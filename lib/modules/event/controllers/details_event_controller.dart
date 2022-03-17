@@ -52,7 +52,10 @@ abstract class _DetailsEventControllerBase with Store {
     var list = [];
     list.addAll(persons);
     persons = List.from(list);
-    eventModel.copyWith(friends: persons);
-    await _repository.updatePaid(eventModel);
+    await _repository.updatePaid(eventModel.copyWith(friends: persons));
+  }
+
+  Future<void> delete() async {
+    await _repository.delete(this.eventModel);
   }
 }

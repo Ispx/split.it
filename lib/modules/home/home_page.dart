@@ -11,6 +11,8 @@ import 'package:split_it/modules/home/repositorys/home_repository.dart';
 import 'components/appbar_home_widget.dart';
 import 'components/event_list_widget.dart';
 
+final EventsController eventscontroller = EventsController(HomeRepository());
+
 class HomePage extends StatefulWidget {
   final UserModel user;
   const HomePage(this.user);
@@ -20,13 +22,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late EventsController _eventscontroller;
   late BalanceController _balanceController;
   initState() {
     _balanceController = BalanceController(HomeRepository());
-    _eventscontroller = EventsController(HomeRepository());
     _balanceController.getBalance();
-    _eventscontroller.getEvents();
+    eventscontroller.getEvents();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
     );
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _builListByState(BuildContext context) {
-    switch (_eventscontroller.state.runtimeType) {
+    switch (eventscontroller.state.runtimeType) {
       case EventsStateEmpity:
       case EventsStateLoading:
         return SliverList(
@@ -105,11 +105,11 @@ class _HomePageState extends State<HomePage> {
 
       case EventsStateDone:
         return EventListWidget(
-            (_eventscontroller.state as EventsStateDone).events);
+            (eventscontroller.state as EventsStateDone).events);
       case EventsStateError:
         return SliverToBoxAdapter(
           child: Center(
-            child: Text((_eventscontroller.state as EventsStateError).message),
+            child: Text((eventscontroller.state as EventsStateError).message),
           ),
         );
       default:

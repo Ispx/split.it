@@ -29,7 +29,7 @@ abstract class _StepsControllerBase with Store {
   int get currentStep => _currentStep;
   PersonalModel get personalModel =>
       _personalModel ??
-      PersonalModel(firstName: '', secondName: '', urlImage: '');
+      PersonalModel(id: '', firstName: '', secondName: '', urlImage: '');
 
   @computed
   bool get enableNextButton {
@@ -74,7 +74,7 @@ abstract class _StepsControllerBase with Store {
         var friendsFiltered = this
             .friends
             .where((element) =>
-                element.firstName!.toLowerCase().contains(search.toLowerCase()))
+                element.firstName.toLowerCase().contains(search.toLowerCase()))
             .toList();
         this.friends.clear();
         this.friends.addAll(friendsFiltered);

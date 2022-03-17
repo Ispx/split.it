@@ -42,4 +42,6 @@ class UserModel {
       photoUrl: photoUrl ?? this.photoUrl,
     );
   }
+
+
 }

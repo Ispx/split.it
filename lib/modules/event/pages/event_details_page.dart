@@ -38,7 +38,10 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
         foregroundColor: Colors.grey,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              await controller.delete();
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.delete,
               color: Colors.grey,
@@ -68,8 +71,10 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               flex: 8,
               child: Column(
                 children: [
-                  ItensDetailsWidget(
-                    itens: controller.itens,
+                  Expanded(
+                    child: ItensDetailsWidget(
+                      itens: controller.itens,
+                    ),
                   ),
                   Observer(builder: (context) {
                     if (controller.enableAlertTotalAmount)

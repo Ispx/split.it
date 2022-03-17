@@ -74,7 +74,7 @@ class _ItensDetailsWidgetState extends State<ItensDetailsWidget> {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
