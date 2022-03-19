@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
-import 'package:split_it/modules/steps/models/personal_model.dart';
+import 'package:split_it/modules/event/models/personal_event_model.dart';
 
 class PersonalWidget extends StatefulWidget {
-  final PersonalModel personalModel;
+  final PersonalEventModel personalModel;
   final bool isFilter;
   final VoidCallback? onSelected;
   PersonalWidget(
@@ -29,7 +29,7 @@ class _PersonalWidgetState extends State<PersonalWidget> {
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
             image: NetworkImage(
-              widget.personalModel.urlImage,
+              widget.personalModel.photoUrl!,
             ),
             fit: BoxFit.cover,
           ),
@@ -37,13 +37,13 @@ class _PersonalWidgetState extends State<PersonalWidget> {
       ),
       title: Text.rich(
         TextSpan(
-            text: widget.personalModel.firstName + ' ',
+            text: widget.personalModel.firstName! + ' ',
             style: widget.isFilter == true
                 ? AppTextStyle.instance.titlePersonalStepFilter
                 : AppTextStyle.instance.titlePersonalStepUnFilter,
             children: [
               TextSpan(
-                text: widget.personalModel.secondName,
+                text: widget.personalModel.lastName,
                 style: widget.isFilter == true
                     ? AppTextStyle.instance.titlePersonalStepFilter
                     : AppTextStyle.instance.titlePersonalStepUnFilter,

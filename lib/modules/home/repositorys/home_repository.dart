@@ -13,8 +13,23 @@ abstract class IHomeRepository {
 class HomeRepository implements IHomeRepository {
   @override
   Future<BalanceModel> getBalance() async {
+    double amountToPay = 0.00;
+    List<Map<String, dynamic>>? events =
+        (await FirebaseRepository.getAll('/events/'))
+            ?.where((element) =>
+                (element['friends'] as List).contains(getIt<UserModel>().id))
+            .toList();
 
-    return BalanceModel(amountRecived: 150.00, amountToPay: 201.00);
+    if (events != null || (events?.length ?? 0) > 0) {
+      amountToPay = events!.fold(
+          0,
+          (previousValue, element) =>
+              previousValue +
+              double.tryParse(
+                element['total_pay'],
+              )!);
+    }
+    return BalanceModel(amountRecived: 0.00, amountToPay: amountToPay);
   }
 
   @override
@@ -22,6 +37,7 @@ class HomeRepository implements IHomeRepository {
     var myEvents = (await FirebaseRepository.getAll('/events/'))
         ?.where((element) => element['organizer'] == getIt<UserModel>().id)
         .toList();
-    return myEvents?.map((e) => EventModel.fromMap(e)).toList();
+    var data = myEvents?.map((e) => EventModel.fromMap(e)).toList();
+    return data;
   }
 }

@@ -133,7 +133,7 @@ class CreatedSplitSplashPage extends StatelessWidget {
             children: [
               PersonalImageWidget(urlImage: getIt<UserModel>().photoUrl),
               ...eventModel.friends!.map(
-                (e) => PersonalImageWidget(urlImage: e.urlImage),
+                (e) => PersonalImageWidget(urlImage: e.photoUrl),
               ),
             ],
           ),
@@ -144,8 +144,8 @@ class CreatedSplitSplashPage extends StatelessWidget {
                 for (int i = 0; i < eventModel.friends!.length; i++)
                   TextSpan(
                     text: i == eventModel.friends!.length - 1
-                        ? 'e ${eventModel.friends![i].fullname}'
-                        : ', ${eventModel.friends![i].fullname} ',
+                        ? 'e ${eventModel.friends![i].firstName}'
+                        : ', ${eventModel.friends![i].firstName} ',
                   ),
               ],
             ),

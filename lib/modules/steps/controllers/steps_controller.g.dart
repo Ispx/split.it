@@ -81,13 +81,13 @@ mixin _$StepsController on _StepsControllerBase, Store {
       Atom(name: '_StepsControllerBase._personalModel');
 
   @override
-  PersonalModel? get _personalModel {
+  PersonalEventModel? get _personalModel {
     _$_personalModelAtom.reportRead();
     return super._personalModel;
   }
 
   @override
-  set _personalModel(PersonalModel? value) {
+  set _personalModel(PersonalEventModel? value) {
     _$_personalModelAtom.reportWrite(value, super._personalModel, () {
       super._personalModel = value;
     });
@@ -142,7 +142,7 @@ mixin _$StepsController on _StepsControllerBase, Store {
   }
 
   @override
-  void selectFriend(PersonalModel personalModel) {
+  void selectFriend(PersonalEventModel personalModel) {
     final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
         name: '_StepsControllerBase.selectFriend');
     try {
@@ -153,7 +153,7 @@ mixin _$StepsController on _StepsControllerBase, Store {
   }
 
   @override
-  void removeFriend(PersonalModel personalModel) {
+  void removeFriend(PersonalEventModel personalModel) {
     final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
         name: '_StepsControllerBase.removeFriend');
     try {
@@ -175,7 +175,7 @@ mixin _$StepsController on _StepsControllerBase, Store {
   }
 
   @override
-  void changePersonal(PersonalModel personalModel) {
+  void changePersonal(PersonalEventModel personalModel) {
     final _$actionInfo = _$_StepsControllerBaseActionController.startAction(
         name: '_StepsControllerBase.changePersonal');
     try {

@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:split_it/core/models/base_model.dart';
 import 'package:split_it/core/models/user_model.dart';
+import 'package:split_it/modules/event/models/personal_event_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
-import 'package:split_it/modules/steps/models/personal_model.dart';
 
 import '../../../main.dart';
 
@@ -14,7 +14,7 @@ class EventModel extends BaseModel {
   final String? title;
   final DateTime? createdAt;
   final List<ItemModel>? items;
-  final List<PersonalModel>? friends;
+  final List<PersonalEventModel>? friends;
   final double? totalAmount;
   double get splitTotalAmount => totalAmount! / totalFriends;
   int get totalFriends => friends!.length;
@@ -46,9 +46,9 @@ class EventModel extends BaseModel {
           (map['createdAt'] as Timestamp).microsecondsSinceEpoch),
       items: (map['items'] as List).map((x) => ItemModel?.fromMap(x)).toList(),
       friends: (map['friends'] as List)
-          .map((x) => PersonalModel?.fromMap(x))
+          .map((x) => PersonalEventModel?.fromMap(x))
           .toList(),
-      totalAmount: map['totalAmount'],
+      totalAmount: double.tryParse(map['totalAmount'].toString()) ?? 0.00,
     );
   }
 
@@ -60,7 +60,7 @@ class EventModel extends BaseModel {
     String? title,
     DateTime? createdAt,
     List<ItemModel>? items,
-    List<PersonalModel>? friends,
+    List<PersonalEventModel>? friends,
     double? totalAmount,
   }) {
     return EventModel(

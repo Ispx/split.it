@@ -1,6 +1,8 @@
 import 'package:mobx/mobx.dart';
+import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/shared/firebase_repository.dart';
-import 'package:split_it/modules/steps/models/personal_model.dart';
+import 'package:split_it/main.dart';
+import 'package:split_it/modules/event/models/personal_event_model.dart';
 
 import '../../event/models/event_model.dart';
 import '../models/item_model.dart';
@@ -17,19 +19,20 @@ abstract class _StepsControllerBase with Store {
   int _stepsLength;
   @observable
   EventModel? _eventModel;
-  ObservableList<PersonalModel> friends = ObservableList<PersonalModel>();
+  ObservableList<PersonalEventModel> friends =
+      ObservableList<PersonalEventModel>();
   ObservableList<ItemModel> items = ObservableList<ItemModel>();
-  ObservableList<PersonalModel> friendsSelected =
-      ObservableList<PersonalModel>();
+  ObservableList<PersonalEventModel> friendsSelected =
+      ObservableList<PersonalEventModel>();
   _StepsControllerBase(this._stepsLength);
   EventModel? get eventModel => _eventModel;
   @observable
-  PersonalModel? _personalModel;
+  PersonalEventModel? _personalModel;
   String get title => _title ?? "";
   int get currentStep => _currentStep;
-  PersonalModel get personalModel =>
+  PersonalEventModel get personalModel =>
       _personalModel ??
-      PersonalModel(id: '', firstName: '', secondName: '', urlImage: '');
+      PersonalEventModel(UserModel(), isSelected: false, totalPay: 0.00);
 
   @computed
   bool get enableNextButton {
@@ -45,6 +48,12 @@ abstract class _StepsControllerBase with Store {
 
   @action
   Future createEvent() async {
+    double totalPay = items.fold<double>(
+        0, (previousValue, element) => previousValue + element.amount!);
+    int totalFriends = this.friendsSelected.length;
+    this
+        .friendsSelected
+        .forEach((friend) => friend.totalPay = totalPay / totalFriends);
     this._eventModel = EventModel(
       title: this._title,
       createdAt: DateTime.now(),
@@ -61,12 +70,14 @@ abstract class _StepsControllerBase with Store {
     try {
       if (search.isEmpty) {
         this.friends.clear();
-        final response = await FirebaseRepository.getAll('/friends/');
-        final friends =
-            response?.map((e) => new PersonalModel.fromMap(e)).toList();
-        this.friends.addAll(friends as Iterable<PersonalModel>);
+        final response = await FirebaseRepository.getAll('/users/');
+        final friends = response
+            ?.where((element) => element['id'] != getIt.get<UserModel>().id)
+            .map((e) => new PersonalEventModel.fromMap(e))
+            .toList();
+        this.friends.addAll(friends as Iterable<PersonalEventModel>);
         if (friendsSelected.isNotEmpty) {
-          for (PersonalModel friend in this.friendsSelected) {
+          for (PersonalEventModel friend in this.friendsSelected) {
             this.friends.removeWhere((element) => element.isEquals(friend));
           }
         }
@@ -74,7 +85,7 @@ abstract class _StepsControllerBase with Store {
         var friendsFiltered = this
             .friends
             .where((element) =>
-                element.firstName.toLowerCase().contains(search.toLowerCase()))
+                element.firstName!.toLowerCase().contains(search.toLowerCase()))
             .toList();
         this.friends.clear();
         this.friends.addAll(friendsFiltered);
@@ -111,13 +122,13 @@ abstract class _StepsControllerBase with Store {
   }
 
   @action
-  void selectFriend(PersonalModel personalModel) {
+  void selectFriend(PersonalEventModel personalModel) {
     friends.remove(personalModel);
     friendsSelected.add(personalModel);
   }
 
   @action
-  void removeFriend(PersonalModel personalModel) {
+  void removeFriend(PersonalEventModel personalModel) {
     friends.add(personalModel);
     friendsSelected.remove(personalModel);
   }
@@ -129,7 +140,7 @@ abstract class _StepsControllerBase with Store {
   }
 
   @action
-  void changePersonal(PersonalModel personalModel) {
+  void changePersonal(PersonalEventModel personalModel) {
     this._personalModel = personalModel;
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:split_it/modules/event/models/personal_event_model.dart';
 import 'package:split_it/modules/steps/controllers/steps_controller.dart';
-import 'package:split_it/modules/steps/models/personal_model.dart';
 import 'package:split_it/modules/steps/widgets/input_field_steps_widget.dart';
 import 'package:split_it/modules/steps/widgets/personal_widget.dart';
 import 'package:split_it/modules/steps/widgets/title_subtitle_steps_widget.dart';
@@ -99,9 +99,9 @@ class _StepTwoPageState extends State<StepTwoPage> {
 }
 
 class ListPersonalWidget extends StatefulWidget {
-  final List<PersonalModel> persons;
+  final List<PersonalEventModel> persons;
   final bool isFilter;
-  final Function(PersonalModel personalModel) onSelected;
+  final Function(PersonalEventModel personalModel) onSelected;
   ListPersonalWidget(
       {required this.persons, this.isFilter = false, required this.onSelected});
 

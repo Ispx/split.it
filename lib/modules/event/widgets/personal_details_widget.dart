@@ -14,11 +14,13 @@ class PersonalDetailsWidget extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: PersonalImageWidget(
-        urlImage: this.personalEventModel!.urlImage!,
+        urlImage: this.personalEventModel!.photoUrl,
       ),
-      title: Text(this.personalEventModel!.firstName! +
-          ' ' +
-          personalEventModel!.secondName!),
+      title: Text(
+        this.personalEventModel!.firstName! +
+            ' ' +
+            personalEventModel!.lastName,
+      ),
       subtitle: Text(
         Formater.currencyAmount(
           this.personalEventModel!.totalPay!,

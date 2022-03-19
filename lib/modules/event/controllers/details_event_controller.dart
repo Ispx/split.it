@@ -31,7 +31,12 @@ abstract class _DetailsEventControllerBase with Store {
     totalAmountItems = 0.00;
     persons.addAll(eventModel.friends!
         .map(
-            (e) => PersonalEventModel(e, totalPay: eventModel.splitTotalAmount))
+          (e) => PersonalEventModel(
+            e,
+            totalPay: e.totalPay,
+            isSelected: e.isSelected,
+          ),
+        )
         .toList());
     itens = eventModel.items!;
     for (var item in itens) {

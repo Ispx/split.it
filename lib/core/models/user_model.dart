@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:split_it/core/models/base_model.dart';
 
-class UserModel {
+class UserModel extends BaseModel {
   String? displayName;
 
   String? email;
@@ -11,7 +12,8 @@ class UserModel {
   String? photoUrl;
   String? get firstName => displayName?.split(' ')[0];
 
-  UserModel({this.id, this.displayName, this.email, this.photoUrl});
+  UserModel({this.id, this.displayName, this.email, this.photoUrl})
+      : super(collenction: '/users/');
   google(GoogleSignInAccount signInAccount) {
     this.displayName = signInAccount.displayName;
     this.email = signInAccount.email;
@@ -26,6 +28,22 @@ class UserModel {
       email: userCredential.user!.email,
       photoUrl: userCredential.user!.photoURL,
     );
+  }
+
+  factory UserModel.froMap(Map map) => UserModel(
+        id: map['id'],
+        displayName: map['display_name'],
+        photoUrl: map['photo_url'],
+        email: map['email'],
+      );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': this.id,
+      'display_name': this.displayName,
+      'email': this.email,
+      'photo_url': photoUrl
+    };
   }
 
   UserModel copyWith({
@@ -43,5 +61,6 @@ class UserModel {
     );
   }
 
-
+  String get lastName => displayName!.split(' ').sublist(1).join();
+  bool isEquals(UserModel userModel) => this.id == userModel.id;
 }
