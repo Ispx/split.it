@@ -14,14 +14,27 @@ class HomeRepository implements IHomeRepository {
   @override
   Future<BalanceModel> getBalance() async {
     double amountToPay = 0.00;
-    List<Map<String, dynamic>>? events =
-        (await FirebaseRepository.getAll('/events/'))
-            ?.where((element) =>
-                (element['friends'] as List).contains(getIt<UserModel>().id))
-            .toList();
+    List<Map<String, dynamic>>? allEvents =
+        await FirebaseRepository.getAll('/events/');
+    double amountRecived = allEvents
+            ?.where(
+                (element) => (element['organizer'] == getIt<UserModel>().id))
+            .map((e) => e['totalPending'])
+            .fold<double>(
+              0.00,
+              (previousValue, element) => previousValue + element,
+            ) ??
+        0.00;
 
-    if (events != null || (events?.length ?? 0) > 0) {
-      amountToPay = events!.fold(
+    List<Map<String, dynamic>>? eventsPendingToPay = allEvents
+        ?.where(
+          (element) => (element['friends']['id'] == getIt<UserModel>().id &&
+              element['friends']['is_selected'] == false),
+        )
+        .toList();
+
+    if (eventsPendingToPay != null || (eventsPendingToPay?.length ?? 0) > 0) {
+      amountToPay = eventsPendingToPay!.fold(
           0,
           (previousValue, element) =>
               previousValue +
@@ -29,7 +42,7 @@ class HomeRepository implements IHomeRepository {
                 element['total_pay'],
               )!);
     }
-    return BalanceModel(amountRecived: 0.00, amountToPay: amountToPay);
+    return BalanceModel(amountRecived: amountRecived, amountToPay: amountToPay);
   }
 
   @override

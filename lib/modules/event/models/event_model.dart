@@ -18,13 +18,15 @@ class EventModel extends BaseModel {
   final double? totalAmount;
   double get splitTotalAmount => totalAmount! / totalFriends;
   int get totalFriends => friends!.length;
+  double totalPending;
   EventModel(
       {this.organizer,
       this.title,
       this.createdAt,
       this.totalAmount,
       this.friends,
-      this.items})
+      this.items,
+      this.totalPending = 0.00})
       : super(collenction: '/events/');
   @override
   Map<String, dynamic> toMap() {
@@ -35,6 +37,7 @@ class EventModel extends BaseModel {
       'friends': friends?.map((e) => e.toMap()).toList(),
       'totalAmount': totalAmount,
       'organizer': getIt<UserModel>().id,
+      'totalPending': totalPending
     };
   }
 
@@ -49,6 +52,7 @@ class EventModel extends BaseModel {
           .map((x) => PersonalEventModel?.fromMap(x))
           .toList(),
       totalAmount: double.tryParse(map['totalAmount'].toString()) ?? 0.00,
+      totalPending: map['totalPending'],
     );
   }
 

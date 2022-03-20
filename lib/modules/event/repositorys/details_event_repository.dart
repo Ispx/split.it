@@ -3,7 +3,7 @@ import 'package:split_it/modules/event/models/event_model.dart';
 import 'package:split_it/modules/home/home_page.dart';
 
 class DetailsEventRepository {
-  Future updatePaid(EventModel eventModel) async {
+  Future updateEvent(EventModel eventModel) async {
     var doc = await FirebaseFirestore.instance
         .collection('/events/')
         .where('organizer', isEqualTo: eventModel.organizer)

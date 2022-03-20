@@ -44,6 +44,14 @@ abstract class _DetailsEventControllerBase with Store {
     }
   }
 
+  _updateTotalPending() {
+    double totalPending = persons.where((e) => e.isSelected == false).fold(
+          0.0,
+          (previousValue, element) => previousValue + element.totalPay!,
+        );
+    this.eventModel.totalPending = totalPending;
+  }
+
   @action
   Future<void> changeIsSelected(PersonalEventModel personalModel) async {
     persons
@@ -57,7 +65,8 @@ abstract class _DetailsEventControllerBase with Store {
     var list = [];
     list.addAll(persons);
     persons = List.from(list);
-    await _repository.updatePaid(eventModel.copyWith(friends: persons));
+    _updateTotalPending();
+    await _repository.updateEvent(eventModel.copyWith(friends: persons));
   }
 
   Future<void> delete() async {
