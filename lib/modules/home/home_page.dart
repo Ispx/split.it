@@ -12,6 +12,7 @@ import 'components/appbar_home_widget.dart';
 import 'components/event_list_widget.dart';
 
 final EventsController eventscontroller = EventsController(HomeRepository());
+late BalanceController balanceController = BalanceController(HomeRepository());
 
 class HomePage extends StatefulWidget {
   final UserModel user;
@@ -22,10 +23,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late BalanceController _balanceController;
   initState() {
-    _balanceController = BalanceController(HomeRepository());
-    _balanceController.getBalance();
+    balanceController.getBalance();
     eventscontroller.getEvents();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
@@ -38,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
     );
+
     return Scaffold(
       backgroundColor: ThemeApp.config.background,
       body: Container(
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               builder: (context) {
                 return AppBarHomeWidget(
                   user: widget.user,
-                  state: _balanceController.state,
+                  state: balanceController.state,
                   onTap: () => Navigator.pushNamed(context, '/steps'),
                 );
               },

@@ -66,14 +66,15 @@ class EventModel extends BaseModel {
     List<ItemModel>? items,
     List<PersonalEventModel>? friends,
     double? totalAmount,
+    double? totalPending,
   }) {
     return EventModel(
-      organizer: organizer ?? this.organizer,
-      title: title ?? this.title,
-      createdAt: createdAt ?? this.createdAt,
-      items: items ?? this.items,
-      friends: friends ?? this.friends,
-      totalAmount: totalAmount ?? this.totalAmount,
-    );
+        organizer: organizer ?? this.organizer,
+        title: title ?? this.title,
+        createdAt: createdAt ?? this.createdAt,
+        items: items ?? this.items,
+        friends: friends ?? this.friends,
+        totalAmount: totalAmount ?? this.totalAmount,
+        totalPending: totalPending ?? this.totalPending);
   }
 }

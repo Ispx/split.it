@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:split_it/modules/event/repositorys/details_event_repository.dart';
+import 'package:split_it/modules/home/home_page.dart';
 
 import '../../steps/models/item_model.dart';
 import '../models/event_model.dart';
@@ -44,13 +45,10 @@ abstract class _DetailsEventControllerBase with Store {
     }
   }
 
-  _updateTotalPending() {
-    double totalPending = persons.where((e) => e.isSelected == false).fold(
-          0.0,
-          (previousValue, element) => previousValue + element.totalPay!,
-        );
-    this.eventModel.totalPending = totalPending;
-  }
+  double get _totalPending => persons.where((e) => e.isSelected == false).fold(
+        0.0,
+        (previousValue, element) => previousValue + element.totalPay!,
+      );
 
   @action
   Future<void> changeIsSelected(PersonalEventModel personalModel) async {
@@ -65,8 +63,14 @@ abstract class _DetailsEventControllerBase with Store {
     var list = [];
     list.addAll(persons);
     persons = List.from(list);
-    _updateTotalPending();
-    await _repository.updateEvent(eventModel.copyWith(friends: persons));
+
+    await _repository.updateEvent(
+      eventModel.copyWith(
+        friends: persons,
+        totalPending: _totalPending,
+      ),
+    );
+    await balanceController.getBalance();
   }
 
   Future<void> delete() async {

@@ -13,36 +13,36 @@ abstract class IHomeRepository {
 class HomeRepository implements IHomeRepository {
   @override
   Future<BalanceModel> getBalance() async {
-    double amountToPay = 0.00;
-    List<Map<String, dynamic>>? allEvents =
-        await FirebaseRepository.getAll('/events/');
-    double amountRecived = allEvents
-            ?.where(
-                (element) => (element['organizer'] == getIt<UserModel>().id))
-            .map((e) => e['totalPending'])
+    try {
+      double amountToPay = 0.00;
+      List<Map<String, dynamic>>? allEvents =
+          await FirebaseRepository.getAll('/events/');
+      if (allEvents == null) {
+        return BalanceModel(amountRecived: 0.00, amountToPay: .00);
+      }
+      double amountRecived = allEvents
+              .where(
+                  (element) => (element['organizer'] == getIt<UserModel>().id))
+              .map((e) => e['totalPending'])
+              .fold(
+                0.00,
+                (previousValue, element) => (previousValue ?? 0.00) + element,
+              ) ??
+          0.00;
+
+      for (Map event in allEvents) {
+        amountToPay += (event['friends'] as List)
+            .where((element) => element['id'] == getIt<UserModel>().id)
+            .map((e) => e['total_pay'])
             .fold<double>(
-              0.00,
-              (previousValue, element) => previousValue + element,
-            ) ??
-        0.00;
+                0.00, (previousValue, element) => previousValue + element);
+      }
 
-    List<Map<String, dynamic>>? eventsPendingToPay = allEvents
-        ?.where(
-          (element) => (element['friends']['id'] == getIt<UserModel>().id &&
-              element['friends']['is_selected'] == false),
-        )
-        .toList();
-
-    if (eventsPendingToPay != null || (eventsPendingToPay?.length ?? 0) > 0) {
-      amountToPay = eventsPendingToPay!.fold(
-          0,
-          (previousValue, element) =>
-              previousValue +
-              double.tryParse(
-                element['total_pay'],
-              )!);
+      return BalanceModel(
+          amountRecived: amountRecived, amountToPay: amountToPay);
+    } catch (e) {
+      throw e;
     }
-    return BalanceModel(amountRecived: amountRecived, amountToPay: amountToPay);
   }
 
   @override
