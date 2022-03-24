@@ -24,20 +24,11 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
-  final _$googleSignInAsyncAction =
-      AsyncAction('_LoginControllerBase.googleSignIn');
+  final _$signInAsyncAction = AsyncAction('_LoginControllerBase.signIn');
 
   @override
-  Future<UserModel> googleSignIn() {
-    return _$googleSignInAsyncAction.run(() => super.googleSignIn());
-  }
-
-  final _$signInWithAppleAsyncAction =
-      AsyncAction('_LoginControllerBase.signInWithApple');
-
-  @override
-  Future<dynamic> signInWithApple() {
-    return _$signInWithAppleAsyncAction.run(() => super.signInWithApple());
+  Future<UserModel> signIn() {
+    return _$signInAsyncAction.run(() => super.signIn());
   }
 
   @override

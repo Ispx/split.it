@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:split_it/core/communs/formater.dart';
-import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/main.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 import 'package:split_it/modules/home/components/personal_image_widget.dart';
 
 import '../../../core/routes/app_routers.dart';
+import '../../login/controllers/login_controller.dart';
 import '../widgets/text_button_widget.dart';
 
 class CreatedSplitSplashPage extends StatelessWidget {
@@ -84,7 +84,7 @@ class CreatedSplitSplashPage extends StatelessWidget {
               child: TextButtonWidget(
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed(AppRouters.home,
-                      arguments: getIt<UserModel>());
+                      arguments: getIt<LoginController>().authModel!);
                 },
                 title: 'OKAY :D',
               ),
@@ -131,7 +131,8 @@ class CreatedSplitSplashPage extends StatelessWidget {
             alignment: WrapAlignment.center,
             spacing: 16,
             children: [
-              PersonalImageWidget(urlImage: getIt<UserModel>().photoUrl),
+              PersonalImageWidget(
+                  urlImage: getIt<LoginController>().authModel!.photoUrl),
               ...eventModel.friends!.map(
                 (e) => PersonalImageWidget(urlImage: e.photoUrl),
               ),

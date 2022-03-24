@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/core/communs/formater.dart';
-import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/text_style/app_text_style.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/main.dart';
 import 'package:split_it/modules/event/models/event_model.dart';
 
 import '../../../core/routes/app_routers.dart';
+import '../../login/controllers/login_controller.dart';
 
 class EventWidget extends StatelessWidget {
   final EventModel? eventModel;
@@ -19,7 +19,7 @@ class EventWidget extends StatelessWidget {
           .pushNamed(AppRouters.detailsEvent, arguments: eventModel),
       child: Row(
         children: [
-          eventModel!.organizer == getIt<UserModel>().id
+          eventModel!.organizer == getIt<LoginController>().authModel!.id
               ? Image.asset('assets/images/dollar_cash_in.png')
               : Image.asset('assets/images/dollar_cash_out.png'),
           Expanded(

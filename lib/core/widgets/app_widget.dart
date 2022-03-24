@@ -6,13 +6,13 @@ import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/error/error_page.dart';
 import 'package:split_it/modules/event/pages/event_details_page.dart';
 import 'package:split_it/modules/home/home_page.dart';
-import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/login/page/login_page.dart';
 import 'package:split_it/modules/splash/pages/splash_page.dart';
 import 'package:split_it/modules/steps/pages/created_split_splash_page.dart';
 import 'package:split_it/modules/steps/pages/steps_page.dart';
 
 import '../../modules/event/models/event_model.dart';
+import '../models/user_model.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);

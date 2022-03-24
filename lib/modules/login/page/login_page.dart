@@ -5,17 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobx/mobx.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:split_it/core/images/images_app.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/login/controllers/login_controller.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
-import 'package:split_it/modules/login/services/login_service.dart';
 import 'package:split_it/modules/widgets/social_media_widget.dart';
-
-import '../../../core/models/user_model.dart';
 import '../../../core/routes/app_routers.dart';
-import '../../../main.dart';
+import '../services/apple_sign_in_repository.dart';
+import '../services/google_sign_in_repository.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -24,24 +21,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late LoginController controller;
+  LoginController? controller;
 
   initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
-    controller = LoginController(LoginServiceImp());
     autorun(
       (_) {
-        if (controller.state is LoginStateSucess) {
-          final user = (controller.state as LoginStateSucess).user;
+        if (controller == null) return;
+        if (controller!.state is LoginStateSucess) {
+          final user = (controller!.state as LoginStateSucess).user;
           Navigator.pushNamedAndRemoveUntil(
               context, AppRouters.home, (route) => false,
               arguments: user);
-        } else if (controller.state is LoginStateFailure) {
+        } else if (controller!.state is LoginStateFailure) {
           Future.delayed(Duration(milliseconds: 500)).then(
             (value) => ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(controller.state.toString()),
+                content: Text(controller!.state.toString()),
               ),
             ),
           );
@@ -104,13 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 32),
                 Observer(
                   builder: (context) {
-                    if (controller.state == LoginStateLoading())
+                    controller = LoginController(GoogleSignInRepository());
+                    if (controller!.state == LoginStateLoading())
                       return CircularProgressIndicator();
                     return SocialMediaWidget(
                       imagePath: ImagesApp.google,
                       title: 'Entrar com Google',
                       onTap: () async {
-                        await controller.googleSignIn();
+                        await controller!.signIn();
                       },
                     );
                   },
@@ -121,7 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                         imagePath: ImagesApp.apple,
                         title: 'Entrar com Apple',
                         onTap: () async {
-                          await controller.signInWithApple();
+                          controller = LoginController(AppleSignInRepository());
+                          await controller!.signIn();
                         },
                       )
                     : Container(),

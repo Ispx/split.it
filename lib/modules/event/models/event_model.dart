@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:split_it/core/models/base_model.dart';
-import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/modules/event/models/personal_event_model.dart';
 import 'package:split_it/modules/steps/models/item_model.dart';
 
 import '../../../main.dart';
+import '../../login/controllers/login_controller.dart';
 
 class EventModel extends BaseModel {
   final String? organizer;
@@ -36,7 +36,7 @@ class EventModel extends BaseModel {
       'items': items?.map((e) => e.toMap()).toList(),
       'friends': friends?.map((e) => e.toMap()).toList(),
       'totalAmount': totalAmount,
-      'organizer': getIt<UserModel>().id,
+      'organizer': getIt<LoginController>().authModel!.id,
       'totalPending': totalPending
     };
   }
