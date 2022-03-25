@@ -14,21 +14,19 @@ class UserModel extends BaseModel {
 
   UserModel({this.id, this.displayName, this.email, this.photoUrl})
       : super(collenction: '/users/');
-  google(GoogleSignInAccount signInAccount) {
-    this.displayName = signInAccount.displayName;
-    this.email = signInAccount.email;
-    this.id = signInAccount.id;
-    this.photoUrl = signInAccount.photoUrl;
-  }
+  factory UserModel.google(GoogleSignInAccount signInAccount) => UserModel(
+        id: signInAccount.id,
+        email: signInAccount.email,
+        displayName: signInAccount.displayName,
+        photoUrl: signInAccount.photoUrl,
+      );
 
-  apple(UserCredential userCredential) {
-    copyWith(
-      id: userCredential.user!.uid,
-      displayName: userCredential.user!.displayName,
-      email: userCredential.user!.email,
-      photoUrl: userCredential.user!.photoURL,
-    );
-  }
+  factory UserModel.apple(UserCredential userCredential) => UserModel(
+        id: userCredential.user!.uid,
+        displayName: userCredential.user!.displayName,
+        email: userCredential.user!.email,
+        photoUrl: userCredential.user!.photoURL,
+      );
 
   factory UserModel.froMap(Map map) => UserModel(
         id: map['id'],

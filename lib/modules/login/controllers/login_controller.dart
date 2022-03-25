@@ -3,7 +3,6 @@ import 'package:split_it/modules/login/interface/ilogin_repository.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
 
 import '../../../core/models/user_model.dart';
-import '../../../main.dart';
 
 part 'login_controller.g.dart';
 
@@ -14,9 +13,7 @@ abstract class _LoginControllerBase with Store {
   @observable
   LoginState _state = LoginStateEmpity();
   ILoginRepository _repository;
-  _LoginControllerBase(this._repository) {
-    getIt.registerSingleton<LoginController>(LoginController(_repository));
-  }
+  _LoginControllerBase(this._repository) ;
   LoginState get state => _state;
   UserModel? get authModel => _userModel;
   @action

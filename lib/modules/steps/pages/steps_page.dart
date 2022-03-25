@@ -31,20 +31,11 @@ class _StepsPageState extends State<StepsPage> {
         controller: controller,
       )
     ];
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: ThemeApp.config.statusbarSteps,
-      ),
-    );
+
     super.initState();
   }
 
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: ThemeApp.config.statusbarSteps,
-      ),
-    );
     return Scaffold(
       backgroundColor: ThemeApp.config.backgroundSteps,
       appBar: AppbarStepsWidget(context: context, controller: controller),

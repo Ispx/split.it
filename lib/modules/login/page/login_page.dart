@@ -11,6 +11,7 @@ import 'package:split_it/modules/login/controllers/login_controller.dart';
 import 'package:split_it/modules/login/models/login_state.dart';
 import 'package:split_it/modules/widgets/social_media_widget.dart';
 import '../../../core/routes/app_routers.dart';
+import '../../../main.dart';
 import '../services/apple_sign_in_repository.dart';
 import '../services/google_sign_in_repository.dart';
 
@@ -21,24 +22,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginController? controller;
+  //late LoginController controller;
 
   initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
+
     autorun(
       (_) {
-        if (controller == null) return;
-        if (controller!.state is LoginStateSucess) {
-          final user = (controller!.state as LoginStateSucess).user;
+        if (getIt<LoginController>().state is LoginStateSucess) {
+          final user =
+              (getIt<LoginController>().state as LoginStateSucess).user;
           Navigator.pushNamedAndRemoveUntil(
               context, AppRouters.home, (route) => false,
               arguments: user);
-        } else if (controller!.state is LoginStateFailure) {
+        } else if (getIt<LoginController>().state is LoginStateFailure) {
           Future.delayed(Duration(milliseconds: 500)).then(
             (value) => ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(controller!.state.toString()),
+                content: Text(getIt<LoginController>().state.toString()),
               ),
             ),
           );
@@ -101,14 +103,14 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 32),
                 Observer(
                   builder: (context) {
-                    controller = LoginController(GoogleSignInRepository());
-                    if (controller!.state == LoginStateLoading())
+                    //controller = LoginController(GoogleSignInRepository());
+                    if (getIt<LoginController>().state == LoginStateLoading())
                       return CircularProgressIndicator();
                     return SocialMediaWidget(
                       imagePath: ImagesApp.google,
                       title: 'Entrar com Google',
                       onTap: () async {
-                        await controller!.signIn();
+                        await getIt<LoginController>().signIn();
                       },
                     );
                   },
@@ -119,8 +121,12 @@ class _LoginPageState extends State<LoginPage> {
                         imagePath: ImagesApp.apple,
                         title: 'Entrar com Apple',
                         onTap: () async {
-                          controller = LoginController(AppleSignInRepository());
-                          await controller!.signIn();
+                          getIt.registerSingleton<LoginController>(
+                            LoginController(
+                              AppleSignInRepository(),
+                            ),
+                          );
+                          await getIt<LoginController>().signIn();
                         },
                       )
                     : Container(),

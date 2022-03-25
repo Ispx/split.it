@@ -51,7 +51,7 @@ class AppleSignInRepository implements ILoginRepository {
       // not match the nonce in `appleCredential.identityToken`, sign in will fail.
       final credential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-      return UserModel().apple(credential);
+      return UserModel.apple(credential);
     } catch (e) {
       throw 'Falha durante autenticação com a apple.';
     }

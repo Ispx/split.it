@@ -10,8 +10,7 @@ class GoogleSignInRepository implements ILoginRepository {
   Future<UserModel> signIn() async {
     try {
       var signInAccount = await _googleSignIn.signIn();
-      UserModel user = UserModel().google(signInAccount!);
-      return user;
+      return UserModel.google(signInAccount!);
     } catch (e) {
       throw 'Falha durante autenticação com Google.';
     }

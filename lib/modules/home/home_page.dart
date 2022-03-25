@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
@@ -27,17 +28,12 @@ class _HomePageState extends State<HomePage> {
     balanceController.getBalance();
     eventscontroller.getEvents();
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
-    );
+        SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor),
-    );
-
     return Scaffold(
       backgroundColor: ThemeApp.config.background,
       body: Container(
@@ -50,7 +46,16 @@ class _HomePageState extends State<HomePage> {
                 return AppBarHomeWidget(
                   user: widget.user,
                   state: balanceController.state,
-                  onTap: () => Navigator.pushNamed(context, '/steps'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/steps').then(
+                      (value) {
+                        SystemChrome.setSystemUIOverlayStyle(
+                          SystemUiOverlayStyle(
+                              statusBarColor: ThemeApp.config.primaryColor),
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),
