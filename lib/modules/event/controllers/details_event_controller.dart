@@ -1,7 +1,8 @@
 import 'package:mobx/mobx.dart';
 import 'package:split_it/modules/event/repositorys/details_event_repository.dart';
-import 'package:split_it/modules/home/home_page.dart';
 
+import '../../../main.dart';
+import '../../home/controllers/balance_controller.dart';
 import '../../steps/models/item_model.dart';
 import '../models/event_model.dart';
 import '../models/personal_event_model.dart';
@@ -70,7 +71,7 @@ abstract class _DetailsEventControllerBase with Store {
         totalPending: _totalPending,
       ),
     );
-    await balanceController.getBalance();
+    await getIt<BalanceController>().getBalance();
   }
 
   Future<void> delete() async {

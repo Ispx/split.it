@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/controllers/balance_controller.dart';
 import 'package:split_it/modules/home/controllers/events_controller.dart';
 import 'package:split_it/modules/home/states/events_states.dart';
-import 'package:split_it/modules/home/repositorys/home_repository.dart';
+import '../../main.dart';
 import 'components/appbar_home_widget.dart';
 import 'components/event_list_widget.dart';
-
-final EventsController eventscontroller = EventsController(HomeRepository());
-late BalanceController balanceController = BalanceController(HomeRepository());
 
 class HomePage extends StatefulWidget {
   final UserModel user;
@@ -25,8 +21,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   initState() {
-    balanceController.getBalance();
-    eventscontroller.getEvents();
+    getIt<BalanceController>().getBalance();
+    getIt<EventsController>().getEvents();
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: ThemeApp.config.primaryColor));
     super.initState();
@@ -45,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               builder: (context) {
                 return AppBarHomeWidget(
                   user: widget.user,
-                  state: balanceController.state,
+                  state: getIt<BalanceController>().state,
                   onTap: () {
                     Navigator.pushNamed(context, '/steps').then(
                       (value) {
@@ -79,7 +75,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _builListByState(BuildContext context) {
-    switch (eventscontroller.state.runtimeType) {
+    switch (getIt<EventsController>().state.runtimeType) {
       case EventsStateEmpity:
       case EventsStateLoading:
         return SliverList(
@@ -110,11 +106,12 @@ class _HomePageState extends State<HomePage> {
 
       case EventsStateDone:
         return EventListWidget(
-            (eventscontroller.state as EventsStateDone).events);
+            (getIt<EventsController>().state as EventsStateDone).events);
       case EventsStateError:
         return SliverToBoxAdapter(
           child: Center(
-            child: Text((eventscontroller.state as EventsStateError).message),
+            child: Text(
+                (getIt<EventsController>().state as EventsStateError).message),
           ),
         );
       default:
