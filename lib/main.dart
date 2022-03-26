@@ -17,12 +17,9 @@ void main() async {
   getIt.registerSingleton<LoginController>(
       LoginController(GoogleSignInRepository()));
   getIt.registerSingleton<UserModel>(UserModel());
-  getIt.registerSingleton<BalanceController>(BalanceController(
-    HomeRepository(),
-  ));
-  getIt.registerSingleton<EventsController>(EventsController(
-    HomeRepository(),
-  ));
+  getIt.registerSingleton<BalanceController>(
+      BalanceController(HomeRepository()));
+  getIt.registerSingleton<EventsController>(EventsController(HomeRepository()));
   runApp(App());
 }
 
