@@ -59,8 +59,6 @@ class AppleSignInRepository implements ILoginRepository {
 
   @override
   Future signOut() async {
-    FirebaseAuth.instance..signOut();
-    // TODO: implement signOut
-    throw UnimplementedError();
+    FirebaseAuth.instance.signOut();
   }
 }

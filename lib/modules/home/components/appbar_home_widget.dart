@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
@@ -9,6 +11,9 @@ import 'package:split_it/core/theme/theme_app.dart';
 import 'package:split_it/modules/home/components/card_balance_widget.dart';
 import 'package:split_it/modules/home/components/personal_image_widget.dart';
 import 'package:split_it/modules/home/states/balance_states.dart';
+import 'package:split_it/modules/login/controllers/login_controller.dart';
+
+import '../../../main.dart';
 
 class AppBarHomeWidget extends StatelessWidget {
   final UserModel? user;
@@ -24,7 +29,7 @@ class AppBarHomeWidget extends StatelessWidget {
       expandedHeight: 140,
       pinned: true,
       title: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.only(left: 16, right: 0),
         width: MediaQuery.of(context).size.width,
         height: 60,
         child: Row(
@@ -49,27 +54,44 @@ class AppBarHomeWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              width: 48,
-              height: 56,
-              decoration: BoxDecoration(
-                color: ThemeApp.config.primaryColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.fromBorderSide(
-                  BorderSide(
-                    width: 0.5,
-                    color: Colors.white38,
+            Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: ThemeApp.config.primaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.fromBorderSide(
+                      BorderSide(
+                        width: 0.5,
+                        color: Colors.white38,
+                      ),
+                    ),
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => this.onTap!(),
                   ),
                 ),
-              ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Colors.white,
+                SizedBox(
+                  width: 8,
                 ),
-                onPressed: () => this.onTap!(),
-              ),
-            ),
+                IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    await getIt<LoginController>().signOut();
+                    exit(0);
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),
