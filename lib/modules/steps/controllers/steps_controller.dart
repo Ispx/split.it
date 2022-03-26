@@ -3,6 +3,7 @@ import 'package:split_it/core/models/user_model.dart';
 import 'package:split_it/core/shared/firebase_repository.dart';
 import 'package:split_it/main.dart';
 import 'package:split_it/modules/event/models/personal_event_model.dart';
+import 'package:split_it/modules/login/controllers/login_controller.dart';
 
 import '../../event/models/event_model.dart';
 import '../models/item_model.dart';
@@ -72,7 +73,8 @@ abstract class _StepsControllerBase with Store {
         this.friends.clear();
         final response = await FirebaseRepository.getAll('/users/');
         final friends = response
-            ?.where((element) => element['id'] != getIt.get<UserModel>().id)
+            ?.where((element) =>
+                element['id'] != getIt.get<LoginController>().authModel!.id)
             .map((e) => new PersonalEventModel.fromMap(e))
             .toList();
         this.friends.addAll(friends as Iterable<PersonalEventModel>);
