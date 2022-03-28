@@ -1,6 +1,6 @@
 # SPLIT IT
 
-Divida as contas com seus amigos de maneira fácio e rápida através do aplicativo SPLIT IT, comece a usar agora mesmo.
+Divida as contas com seus amigos de maneira fácil e rápida através do aplicativo SPLIT IT, comece a usar agora mesmo.
 
 ### Instalação
 
