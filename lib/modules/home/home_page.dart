@@ -42,16 +42,6 @@ class _HomePageState extends State<HomePage> {
                 return AppBarHomeWidget(
                   user: widget.user,
                   state: getIt<BalanceController>().state,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/steps').then(
-                      (value) {
-                        SystemChrome.setSystemUIOverlayStyle(
-                          SystemUiOverlayStyle(
-                              statusBarColor: ThemeApp.config.primaryColor),
-                        );
-                      },
-                    );
-                  },
                 );
               },
             ),
@@ -70,6 +60,20 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeApp.config.primaryColor,
+        onPressed: () {
+          Navigator.pushNamed(context, '/steps').then(
+            (value) {
+              SystemChrome.setSystemUIOverlayStyle(
+                SystemUiOverlayStyle(
+                    statusBarColor: ThemeApp.config.primaryColor),
+              );
+            },
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

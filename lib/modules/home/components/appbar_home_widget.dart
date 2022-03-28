@@ -18,9 +18,10 @@ import '../../../main.dart';
 class AppBarHomeWidget extends StatelessWidget {
   final UserModel? user;
   final BalanceState? state;
-  final VoidCallback? onTap;
-  AppBarHomeWidget(
-      {required this.user, required this.state, required this.onTap});
+  AppBarHomeWidget({
+    required this.user,
+    required this.state,
+  });
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -54,43 +55,15 @@ class AppBarHomeWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: ThemeApp.config.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.fromBorderSide(
-                      BorderSide(
-                        width: 0.5,
-                        color: Colors.white38,
-                      ),
-                    ),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => this.onTap!(),
-                  ),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                  onPressed: () async {
-                    await getIt<LoginController>().signOut();
-                    exit(0);
-                  },
-                ),
-              ],
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                await getIt<LoginController>().signOut();
+                exit(0);
+              },
             )
           ],
         ),
